@@ -6,6 +6,7 @@ from .middleware.generator import generator
 from .middleware.available import available
 from datetime import datetime
 from werkzeug.security import generate_password_hash as key_hash
+from .middleware.decorators import require_apikey
 
 @app.route('/')
 def index():
@@ -26,3 +27,8 @@ def signup():
         return render_template('signup.html', form=form)
     else:
         return signup()
+
+@app.route('/api/<uuid>', methods=['GET', 'POST'])
+@require_apikey
+def get_phrase(uuid):
+    return 'You have used the key correctly!'
