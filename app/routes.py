@@ -31,4 +31,4 @@ def signup():
 @app.route('/api', methods=['GET', 'POST'])
 @require_apikey
 def get_phrase():
-    return current().name
+    return current()
