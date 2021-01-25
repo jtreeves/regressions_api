@@ -7,7 +7,10 @@ def current(*args):
     found_user = User.query.filter_by(key=sent_key).first()
     print(f'FOUND_USER: {found_user}')
     dict_user = {
+        'id': found_user.id,
         'name': found_user.name,
         'email': found_user.email,
+        'key': found_user.key,
+        'date': found_user.date
     }
     return dict_user

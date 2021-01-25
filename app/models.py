@@ -1,10 +1,7 @@
 from app import db
-from sqlalchemy.dialects.postgresql import JSON, ARRAY
+from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy import Table, Column, String, Integer, Float, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -14,20 +11,8 @@ class User(db.Model):
     email = Column(String(100))
     key = Column(String(100))
     date = Column(DateTime)
+
     regressions = relationship('Regression')
-
-    # @property
-    # def serialize(self):
-    #     return {
-    #         'id': self.id,
-    #         'name': self.name,
-    #         'email': self.email,
-    #         'key': self.key,
-    #         'date': self.date
-    #     }
-
-    def __repr__(self):
-        return f'<User {self.id}>'    
 
 class Regression(db.Model):
     __tablename__ = 'regressions'
@@ -50,6 +35,3 @@ class Regression(db.Model):
     logarithmic_error = Column(Float)
     best_fit = Column(String)
     date = Column(DateTime)
-
-    def __repr__(self):
-        return f'<Regression {self.id}>'
