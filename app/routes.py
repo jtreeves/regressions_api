@@ -47,11 +47,11 @@ def regression_access():
     if request.method == 'POST':
         user_id = current()['id']
         print(f'USER_ID: {user_id}')
-        title = request.values.get('title')
+        title = request.json.get('title')
         print(f'TITLE: {title}')
-        independent = request.values.get('independent')
-        dependent = request.values.get('dependent')
-        data_set = request.values.get('data_set')
+        independent = request.json.get('independent')
+        dependent = request.json.get('dependent')
+        data_set = request.json.get('data_set')
         print(f'DATA_SET: {data_set}')
         results = run_all(data_set)
         print(f'RESULTS: {results}')
