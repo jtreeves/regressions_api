@@ -1,3 +1,4 @@
 import os
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
+class Configurations(object):
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'regressionz'
