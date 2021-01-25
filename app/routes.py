@@ -6,6 +6,7 @@ from .middleware.generator import generator
 from .middleware.available import available
 from datetime import datetime
 from .middleware.decorators import require_apikey
+from .middleware.current import current
 
 @app.route('/')
 def index():
@@ -30,4 +31,4 @@ def signup():
 @app.route('/api', methods=['GET', 'POST'])
 @require_apikey
 def get_phrase():
-    return 'You have used the key correctly!'
+    return current.name
