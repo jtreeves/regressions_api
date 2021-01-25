@@ -55,27 +55,40 @@ def regression_access():
         print(f'DATA_SET: {data_set}')
         results = run_all(data_set)
         print(f'RESULTS: {results}')
-        print(f"LINEAR_COEFFICIENTS: {results['options']['linear']['constants']}")
-        print(f"LINEAR_ERROR: {results['options']['linear']['error']}")
+        linear_coefficients = results['options']['linear']['constants']
+        print(f'LINEAR_COEFFICIENTS: {linear_coefficients}')
+        linear_error = results['options']['linear']['error']
+        print(f'LINEAR_ERROR: {linear_error}')
+        quadratic_coefficients = results['options']['quadratic']['constants']
+        quadratic_error = results['options']['quadratic']['error']
+        cubic_coefficients = results['options']['cubic']['constants']
+        cubic_error = results['options']['cubic']['error']
+        hyperbolic_coefficients = results['options']['hyperbolic']['constants']
+        hyperbolic_error = results['options']['hyperbolic']['error']
+        exponential_coefficients = results['options']['exponential']['constants']
+        exponential_error = results['options']['exponential']['error']
+        logarithmic_coefficients = results['options']['logarithmic']['constants']
+        logarithmic_error = results['options']['logarithmic']['error']
+        best_fit = results['optimal']['function']
         new_regression = Regression(
             user_id=user_id,
             title=title,
             independent=independent,
             dependent=dependent,
             data_set=data_set,
-            linear_coefficients=results['options']['linear']['constants'],
-            linear_error=results['options']['linear']['error'],
-            quadratic_coefficients=results['options']['quadratic']['constants'],
-            quadratic_error=results['options']['quadratic']['error'],
-            cubic_coefficients=results['options']['cubic']['constants'],
-            cubic_error=results['options']['cubic']['error'],
-            hyperbolic_coefficients=results['options']['hyperbolic']['constants'],
-            hyperbolic_error=results['options']['hyperbolic']['error'],
-            exponential_coefficients=results['options']['exponential']['constants'],
-            exponential_error=results['options']['exponential']['error'],
-            logarithmic_coefficients=results['options']['logarithmic']['constants'],
-            logarithmic_error=results['options']['logarithmic']['error'],
-            best_fit=results['optimal']['function'],
+            linear_coefficients=linear_coefficients,
+            linear_error=linear_error,
+            quadratic_coefficients=quadratic_coefficients,
+            quadratic_error=quadratic_error,
+            cubic_coefficients=cubic_coefficients,
+            cubic_error=cubic_error,
+            hyperbolic_coefficients=hyperbolic_coefficients,
+            hyperbolic_error=hyperbolic_error,
+            exponential_coefficients=exponential_coefficients,
+            exponential_error=exponential_error,
+            logarithmic_coefficients=logarithmic_coefficients,
+            logarithmic_error=logarithmic_error,
+            best_fit=best_fit,
             date=datetime.now()
         )
         db.session.add(new_regression)
