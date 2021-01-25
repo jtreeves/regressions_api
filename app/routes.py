@@ -38,16 +38,21 @@ def signup():
 @require_apikey
 def user_access():
     current_user = current()
+    print(f'CURRENT_USER: {current_user}')
     return current_user
 
 def regression_access():
     if request.method == 'POST':
         user_id = current()['id']
+        print(f'USER_ID: {user_id}')
         title = request.values.get('title')
+        print(f'TITLE: {title}')
         independent = request.values.get('independent')
         dependent = request.values.get('dependent')
         data_set = request.values.get('data_set')
+        print(f'DATA_SET: {data_set}')
         results = run_all(data_set)
+        print(f'RESULTS: {results}')
         new_regression = Regression(
             user_id=user_id,
             title=title,
