@@ -6,6 +6,6 @@ def available(string):
     hash_string = generate_password_hash(string)
     search_hash = User.query.filter_by(key=hash_string).first()
     if search_hash is not None:
-        string = generator()
+        return False
     else:
         return True
