@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, request
 from app import app, db
 from app.models import User
 from app.forms import SignUpForm
@@ -30,5 +30,10 @@ def signup():
 
 @app.route('/api', methods=['GET', 'POST'])
 @require_apikey
-def get_phrase():
-    return current()
+def user():
+    current_user = current()
+    return current_user
+
+def regression():
+    if request.method == 'POST':
+        return
