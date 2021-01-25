@@ -55,6 +55,8 @@ def regression_access():
         print(f'DATA_SET: {data_set}')
         results = run_all(data_set)
         print(f'RESULTS: {results}')
+        print(f"LINEAR_COEFFICIENTS: {results['options']['linear']['constants']}")
+        print(f"LINEAR_ERROR: {results['options']['linear']['error']}")
         new_regression = Regression(
             user_id=user_id,
             title=title,
