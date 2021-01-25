@@ -1,8 +1,5 @@
-from flask import request, jsonify
-from json import dumps
+from flask import request
 from app.models import User
-
-current = 'John'
 
 def current(*args):
     sent_key = request.args.get('key')
@@ -13,6 +10,4 @@ def current(*args):
         'name': found_user.name,
         'email': found_user.email,
     }
-    # json_user = dumps(found_user.serialize())
-    # print(f'JSON_USER: {json_user}')
     return dict_user
