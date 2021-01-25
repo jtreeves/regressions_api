@@ -1,5 +1,6 @@
 from flask import render_template, flash, redirect, url_for
-from app import app
+from app import app, db
+from app.models import User
 from app.forms import SignUpForm
 from .middleware.generator import generator
 from .middleware.available import available
@@ -15,6 +16,10 @@ def signup():
     if key_available:
         form = SignUpForm(key=test_key)
         if form.validate_on_submit():
+            user = User(name=form.name.data, email=form.email.data)
+            user.set_key(form.key.data)
+            db.session.add(user)
+            db.session.commit()
             flash(f'API Key for user {form.key.data}')
             return redirect(url_for('index'))
         return render_template('signup.html', form=form)
