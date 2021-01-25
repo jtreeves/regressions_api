@@ -16,6 +16,16 @@ class User(db.Model):
     date = Column(DateTime)
     regressions = relationship('Regression')
 
+    # @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'email': self.email,
+            'key': self.key,
+            'date': self.date
+        }
+
     def __repr__(self):
         return f'<User {self.id}>'    
 

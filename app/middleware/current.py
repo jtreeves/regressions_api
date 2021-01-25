@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 from json import dumps
 from app.models import User
 
@@ -9,6 +9,6 @@ def current(*args):
     print(f'SENT_KEY: {sent_key}')
     found_user = User.query.filter_by(key=sent_key).first()
     print(f'FOUND_USER: {found_user}')
-    json_user = dumps(found_user)
+    json_user = dumps(found_user.serialize())
     print(f'JSON_USER: {json_user}')
     return json_user
