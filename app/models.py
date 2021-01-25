@@ -16,7 +16,7 @@ class User(db.Model):
     date = Column(DateTime)
     regressions = relationship('Regression')
 
-    # @property
+    @property
     def serialize(self):
         return {
             'id': self.id,
