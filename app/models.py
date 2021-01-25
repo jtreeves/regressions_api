@@ -3,7 +3,6 @@ from sqlalchemy.dialects.postgresql import JSON, ARRAY
 from sqlalchemy import Table, Column, String, Integer, Float, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-from werkzeug.security import generate_password_hash, check_password_hash
 
 Base = declarative_base()
 
@@ -16,9 +15,6 @@ class User(db.Model):
     key = Column(String(100))
     date = Column(DateTime)
     regressions = relationship('Regression')
-    
-    def check_key(self, key):
-        return check_password_hash(self.key_hash, key)
 
     def __repr__(self):
         return f'<User {self.id}>'    
