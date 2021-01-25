@@ -7,7 +7,7 @@ from .middleware.available import available
 from datetime import datetime
 from .middleware.decorators import require_apikey
 from .middleware.current import current
-from regressions import run_all
+from regressions.run_all import run_all
 
 @app.route('/')
 def index():
