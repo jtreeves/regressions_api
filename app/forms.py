@@ -3,12 +3,11 @@ from wtforms import StringField, SubmitField, HiddenField
 from wtforms.validators import ValidationError, DataRequired, Email
 from email_validator import validate_email
 from app.models import User
-from .middleware.generator import generator
 
 class SignUpForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    key = HiddenField(generator())
+    key = HiddenField()
     submit = SubmitField('Sign Up')
 
     def validate_email(self, email):
