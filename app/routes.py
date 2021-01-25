@@ -70,4 +70,4 @@ def regression_access():
             date=datetime.now()
         )
         db.session.add(new_regression)
-        return db.session.commit()
+        db.session.commit()
