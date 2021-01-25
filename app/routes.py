@@ -10,6 +10,6 @@ def index():
 def signup():
     form = SignUpForm()
     if form.validate_on_submit():
-        flash(f'Signup requested for user {form.name.data}')
+        flash(f'API Key for user {form.key.data}')
         return redirect(url_for('index'))
     return render_template('signup.html', form=form)
