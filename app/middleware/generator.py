@@ -1,5 +1,3 @@
-import random
-import string
 from strgen import StringGenerator
 
 def generator():
