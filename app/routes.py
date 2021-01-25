@@ -28,7 +28,7 @@ def signup():
     else:
         return signup()
 
-@app.route('/api/<uuid>', methods=['GET', 'POST'])
+@app.route('/api', methods=['GET', 'POST'])
 @require_apikey
-def get_phrase(uuid):
+def get_phrase():
     return 'You have used the key correctly!'
