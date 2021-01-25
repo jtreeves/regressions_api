@@ -19,8 +19,10 @@ class Regression(db.Model):
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
-    independent = Column(ARRAY(Float))
-    dependent = Column(ARRAY(Float))
+    title = Column(String)
+    independent = Column(String)
+    dependent = Column(String)
+    data_set = Column(ARRAY(Float))
     linear_coefficients = Column(ARRAY(Float))
     linear_error = Column(ARRAY(Float))
     quadratic_coefficients = Column(ARRAY(Float))
