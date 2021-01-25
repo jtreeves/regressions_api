@@ -60,16 +60,27 @@ def regression_access():
         linear_error = results['options']['linear']['error']
         print(f'LINEAR_ERROR: {linear_error}')
         quadratic_coefficients = results['options']['quadratic']['constants']
+        print(f'QUADRATIC_COEFFICIENTS: {quadratic_coefficients}')
         quadratic_error = results['options']['quadratic']['error']
+        print(f'QUADRATIC_ERROR: {quadratic_error}')
         cubic_coefficients = results['options']['cubic']['constants']
+        print(f'CUBIC_COEFFICIENTS: {cubic_coefficients}')
         cubic_error = results['options']['cubic']['error']
+        print(f'CUBIC_ERROR: {cubic_error}')
         hyperbolic_coefficients = results['options']['hyperbolic']['constants']
+        print(f'HYPERBOLIC_COEFFICIENTS: {hyperbolic_coefficients}')
         hyperbolic_error = results['options']['hyperbolic']['error']
+        print(f'HYPERBOLIC_ERROR: {hyperbolic_error}')
         exponential_coefficients = results['options']['exponential']['constants']
+        print(f'EXPONENTIAL_COEFFICIENTS: {exponential_coefficients}')
         exponential_error = results['options']['exponential']['error']
+        print(f'EXPONENTIAL_ERROR: {exponential_error}')
         logarithmic_coefficients = results['options']['logarithmic']['constants']
+        print(f'LOGARITHMIC_COEFFICIENTS: {logarithmic_coefficients}')
         logarithmic_error = results['options']['logarithmic']['error']
+        print(f'LOGARITHMIC_ERROR: {logarithmic_error}')
         best_fit = results['optimal']['function']
+        print(f'BEST_FIT: {best_fit}')
         new_regression = Regression(
             user_id=user_id,
             title=title,
