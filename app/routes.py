@@ -4,6 +4,8 @@ from app.models import User
 from app.forms import SignUpForm
 from .middleware.generator import generator
 from .middleware.available import available
+from datetime import datetime
+from werkzeug.security import generate_password_hash as key_hash
 
 @app.route('/')
 def index():
@@ -16,8 +18,7 @@ def signup():
     if key_available:
         form = SignUpForm(key=test_key)
         if form.validate_on_submit():
-            user = User(name=form.name.data, email=form.email.data)
-            user.set_key(form.key.data)
+            user = User(name=form.name.data, email=form.email.data, key=key_hash(form.key.data), date=datetime.now())
             db.session.add(user)
             db.session.commit()
             flash(f'API Key for user {form.key.data}')

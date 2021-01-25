@@ -16,9 +16,6 @@ class User(db.Model):
     key = Column(String(100))
     date = Column(DateTime)
     regressions = relationship('Regression')
-
-    def set_key(self, key):
-        self.key_hash = generate_password_hash(key)
     
     def check_key(self, key):
         return check_password_hash(self.key_hash, key)
