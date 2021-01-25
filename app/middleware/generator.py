@@ -1,6 +1,6 @@
 import random
 import string
+from strgen import StringGenerator
 
-def generator(length):
-    characters = string.ascii_letters + string.digits
-    result = ''.join(random.choice(characters) for i in range(length))
+testing = StringGenerator('[a-zA-Z\d]{50}').render()
+print(testing)
