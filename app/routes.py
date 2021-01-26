@@ -87,3 +87,7 @@ def regression_access():
         db.session.add(new_regression)
         db.session.commit()
         return redirect(url_for('index'))
+    if request.method == 'GET':
+        sent_id = request.args.get('id')
+        found_regression = Regression.query.filter_by(id=sent_id).first()
+        return found_regression
