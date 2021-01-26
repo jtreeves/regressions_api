@@ -24,7 +24,7 @@ class Regression(db.Model):
     dependent = Column(String)
     data_set = Column(ARRAY(Float))
     linear_coefficients = Column(ARRAY(Float))
-    linear_error = Column(ARRAY(Float))
+    linear_error = Column(Float)
     quadratic_coefficients = Column(ARRAY(Float))
     quadratic_error = Column(Float)
     cubic_coefficients = Column(ARRAY(Float))
