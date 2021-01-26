@@ -6,7 +6,7 @@ from .middleware.generator import generator
 from .middleware.available import available
 from datetime import datetime
 from .middleware.decorators import require_apikey
-from .middleware.current import current
+from .middleware.current import current_user, current_regression
 from regressions.run_all import run_all
 
 @app.route('/')
@@ -37,14 +37,14 @@ def signup():
 @app.route('/api/user', methods=['GET', 'POST'])
 @require_apikey
 def user_access():
-    current_user = current()
+    current_user = current_user()
     return current_user
 
 @app.route('/api/regression', methods=['GET', 'POST'])
 @require_apikey
 def regression_access():
     if request.method == 'POST':
-        user_id = current()['id']
+        user_id = current_user()['id']
         title = request.json.get('title')
         independent = request.json.get('independent')
         dependent = request.json.get('dependent')
@@ -88,6 +88,4 @@ def regression_access():
         db.session.commit()
         return redirect(url_for('index'))
     if request.method == 'GET':
-        sent_id = request.args.get('id')
-        found_regression = Regression.query.filter_by(id=sent_id).first()
-        return found_regression
+        return current_regression()
