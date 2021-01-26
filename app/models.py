@@ -19,6 +19,7 @@ class Regression(db.Model):
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
+    source = Column(String(100))
     title = Column(String)
     independent = Column(String)
     dependent = Column(String)
