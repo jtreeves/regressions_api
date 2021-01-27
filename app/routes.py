@@ -34,12 +34,7 @@ def signup():
     else:
         return signup()
 
-@app.route('/api/user', methods=['GET', 'POST'])
-@require_apikey
-def user_access():
-    return current_user()
-
-@app.route('/api/regression', methods=['GET', 'POST'])
+@app.route('/api', methods=['GET', 'POST'])
 @require_apikey
 def regression_access():
     if request.method == 'POST':
