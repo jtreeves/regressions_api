@@ -14,11 +14,13 @@ def current_user(*args):
     return dict_user
 
 def current_regression(*args):
-    sent_id = request.args.get('id')
-    found_regression = Regression.query.filter_by(id=sent_id).first()
+    current_user_id = current_user()['id']
+    sent_source = request.args.get('source')
+    found_regression = Regression.query.filter_by(user_id=current_user_id, source=sent_source).first()
     dict_regression = {
         'id': found_regression.id,
         'user_id': found_regression.user_id,
+        'source': found_regression.source,
         'title': found_regression.title,
         'independent': found_regression.independent,
         'dependent': found_regression.dependent,

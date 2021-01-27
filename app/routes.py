@@ -44,6 +44,7 @@ def user_access():
 def regression_access():
     if request.method == 'POST':
         user_id = current_user()['id']
+        source = request.args.get('source')
         title = request.json.get('title')
         independent = request.json.get('independent')
         dependent = request.json.get('dependent')
@@ -64,6 +65,7 @@ def regression_access():
         best_fit = results['optimal']['function']
         new_regression = Regression(
             user_id=user_id,
+            source=source,
             title=title,
             independent=independent,
             dependent=dependent,
@@ -85,6 +87,6 @@ def regression_access():
         )
         db.session.add(new_regression)
         db.session.commit()
-        return redirect(url_for('index'))
+        return 'Regression models created and added to table'
     if request.method == 'GET':
         return current_regression()
