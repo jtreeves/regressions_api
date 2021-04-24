@@ -1,13 +1,13 @@
 from flask import render_template, flash, redirect, url_for, request
+from datetime import datetime
 from app import app, db
 from app.models import User, Regression
 from app.forms import SignUpForm
+from regressions.execute import run_all
 from .middleware.generator import generator
 from .middleware.available import available
-from datetime import datetime
 from .middleware.decorators import require_apikey
 from .middleware.current import current_user, current_regression
-from regressions.run_all import run_all
 
 @app.route('/')
 def index():
@@ -44,20 +44,33 @@ def regression_access():
         independent = request.json.get('independent')
         dependent = request.json.get('dependent')
         data_set = request.json.get('data_set')
-        results = run_all(data_set)
-        linear_coefficients = results['options']['linear']['constants']
-        linear_error = results['options']['linear']['error']
-        quadratic_coefficients = results['options']['quadratic']['constants']
-        quadratic_error = results['options']['quadratic']['error']
-        cubic_coefficients = results['options']['cubic']['constants']
-        cubic_error = results['options']['cubic']['error']
-        hyperbolic_coefficients = results['options']['hyperbolic']['constants']
-        hyperbolic_error = results['options']['hyperbolic']['error']
-        exponential_coefficients = results['options']['exponential']['constants']
-        exponential_error = results['options']['exponential']['error']
-        logarithmic_coefficients = results['options']['logarithmic']['constants']
-        logarithmic_error = results['options']['logarithmic']['error']
-        best_fit = results['optimal']['function']
+        precision = request.json.get('precision')
+        results = run_all(data_set, precision)
+        linear_coefficients = results['models']['linear']['constants']
+        linear_points = results['models']['linear']['points']
+        linear_correlation = results['models']['linear']['correlation']
+        quadratic_coefficients = results['models']['quadratic']['constants']
+        quadratic_points = results['models']['quadratic']['points']
+        quadratic_correlation = results['models']['quadratic']['correlation']
+        cubic_coefficients = results['models']['cubic']['constants']
+        cubic_points = results['models']['cubic']['points']
+        cubic_correlation = results['models']['cubic']['correlation']
+        hyperbolic_coefficients = results['models']['hyperbolic']['constants']
+        hyperbolic_points = results['models']['hyperbolic']['points']
+        hyperbolic_correlation = results['models']['hyperbolic']['correlation']
+        exponential_coefficients = results['models']['exponential']['constants']
+        exponential_points = results['models']['exponential']['points']
+        exponential_correlation = results['models']['exponential']['correlation']
+        logarithmic_coefficients = results['models']['logarithmic']['constants']
+        logarithmic_points = results['models']['logarithmic']['points']
+        logarithmic_correlation = results['models']['logarithmic']['correlation']
+        logistic_coefficients = results['models']['logistic']['constants']
+        logistic_points = results['models']['logistic']['points']
+        logistic_correlation = results['models']['logistic']['correlation']
+        sinusoidal_coefficients = results['models']['sinusoidal']['constants']
+        sinusoidal_points = results['models']['sinusoidal']['points']
+        sinusoidal_correlation = results['models']['sinusoidal']['correlation']
+        best_fit = results['optimal']['option']
         new_regression = Regression(
             user_id=user_id,
             source=source,
@@ -65,18 +78,31 @@ def regression_access():
             independent=independent,
             dependent=dependent,
             data_set=data_set,
+            precision=precision,
             linear_coefficients=linear_coefficients,
-            linear_error=linear_error,
+            linear_points=linear_points,
+            linear_correlation=linear_correlation,
             quadratic_coefficients=quadratic_coefficients,
-            quadratic_error=quadratic_error,
+            quadratic_points=quadratic_points,
+            quadratic_correlation=quadratic_correlation,
             cubic_coefficients=cubic_coefficients,
-            cubic_error=cubic_error,
+            cubic_points=cubic_points,
+            cubic_correlation=cubic_correlation,
             hyperbolic_coefficients=hyperbolic_coefficients,
-            hyperbolic_error=hyperbolic_error,
+            hyperbolic_points=hyperbolic_points,
+            hyperbolic_correlation=hyperbolic_correlation,
             exponential_coefficients=exponential_coefficients,
-            exponential_error=exponential_error,
+            exponential_points=exponential_points,
+            exponential_correlation=exponential_correlation,
             logarithmic_coefficients=logarithmic_coefficients,
-            logarithmic_error=logarithmic_error,
+            logarithmic_points=logarithmic_points,
+            logarithmic_correlation=logarithmic_correlation,
+            logistic_coefficients=logistic_coefficients,
+            logistic_points=logistic_points,
+            logistic_correlation=logistic_correlation,
+            sinusoidal_coefficients=sinusoidal_coefficients,
+            sinusoidal_points=sinusoidal_points,
+            sinusoidal_correlation=sinusoidal_correlation,
             best_fit=best_fit,
             date=datetime.now()
         )
