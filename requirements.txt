@@ -45,7 +45,7 @@ python-editor==1.0.4
 pytz==2020.5
 pyzmq==21.0.1
 readme-renderer==28.0
-regressions==2.0.8
+regressions==2.1.0
 requests==2.25.1
 requests-toolbelt==0.9.1
 rfc3986==1.4.0
