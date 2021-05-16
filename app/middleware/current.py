@@ -60,5 +60,5 @@ def current_regression(*args):
             'date': found_regression.date
         }
         return dict_regression, 200
-    except AttributeError:
+    except Exception:
         return 'Data set not found', 404

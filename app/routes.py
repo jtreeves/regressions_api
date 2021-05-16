@@ -34,7 +34,7 @@ def signup():
     else:
         return signup()
 
-@app.route('/api', methods=['GET', 'POST'])
+@app.route('/api', methods=['GET', 'POST', 'DELETE'])
 @require_apikey
 def regression_access():
     if request.method == 'POST':
@@ -108,6 +108,19 @@ def regression_access():
         )
         db.session.add(new_regression)
         db.session.commit()
-        return 'Regression models created and added to table'
+        return 'Regression models created and added to table', 201
     if request.method == 'GET':
         return current_regression()
+    if request.method == 'DELETE':
+        user_id = current_user()['id']
+        source = request.args.get('source')
+        try:
+            found_regression = Regression.query.filter_by(
+                user_id=user_id, 
+                source=source
+            ).first()
+            db.session.delete(found_regression)
+            db.session.commit()
+            return 'Data set deleted', 204
+        except Exception:
+            return 'Data set not found', 404
