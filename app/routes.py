@@ -108,9 +108,9 @@ def regression_access():
         )
         db.session.add(new_regression)
         db.session.commit()
-        return current_regression()
+        return current_regression(), 201
     if request.method == 'GET':
-        return current_regression()
+        return current_regression(), 200
     if request.method == 'PUT':
         user_id = current_user()['id']
         source = request.args.get('source')
@@ -158,7 +158,7 @@ def regression_access():
             found_regression.data_set = updated_data_set
             found_regression.date = datetime.now()
             db.session.commit()
-            return current_regression()
+            return current_regression(), 200
         except Exception:
             return 'Data set not found', 404
     if request.method == 'DELETE':

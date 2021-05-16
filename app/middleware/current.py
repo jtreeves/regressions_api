@@ -59,6 +59,6 @@ def current_regression(*args):
             'best_fit': found_regression.best_fit,
             'date': found_regression.date
         }
-        return dict_regression, 200
+        return dict_regression
     except Exception:
         return 'Data set not found', 404
