@@ -30,19 +30,20 @@ def signup():
     test_key = generator()
     key_available = available(test_key)
     if key_available:
-        form = SignUpForm(key=test_key)
-        if form.validate_on_submit():
-            new_user = User(
-                name=form.name.data,
-                email=form.email.data,
-                key=form.key.data,
-                date=datetime.now()
-            )
-            db.session.add(new_user)
-            db.session.commit()
-            flash(f'API Key for user {form.key.data}')
-            return redirect(url_for('index'))
-        return render_template('signup.html', form=form)
+        form = SignUpForm(key = test_key)
+        if request.method == 'GET':
+            return render_template('signup.html', form=form)
+        if request.method == 'POST':
+            if form.validate_on_submit():
+                new_user = User(
+                    name=form.name.data,
+                    email=form.email.data,
+                    key=form.key.data,
+                    date=datetime.now()
+                )
+                db.session.add(new_user)
+                db.session.commit()
+                return render_template('key.html', key=form.key.data)
     else:
         return signup()
 
