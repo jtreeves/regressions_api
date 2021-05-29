@@ -9,11 +9,11 @@
         <h1>RΣGRΣSSIONZ</h1>
         <nav>
             <ul>
-                <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('about') }}">About</a></li>
-                <li><a href="{{ url_for('usage') }}">Usage</a></li>
-                <li><a href="{{ url_for('math') }}">Math</a></li>
-                <li><a href="{{ url_for('signup' )}}">Signup</a></li>
+                <li><a href="{{ url_for('home_route') }}">Home</a></li>
+                <li><a href="{{ url_for('about_route') }}">About</a></li>
+                <li><a href="{{ url_for('usage_route') }}">Usage</a></li>
+                <li><a href="{{ url_for('math_route') }}">Math</a></li>
+                <li><a href="{{ url_for('signup_route' )}}">Signup</a></li>
             </ul>
         </nav>
         {% with messages = get_flashed_messages() %}
