@@ -13,6 +13,18 @@ from .middleware.current import current_user, current_regression
 def index():
     return render_template('index.html')
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/usage')
+def usage():
+    return render_template('usage.html')
+
+@app.route('/math')
+def math():
+    return render_template('math.html')
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     test_key = generator()
