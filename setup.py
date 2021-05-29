@@ -12,5 +12,6 @@ setup(
     include_package_data=True,
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
+    platforms=['any'],
     install_requires=['Flask']
 )
