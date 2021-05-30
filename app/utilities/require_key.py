@@ -8,16 +8,16 @@ def require_key(view_function):
     def decorated_function(*args, **kwargs):
         sent_key = request.args.get('key')
         
-        if sent_key is not None:
+        if sent_key:
             found_user = read_user(sent_key)
             
-            if found_user is not None:
+            if found_user:
                 return view_function(*args, **kwargs)
             
             else:
-                abort(make_response('Key not found', 401))
+                abort(make_response('Key not found', 404))
         
         else:
-            abort(make_response('Key not sent', 401))
+            abort(make_response('Key must be sent', 403))
     
     return decorated_function
