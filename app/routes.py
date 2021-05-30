@@ -1,8 +1,7 @@
 from flask import request
 from app import app
 from .forms import SignUpForm
-from .middleware.generator import generator
-from .middleware.available import available
+from .middleware.unique import unique
 from .middleware.decorators import require_apikey
 from .controllers.main_controller import main_controller
 from .controllers.users_controller import users_controller
@@ -26,16 +25,12 @@ def math_route():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup_route():
-    test_key = generator()
-    key_available = available(test_key)
-    if key_available:
-        form = SignUpForm(key = test_key)
-        if request.method == 'GET':
-            return users_controller['get_signup'](form)
-        if request.method == 'POST':
-            return users_controller['post_signup'](form)
-    else:
-        return signup_route()
+    key = unique()
+    form = SignUpForm(key = key)
+    if request.method == 'GET':
+        return users_controller['get_signup'](form)
+    if request.method == 'POST':
+        return users_controller['post_signup'](form)
 
 @app.route('/api', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @require_apikey
