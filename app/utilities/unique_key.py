@@ -5,7 +5,7 @@ def unique_key():
     key = generate_key()
     found_user = read_user(key)
 
-    if found_user is None:
+    if found_user is False:
         return key
     
     else:
