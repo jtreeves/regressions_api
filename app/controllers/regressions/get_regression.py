@@ -7,4 +7,4 @@ def get_regression():
     return read_regression(
         query['user_id'], 
         query['source']
-    )
+    ), 200

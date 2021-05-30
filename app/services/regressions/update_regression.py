@@ -50,7 +50,7 @@ def update_regression(user_id, source, submission):
         found_regression.date = datetime.now()
         db.session.commit()
         
-        return read_regression(user_id, source), 200
+        return read_regression(user_id, source)
     
     except Exception:
         return 'Data set not found', 404

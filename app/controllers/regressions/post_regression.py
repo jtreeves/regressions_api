@@ -10,4 +10,4 @@ def post_regression():
         query['user_id'], 
         query['source'], 
         submission
-    )
+    ), 201

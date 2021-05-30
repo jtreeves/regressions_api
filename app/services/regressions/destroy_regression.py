@@ -8,7 +8,7 @@ def destroy_regression(user_id, source):
         db.session.delete(found_regression)
         db.session.commit()
         
-        return 'Data set deleted', 204
+        return 'Data set deleted'
     
     except Exception:
         return 'Data set not found', 404

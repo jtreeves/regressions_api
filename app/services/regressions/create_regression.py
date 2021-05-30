@@ -82,7 +82,7 @@ def create_regression(user_id, source, submission):
         db.session.add(new_regression)
         db.session.commit()
         
-        return read_regression(user_id, source), 201
+        return read_regression(user_id, source)
     
     else:
         return 'Source already in use by other collection', 409

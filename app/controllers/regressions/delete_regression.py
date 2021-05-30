@@ -7,4 +7,4 @@ def delete_regression():
     return destroy_regression(
         query['user_id'], 
         query['source']
-    )
+    ), 204
