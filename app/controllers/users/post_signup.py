@@ -16,4 +16,9 @@ def post_signup(form):
         return render_template(
             'key.html', 
             key = form.key.data
-        )
+        ), 201
+    else:
+        return render_template(
+            'key.html', 
+            error = 'Email already in use'
+        ), 409
