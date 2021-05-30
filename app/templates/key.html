@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <p>
-        Your API key: 
-        {{ key }}
-    </p>
+    {% if key %}
+        <p>
+            Your API key: 
+            {{ key }}
+        </p>
+    {% endif %}
+    
+    {% if error %}
+        <p>
+            {{ error }}
+        </p>
+    {% endif %}
 {% endblock %}
