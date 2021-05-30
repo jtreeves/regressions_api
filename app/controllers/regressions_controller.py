@@ -1,11 +1,11 @@
-from .regressions.get_regressions import get_regressions
-from .regressions.post_regressions import post_regressions
-from .regressions.put_regressions import put_regressions
-from .regressions.delete_regressions import delete_regressions
+from .regressions.get_regression import get_regression
+from .regressions.post_regression import post_regression
+from .regressions.put_regression import put_regression
+from .regressions.delete_regression import delete_regression
 
 regressions_controller = {
-    'get_regressions': get_regressions,
-    'post_regressions': post_regressions,
-    'put_regressions': put_regressions,
-    'delete_regressions': delete_regressions
+    'get_regression': get_regression,
+    'post_regression': post_regression,
+    'put_regression': put_regression,
+    'delete_regression': delete_regression
 }
