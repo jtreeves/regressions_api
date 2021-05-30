@@ -15,7 +15,7 @@ def require_key(view_function):
                 return view_function(*args, **kwargs)
             
             else:
-                abort(make_response('Key not found', 404))
+                abort(make_response('User not authenticated', 401))
         
         else:
             abort(make_response('Key must be sent', 403))
