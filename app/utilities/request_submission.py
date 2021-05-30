@@ -9,4 +9,8 @@ def request_submission():
         'precision': request.json.get('precision')
     }
 
-    return submission
+    if submission['title'] and submission['independent'] and submission['dependent'] and submission['data_set'] and submission['precision']:
+        return submission
+    
+    else:
+        return 'Title, independent, dependent, data set, and precision fields must all be provided', 403

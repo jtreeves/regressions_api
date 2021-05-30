@@ -18,6 +18,6 @@ def require_key(view_function):
                 abort(make_response('User not authenticated', 401))
         
         else:
-            abort(make_response('Key must be sent', 403))
+            abort(make_response('Key must be provided', 403))
     
     return decorated_function
