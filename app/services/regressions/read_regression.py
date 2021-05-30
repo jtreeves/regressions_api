@@ -41,7 +41,7 @@ def read_regression(user_id, source):
             'date': found_regression.date
         }
         
-        return regression_analysis, 200
+        return regression_analysis
     
     except Exception:
         return 'Data set not found', 404

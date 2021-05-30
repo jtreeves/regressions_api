@@ -7,7 +7,7 @@ def find_regression(user_id, source):
     ).first()
 
     if found_regression:
-        return found_regression, 200
+        return found_regression
     
     else:
-        return 'Data set not found', 404
+        return False
