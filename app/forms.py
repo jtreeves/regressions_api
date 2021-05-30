@@ -11,6 +11,8 @@ class SignUpForm(FlaskForm):
     submit = SubmitField('Sign Up')
 
     def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
-        if user is not None:
+        found_user = User.query.filter_by(
+            email = email.data
+        ).first()
+        if found_user:
             raise ValidationError()
