@@ -1,5 +1,19 @@
 {% extends 'base.html' %}
 
+{% block style %}
+    {{ super() }}
+    
+    <link 
+        rel="stylesheet" 
+        type="text/css" 
+        href="{{ url_for('static', filename='key.css') }}"
+    >
+{% endblock %}
+
+{% block title %}
+    Regressionz - Key
+{% endblock %}
+
 {% block content %}
     {% if key %}
         <p>
