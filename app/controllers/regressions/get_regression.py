@@ -3,8 +3,13 @@ from app.services.regressions.read_regression import read_regression
 
 def get_regression():
     query = request_query()
-    
-    return read_regression(
+    received_regression = read_regression(
         query['user_id'], 
         query['source']
-    ), 200
+    )
+    
+    if not isinstance(received_regression, tuple):
+        return received_regression, 200
+    
+    else:
+        return received_regression
