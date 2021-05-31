@@ -3,8 +3,13 @@ from app.services.regressions.destroy_regression import destroy_regression
 
 def delete_regression():
     query = request_query()
-
-    return destroy_regression(
+    deletion = destroy_regression(
         query['user_id'], 
         query['source']
-    ), 204
+    )
+
+    if not isinstance(deletion, tuple):
+        return deletion, 204
+    
+    else:
+        return deletion
