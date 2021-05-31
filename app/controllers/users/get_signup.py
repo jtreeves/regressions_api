@@ -2,6 +2,6 @@ from flask import render_template
 
 def get_signup(form):
     return render_template(
-        'signup.html', 
+        'pages/signup.html', 
         form = form
     ), 200

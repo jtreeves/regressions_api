@@ -6,12 +6,12 @@ def post_signup(form):
         key = create_user(form)
         
         return render_template(
-            'signup.html', 
+            'pages/signup.html', 
             key = key
         ), 201
     
     else:
         return render_template(
-            'signup.html', 
+            'pages/signup.html', 
             error = 'Email already in use'
         ), 409

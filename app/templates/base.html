@@ -26,16 +26,16 @@
     </head>
 
     <body>
-        {% include 'header.html' %}
+        {% include 'partials/header.html' %}
 
-        {% include 'navigation.html' %}
+        {% include 'partials/navigation.html' %}
         
         <main>
             {% block content %}
             {% endblock %}
         </main>
         
-        {% include 'footer.html' %}
+        {% include 'partials/footer.html' %}
 
         <script 
             type="text/javascript" 
