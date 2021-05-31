@@ -6,8 +6,18 @@ def post_regression():
     query = request_query()
     submission = request_submission()
 
-    return create_regression(
-        query['user_id'], 
-        query['source'], 
-        submission
-    ), 201
+    if not isinstance(submission, tuple):
+        new_regression = create_regression(
+            query['user_id'], 
+            query['source'], 
+            submission
+        )
+
+        if not isinstance(new_regression, tuple):
+            return new_regression, 201
+        
+        else:
+            return new_regression
+    
+    else:
+        return submission
