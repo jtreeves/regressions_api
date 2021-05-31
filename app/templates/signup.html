@@ -15,27 +15,46 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Sign Up</h2>
+    {% if not key and not error %}
+        <h2>Sign Up</h2>
 
-    <form action='' method='post'>
-        {{ form.hidden_tag() }}
+        <form action='' method='post'>
+            {{ form.hidden_tag() }}
+
+            <p>
+                {{ form.name.label }}: {{ form.name }}
+                {% for error in form.name.errors %}
+                    <span style='color: red;'>[{{ error }}]</span>
+                {% endfor %}
+            </p>
+
+            <p>
+                {{ form.email.label }}: {{ form.email }}
+                {% for error in form.email.errors %}
+                    <span style='color: red;'>[{{ error }}]</span>
+                {% endfor %}
+            </p>
+
+            <p>
+                {{ form.submit() }}
+            </p>
+        </form>
+    {% endif %}
+
+    {% if key %}
+        <h2>Key</h2>
 
         <p>
-            {{ form.name.label }}: {{ form.name }}
-            {% for error in form.name.errors %}
-                <span style='color: red;'>[{{ error }}]</span>
-            {% endfor %}
+            Your API key: 
+            {{ key }}
         </p>
-
+    {% endif %}
+    
+    {% if error %}
+        <h2>Error</h2>
+        
         <p>
-            {{ form.email.label }}: {{ form.email }}
-            {% for error in form.email.errors %}
-                <span style='color: red;'>[{{ error }}]</span>
-            {% endfor %}
+            {{ error }}
         </p>
-
-        <p>
-            {{ form.submit() }}
-        </p>
-    </form>
+    {% endif %}
 {% endblock %}
