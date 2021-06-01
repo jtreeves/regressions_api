@@ -1,3 +1,18 @@
-p {
-    color: red;
+article {
+    background: lightgray;
+    border-radius: 5px;
+    padding: 10px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.keys {
+    color: red
+}
+
+.values {
+    color: blue;
+}
+
+.brace {
+    font-weight: bold;
 }
