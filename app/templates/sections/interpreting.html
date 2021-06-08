@@ -1,0 +1,102 @@
+<h3>How to Use the Returned Object</h3>
+
+{% include 'snippets/response_object.html' %}
+
+<ul>
+    <li>
+        title: The original string you included when you created the collection; this represents the title of the collection
+    </li>
+    <li>
+        independent: The original string you indicated when you created the collection; this represents the independent variable of the collection
+    </li>
+    <li>
+        dependent: The original string you indicated when you created the collection; this represents the dependent variable of the collection
+    </li>
+    <li>
+        precision: The original number you provided when you created the collection to determine how to round the results
+    </li>
+    <li>
+        data_set: The original list of lists you provided when you created the collection; the inner lists constitute the points analyzed
+    </li>
+    <li>
+        source: The original string you provided when you created the collection; this is the collection's unique identifier among all your existing collections
+    </li>
+    <li>
+        date: String representation of when the collection was either created or last updated
+    </li>
+    <li>
+        best_fit: String indicating which regression model has the highest correlation coefficient
+    </li>
+    <li>
+        linear_coefficients: Array of two numbers serving as the coefficients of the linear equation that best fits the data set
+    </li>
+    <li>
+        linear_points: Object of arrays of numbers representing different key points on the graph of the linear equation indicated by linear_coefficients (roots will contain one point, while the other three will be null)
+    </li>
+    <li>
+        linear_correlation: Number representing the correlation coefficient of the linear equation indicated by linear_coefficients
+    </li>
+    <li>
+        quadratic_coefficients: Array of three numbers serving as the coefficients of the quadratic equation that best fits the data set
+    </li>
+    <li>
+        quadratic_points: Object of arrays of numbers representing different key points on the graph of the quadratic equation indicated by quadratic_coefficients (inflections will contain null; either maxima or minima will contain one point; roots may contain either zero, one, or two points)
+    </li>
+    <li>
+        quadratic_correlation: Number representing the correlation coefficient of the quadratic equation indicated by quadratic_coefficients
+    </li>
+    <li>
+        cubic_coefficients: Array of four numbers serving as the coefficients of the cubic equation that best fits the data set
+    </li>
+    <li>
+        cubic_points: Object of arrays of numbers representing different key points on the graph of the cubic equation indicated by cubic_coefficients (inflections will contain one point; maxima and minima will either both contain one point or both contain null; roots may contain either one, two, or three points)
+    </li>
+    <li>
+        cubic_correlation: Number representing the correlation coefficient of the cubic equation indicated by cubic_coefficients
+    </li>
+    <li>
+        hyperbolic_coefficients: Array of two numbers serving as the coefficients of the hyperbolic equation that best fits the data set
+    </li>
+    <li>
+        hyperbolic_points: Object of arrays of numbers representing different key points on the graph of the hyperbolic equation indicated by hyperbolic_coefficients (roots will contain one point, while the other three will be null)
+    </li>
+    <li>
+        hyperbolic_correlation: Number representing the correlation coefficient of the hyperbolic equation indicated by hyperbolic_coefficients
+    </li>
+    <li>
+        exponential_coefficients: Array of two numbers serving as the coefficients of the exponential equation that best fits the data set
+    </li>
+    <li>
+        exponential_points: Object of arrays of numbers representing different key points on the graph of the exponential equation indicated by exponential_coefficients (all will be null)
+    </li>
+    <li>
+        exponential_correlation: Number representing the correlation coefficient of the exponential equation indicated by exponential_coefficients
+    </li>
+    <li>
+        logarithmic_coefficients: Array of two numbers serving as the coefficients of the logarithmic equation that best fits the data set
+    </li>
+    <li>
+        logarithmic_points: Object of arrays of numbers representing different key points on the graph of the logarithmic equation indicated by logarithmic_coefficients (roots will contain one point, while the other three will be null)
+    </li>
+    <li>
+        logarithmic_correlation: Number representing the correlation coefficient of the logarithmic equation indicated by logarithmic_coefficients
+    </li>
+    <li>
+        logistic_coefficients: Array of three numbers serving as the coefficients of the logistic equation that best fits the data set
+    </li>
+    <li>
+        logistic_points: Object of arrays of numbers representing different key points on the graph of the logistic equation indicated by logistic_coefficients (inflections will contain one point, while the other three will be null)
+    </li>
+    <li>
+        logistic_correlation: Number representing the correlation coefficient of the logistic equation indicated by logistic_coefficients
+    </li>
+    <li>
+        sinusoidal_coefficients: Array of four numbers serving as the coefficients of the sinusoidal equation that best fits the data set
+    </li>
+    <li>
+        sinusoidal_points: Object of arrays of numbers representing different key points on the graph of the sinusoidal equation indicated by sinusoidal_coefficients (string values will be provided for general forms where applicable)
+    </li>
+    <li>
+        sinusoidal_correlation: Number representing the correlation coefficient of the sinusoidal equation indicated by sinusoidal_coefficients
+    </li>
+</ul>
