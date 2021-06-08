@@ -17,7 +17,7 @@ nav ul {
     list-style-type: none;
 }
 
-nav ul li a, a:hover {
+header a, nav ul li a, a:hover {
     text-decoration: none;
     color: black;
 }
