@@ -16,7 +16,7 @@
 
 {% block content %}
     {% if not key and not error %}
-        <h2>Sign Up</h2>
+        <h1>Sign Up</h1>
 
         <p>
             It's quick, easy, and free! You give us your email address; we give you a key. Then just use that key to get regression analysis of any data set you provide.
@@ -46,7 +46,7 @@
     {% endif %}
 
     {% if key %}
-        <h2>Key</h2>
+        <h1>Key</h1>
 
         <p>
             Your API key: 
@@ -55,7 +55,7 @@
     {% endif %}
     
     {% if error %}
-        <h2>Error</h2>
+        <h1>Error</h1>
         
         <p>
             {{ error }}
