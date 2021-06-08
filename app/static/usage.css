@@ -1,18 +1,21 @@
 article {
-    background: lightgray;
+    background: whitesmoke;
     border-radius: 5px;
     padding: 10px;
-    font-family: 'Courier New', Courier, monospace;
 }
 
 .keys {
     color: red
 }
 
-.values {
+.strings {
     color: blue;
 }
 
-.brace {
-    font-weight: bold;
+.numbers {
+    color: green;
+}
+
+.null {
+    color: purple;
 }
