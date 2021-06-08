@@ -16,6 +16,151 @@
 
 {% block content %}
     <h2>Usage</h2>
-    <p>Here's a guide for how to use the API.</p>
-    {% include 'snippets/post_request.html' %}
+
+    <p>Here's a guide for how to use the API. Find out how to sign up for an account, how to create a new collection of regression models, how to get an existing collection, how to update an existing collection, how to delete an existing collection, how certain fields must be formatted, and how to use the results. Plus, see an example that walks you through all the stages of an initial POST request.</p>
+
+    <h3>How to Sign Up</h3>
+
+    <ol>
+        <li>
+            Sign up with your email
+        </li>
+        <li>
+            Store your API key somewhere safe
+        </li>
+    </ol>
+
+    <h3>How to Create a New Collection</h3>
+
+    <ol>
+        <li>
+            Choose a source code for this collection
+        </li>
+        <li>
+            Make a POST request
+            <ul>
+                <li>
+                    Include the API key that you received and the source code that you chose as parameters in the URL
+                </li>
+                <li>
+                    Send the data set, the precision, the title, the indepenent variable name, and the dependent variable name as an object in the body of the request
+                </li>
+            </ul>
+        </li>
+        <li>
+            Receive an object containing the results of the regression analysis
+        </li>
+    </ol>
+
+    <h3>How to Get an Existing Collection</h3>
+
+    <ol>
+        <li>
+            Recall your API key and what source code you previously chose for this collection
+        </li>
+        <li>
+            Make a GET request that includes the API key and the source code as parameters in the URL
+        </li>
+        <li>
+            Receive an object containing the results of the regression analysis
+        </li>
+    </ol>
+
+    <h3>How to Update an Existing Collection</h3>
+
+    <ol>
+        <li>
+            Recall your API key and what source code you previously chose for this collection
+        </li>
+        <li>
+            Make a PUT request
+            <ul>
+                <li>
+                    Include the API key and the source code as parameters in the URL
+                </li>
+                <li>
+                    Send the data set, the precision, the title, the indepenent variable name, and the dependent variable name as an object in the body of the request (even if you only want to update one of those fields, you must send information for all of them)
+                </li>
+            </ul>
+        </li>
+        <li>
+            Receive an object containing the updated results of the regression analysis
+        </li>
+    </ol>
+
+    <h3>How to Delete an Existing Collection</h3>
+
+    <ol>
+        <li>
+            Recall your API key and what source code you previously chose for this collection
+        </li>
+        <li>
+            Make a DELETE request that includes the API key and the source code as parameters in the URL
+        </li>
+        <li>
+            Receive a status of 204 to indicate that the collection was successfully deleted
+        </li>
+    </ol>
+
+    <h3>How to Format Key Fields</h3>
+
+    <ul>
+        <li>
+            URL submitted for requests
+            {% include 'snippets/pre_get.html' %}
+            <ul>
+                <li>
+                    API key must be the key you received when you signed up
+                </li>
+                <li>
+                    Source code must be a string of alphanumeric characters less than 100-characters long
+                </li>
+                <li>
+                    Source code must be unique for each of your collections (i.e., you may use 1 as a source code and another user may also use 1 as their source code, but you cannot use 1 as a source code for two separate collections)
+                </li>
+            </ul>
+        </li>
+        <li>
+            Body submitted with POST and PUT requests
+            {% include 'snippets/pre_post.html' %}
+            <ul>
+                <li>
+                    Title must be a string (it should describe the nature of the data set)
+                </li>
+                <li>
+                    Independent must be a string (it should describe the independent variable of the data set)
+                </li>
+                <li>
+                    Dependent must be a string (it should describe the dependent variable of the data set)
+                </li>
+                <li>
+                    Precision must be a positive integer (it determines to how many digits all answers will round)
+                </li>
+                <li>
+                    Data set must be a list of lists (it is the raw data you want to analyze)
+                    <ul>
+                        <li>
+                            Outer list (i.e., the data set) must be enclosed in square brackets
+                        </li>
+                        <li>
+                            Outer list must include at least 10 inner lists (i.e., you must provide at least 10 points)
+                        </li>
+                        <li>
+                            Inner lists (i.e., the points) must be enclosed in square brackets
+                        </li>
+                        <li>
+                            Inner lists must contain exactly two elements
+                        </li>
+                        <li>
+                            Elements of inner lists (i.e., the coordinates) must be numbers
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <h3>How to Use the Returned Object</h3>
+    {% include 'snippets/pre_response.html' %}
+    <h3>Example</h3>
 {% endblock %}
