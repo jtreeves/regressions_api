@@ -6,6 +6,7 @@ from .utilities.require_key import require_key
 from .controllers.main_controller import main_controller
 from .controllers.users_controller import users_controller
 from .controllers.regressions_controller import regressions_controller
+from .controllers.images_controller import images_controller
 
 @app.route('/')
 def home_route():
@@ -23,6 +24,10 @@ def usage_route():
 def math_route():
     return main_controller['get_math']()
 
+@app.route('/images/<source>')
+def images_route(source):
+    return images_controller(source)
+    
 @app.route('/signup', methods=['GET', 'POST'])
 def signup_route():
     key = unique_key()
