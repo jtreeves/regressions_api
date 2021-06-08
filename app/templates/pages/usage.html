@@ -107,7 +107,7 @@
     <ul>
         <li>
             URL submitted for requests
-            {% include 'snippets/pre_get.html' %}
+            {% include 'snippets/get_url.html' %}
             <ul>
                 <li>
                     API key must be the key you received when you signed up
@@ -122,7 +122,7 @@
         </li>
         <li>
             Body submitted with POST and PUT requests
-            {% include 'snippets/pre_post.html' %}
+            {% include 'snippets/post_body.html' %}
             <ul>
                 <li>
                     Title must be a string (it should describe the nature of the data set)
@@ -161,6 +161,6 @@
     </ul>
 
     <h3>How to Use the Returned Object</h3>
-    {% include 'snippets/pre_response.html' %}
+    {% include 'snippets/response_object.html' %}
     <h3>Example</h3>
 {% endblock %}
