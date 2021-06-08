@@ -6,8 +6,6 @@ def read_regression(user_id, source):
 
         if not isinstance(found_regression, tuple):
             regression_analysis = {
-                'id': found_regression.id,
-                'user_id': found_regression.user_id,
                 'source': found_regression.source,
                 'title': found_regression.title,
                 'independent': found_regression.independent,
