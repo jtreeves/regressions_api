@@ -4,6 +4,10 @@ article {
     padding: 10px;
 }
 
+pre {
+    margin: 0;
+}
+
 .keys {
     color: red
 }
