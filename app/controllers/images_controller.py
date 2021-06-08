@@ -15,7 +15,7 @@ from .images.create_minimum_graph import create_minimum_graph
 from .images.create_inflection_graph import create_inflection_graph
 
 def images_controller(source):
-    def create_figure(source):
+    def create_graph(source):
         if source == 'linear.png':
             return create_linear_graph()
         
@@ -52,7 +52,7 @@ def images_controller(source):
         if source == 'inflection.png':
             return create_inflection_graph()
 
-    fig = create_figure(source)
+    fig = create_graph(source)
     output = io.BytesIO()
     FigureCanvasAgg(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
