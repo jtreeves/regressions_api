@@ -2,19 +2,45 @@ body, h1, h2, h3, h4, p, ul, ol {
     margin: 0;
 }
 
+body {
+    background-image: linear-gradient(
+        to bottom right, 
+        darkred, 
+        red
+    );
+}
+
 header {
     font-size: 60px;
+    height: 100px;
+    margin: 50px 0;
+}
+
+footer {
+    text-align: center;
+    height: 100px;
+    margin: 50px 0;
 }
 
 main {
-    margin: 100px;
+    margin: 0 100px;
     padding: 20px;
+    display: grid;
+    grid-auto-rows: min-content;
+    row-gap: 20px;
+    background: whitesmoke;
+    border-radius: 10px;
+    min-height: calc(100vh - 500px);
 }
 
 nav ul {
     margin: 0;
     padding: 0;
     list-style-type: none;
+}
+
+.bar {
+    height: 100px;
 }
 
 header a, nav ul li a, a:hover {
