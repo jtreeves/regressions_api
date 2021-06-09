@@ -1,58 +1,60 @@
-<h2 id="example">Example</h2>
+<section>
+    <h2 id="example">Example</h2>
 
-<ol>
-    <li>
-        I sign up for access to the API using my email: <code>me@email.com</code>
-    </li>
+    <ol>
+        <li>
+            I sign up for access to the API using my email: <code>me@email.com</code>
+        </li>
 
-    <li>
-        I note the API key that appears on my screen after I sign up: <code>53CR3T491K3Y</code>
-    </li>
+        <li>
+            I note the API key that appears on my screen after I sign up: <code>53CR3T491K3Y</code>
+        </li>
 
-    <li>
-        I chose a source code for my collection: <code>abc123</code>
-    </li>
+        <li>
+            I chose a source code for my collection: <code>abc123</code>
+        </li>
 
-    <li>
-        I make a POST request
-        <ul>
-            <li>
-                I include my API key and my source code as parameters in the URL of my request
-                {% include 'snippets/get_url.html' %}
-            </li>
+        <li>
+            I make a POST request
+            <ul>
+                <li>
+                    I include my API key and my source code as parameters in the URL of my request
+                    {% include 'snippets/get_url.html' %}
+                </li>
 
-            <li>
-                I include a title, indepenent variable, dependent variable, precision, and data set as keys of an object in the body of my request
-                {% include 'snippets/post_body.html' %}
-            </li>
-        </ul>
-    </li>
+                <li>
+                    I include a title, indepenent variable, dependent variable, precision, and data set as keys of an object in the body of my request
+                    {% include 'snippets/post_body.html' %}
+                </li>
+            </ul>
+        </li>
 
-    <li>
-        I get a response object
-        {% include 'snippets/response_object.html' %}
-    </li>
+        <li>
+            I get a response object
+            {% include 'snippets/response_object.html' %}
+        </li>
 
-    <li>
-        I draw conclusions based on what I received
-        <ul>
-            <li>
-                While the cubic model has the highest correlation coefficient, I know that total deaths from novel diseases follow a mostly logistic growth pattern; since the logistic model's correlation coefficient is 0.9756 (very close to a perfect 1.0), I feel confident in using this model to make predictions
-            </li>
+        <li>
+            I draw conclusions based on what I received
+            <ul>
+                <li>
+                    While the cubic model has the highest correlation coefficient, I know that total deaths from novel diseases follow a mostly logistic growth pattern; since the logistic model's correlation coefficient is 0.9756 (very close to a perfect 1.0), I feel confident in using this model to make predictions
+                </li>
 
-            <li>
-                Based on the coefficients provided for the logistic model, I can create a logistic function for the data, where <code>d</code> represents the total number of deaths after <code>m</code> months have elapsed
-                <p lang="latex">d(m) = \frac{564205.2863}{1 + \text{e}^{-0.3277\cdot(m - 10.4152)}}</p>
-            </li>
+                <li>
+                    Based on the coefficients provided for the logistic model, I can create a logistic function for the data, where <code>d</code> represents the total number of deaths after <code>m</code> months have elapsed
+                    <p lang="latex">d(m) = \frac{564205.2863}{1 + \text{e}^{-0.3277\cdot(m - 10.4152)}}</p>
+                </li>
 
-            <li>
-                Based on the array provided within the inflections section of the logistic model's points, I know the model predicts a turning point in total deaths will occur at the following point
-                <p lang="latex">(10.4152, 282102.6432)</p>
-            </li>
+                <li>
+                    Based on the array provided within the inflections section of the logistic model's points, I know the model predicts a turning point in total deaths will occur at the following point
+                    <p lang="latex">(10.4152, 282102.6432)</p>
+                </li>
 
-            <li>
-                Using the equation I created, I predict that the total deaths by July 2021 will be 532,264
-            </li>
-        </ul>
-    </li>
-</ol>
+                <li>
+                    Using the equation I created, I predict that the total deaths by July 2021 will be 532,264
+                </li>
+            </ul>
+        </li>
+    </ol>
+</section>
