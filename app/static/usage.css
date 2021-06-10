@@ -1,7 +1,13 @@
 .snippet {
-    background: whitesmoke;
+    background: lightgray;
     border-radius: 5px;
     padding: 10px;
+    max-width: 500px;
+    max-height: 500px;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    border: 1px solid gray;
+    margin: 10px 0;
 }
 
 pre {
