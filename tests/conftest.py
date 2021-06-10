@@ -9,3 +9,5 @@ def app():
 @pytest.fixture
 def client(app):
     return app.test_client()
+
+# ---------- 5 tests PASSED in 0.46s ---------- #
