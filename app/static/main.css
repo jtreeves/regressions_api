@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 body, h1, h2, h3, h4, p, ul, ol {
     margin: 0;
 }
@@ -21,6 +23,7 @@ header {
 }
 
 header a {
+    font-family: 'Tinos', serif;
     font-size: 60px;
     line-height: 60px;
     height: 60px;
@@ -73,6 +76,7 @@ nav ul {
     height: 20px;
     margin: 10px;
     padding: 10px;
+    text-transform: uppercase;
     place-self: center;
     border: 1px solid white;
 }
@@ -105,4 +109,28 @@ mark {
     background-color: transparent;
     font-weight: bold;
     font-style: italic;
+}
+
+h1 {
+    font-size: 40px;
+}
+
+h2 {
+    font-size: 30px;
+}
+
+h3 {
+    font-size: 20px;
+}
+
+h4 {
+    font-size: 15px;
+}
+
+h1, h2, h3, h4, .bar li  {
+    font-family: 'Anton', sans-serif;
+}
+
+p {
+    font-family: 'Tinos', serif;
 }
