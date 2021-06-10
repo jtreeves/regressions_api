@@ -6,7 +6,10 @@
     <link 
         rel="stylesheet" 
         type="text/css" 
-        href="{{ url_for('static', filename='math.css') }}"
+        href="{{ url_for(
+            'static', 
+            filename='style/math.css'
+        ) }}"
     >
 {% endblock %}
 

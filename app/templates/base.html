@@ -10,11 +10,71 @@
             content="width=device-width, initial-scale=1.0"
         >
 
+        <meta
+            name="description"
+            content="A free API for generating multiple regression models for all data sets"
+        />
+
+        <meta 
+            property="og:title" 
+            content="Regressionz" 
+        />
+
+        <meta 
+            property="og:url" 
+            content="https://regressionz.herokuapp.com" 
+        />
+        
+        <meta 
+            property="og:type" 
+            content="website" 
+        />
+
+        <meta 
+            property="og:description" 
+            content="A free API for generating multiple regression models for all data sets" 
+        />
+
+        <meta 
+            property="og:image" 
+            content="{{ url_for(
+                'static', 
+                filename='images/facebook.png'
+            ) }}" 
+        />
+
+        <meta
+            property="twitter:image"
+            content="{{ url_for(
+                'static', 
+                filename='images/icon.png'
+            ) }}"
+        />
+
+        <link 
+            rel="icon" 
+            href="{{ url_for(
+                'static', 
+                filename='images/favicon.ico'
+            ) }}"
+        >
+        
+        <link 
+            rel="apple-touch-icon" 
+            href="{{ url_for(
+                'static', 
+                filename='images/apple-touch-icon.png'
+            ) }}"
+        >
+
         {% block style %}
             <link 
                 rel="stylesheet" 
                 type="text/css" 
-                href="{{ url_for('static', filename='main.css') }}"
+                href="{{ url_for(
+                    'static', 
+                    filename='style/main.css'
+                ) }}"
             >
         {% endblock %}
 
