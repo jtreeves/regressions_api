@@ -11,26 +11,30 @@ body {
 }
 
 header {
+    text-align: center;
     font-size: 60px;
-    height: 100px;
-    margin: 50px 0;
+    line-height: 60px;
+    height: 60px;
+    margin-top: 50px;
 }
 
 footer {
     text-align: center;
-    height: 100px;
-    margin: 50px 0;
+    font-size: 15px;
+    line-height: 15px;
+    height: 15px;
+    margin-bottom: 50px;
 }
 
 main {
-    margin: 0 100px;
+    margin: 50px 100px;
     padding: 20px;
     display: grid;
     grid-auto-rows: min-content;
     row-gap: 20px;
     background: whitesmoke;
     border-radius: 10px;
-    min-height: calc(100vh - 500px);
+    min-height: calc(100vh - 335px);
 }
 
 nav ul {
@@ -40,7 +44,21 @@ nav ul {
 }
 
 .bar {
-    height: 100px;
+    height: 40px;
+    margin-top: 20px;
+}
+
+.bar ul {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+}
+
+.bar li {
+    font-size: 20px;
+    line-height: 20px;
+    height: 20px;
+    margin: 10px;
+    place-self: center;
 }
 
 header a, nav ul li a, a:hover {
