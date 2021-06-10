@@ -11,11 +11,23 @@ body {
 }
 
 header {
-    text-align: center;
+    height: 80px;
+    margin-top: 50px;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    border: 5px solid white;
+    display: grid;
+}
+
+header a {
     font-size: 60px;
     line-height: 60px;
     height: 60px;
-    margin-top: 50px;
+    margin: 10px;
+    padding: 0;
+    align-self: center;
+    justify-self: center;
 }
 
 footer {
@@ -34,7 +46,7 @@ main {
     row-gap: 20px;
     background: whitesmoke;
     border-radius: 10px;
-    min-height: calc(100vh - 335px);
+    min-height: calc(100vh - 385px);
 }
 
 nav ul {
@@ -44,8 +56,10 @@ nav ul {
 }
 
 .bar {
-    height: 40px;
+    height: 60px;
     margin-top: 20px;
+    background: black;
+    color: white;
 }
 
 .bar ul {
@@ -58,10 +72,37 @@ nav ul {
     line-height: 20px;
     height: 20px;
     margin: 10px;
+    padding: 10px;
     place-self: center;
+    border: 1px solid white;
 }
 
-header a, nav ul li a, a:hover {
+a, a:hover {
     text-decoration: none;
-    color: black;
+    color: darkred;
+    font-weight: bold;
+}
+
+a:hover {
+    font-style: italic;
+}
+
+header a, .bar a, header a:hover, .bar a:hover {
+    color: white;
+}
+
+.contents a, .contents a:hover {
+    color: slategray;
+    font-weight: normal;
+    text-decoration: underline dashed;
+}
+
+.contents a:hover {
+    text-decoration: underline solid;
+}
+
+mark {
+    background-color: transparent;
+    font-weight: bold;
+    font-style: italic;
 }
