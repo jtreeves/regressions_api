@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block style %}
+    {{ super() }}
+    
+    <link 
+        rel="stylesheet" 
+        type="text/css" 
+        href="{{ url_for(
+            'static', 
+            filename='style/usage.css'
+        ) }}"
+    >
+{% endblock %}
+
+{% block title %}
+    {{ super() }} - Usage
+{% endblock %}
+
+{% block content %}
+    <h1>Usage</h1>
+
+    <p>
+        Here's a guide for how to use the API. Find out how to sign up for an account, how to create a new collection of regression models, how to get an existing collection, how to update an existing collection, how to delete an existing collection, how certain fields must be formatted, and how to use the results. Plus, see an example that walks you through all the stages of an initial POST request.
+    </p>
+
+    {% include 'partials/usage_contents.html' %}
+
+    {% include 'sections/joining.html' %}
+
+    {% include 'sections/creating.html' %}
+
+    {% include 'sections/getting.html' %}
+
+    {% include 'sections/updating.html' %}
+
+    {% include 'sections/deleting.html' %}
+
+    {% include 'sections/formatting.html' %}
+
+    {% include 'sections/interpreting.html' %}
+
+    {% include 'sections/example.html' %}
+{% endblock %}

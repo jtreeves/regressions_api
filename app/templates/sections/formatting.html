@@ -1,0 +1,70 @@
+<section>
+    <h2 id="formatting">How to Format Key Fields</h2>
+
+    <ul>
+        <li>
+            URL submitted for requests
+            {% include 'snippets/get_url.html' %}
+            <ul>
+                <li>
+                    API key must be the key you received when you signed up
+                </li>
+
+                <li>
+                    Source code must be a string of alphanumeric characters less than 100-characters long
+                </li>
+
+                <li>
+                    Source code must be unique for each of your collections (i.e., you may use 1 as a source code and another user may also use 1 as their source code, but you cannot use 1 as a source code for two separate collections)
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            Body submitted with POST and PUT requests
+            {% include 'snippets/post_body.html' %}
+            <ul>
+                <li>
+                    Title must be a string (it should describe the nature of the data set)
+                </li>
+
+                <li>
+                    Independent must be a string (it should describe the independent variable of the data set)
+                </li>
+
+                <li>
+                    Dependent must be a string (it should describe the dependent variable of the data set)
+                </li>
+
+                <li>
+                    Precision must be a positive integer (it determines to how many digits all answers will round)
+                </li>
+
+                <li>
+                    Data set must be a list of lists (it is the raw data you want to analyze)
+                    <ul>
+                        <li>
+                            Outer list (i.e., the data set) must be enclosed in square brackets
+                        </li>
+
+                        <li>
+                            Outer list must include at least 10 inner lists (i.e., you must provide at least 10 points)
+                        </li>
+
+                        <li>
+                            Inner lists (i.e., the points) must be enclosed in square brackets
+                        </li>
+
+                        <li>
+                            Inner lists must contain exactly two elements
+                        </li>
+
+                        <li>
+                            Elements of inner lists (i.e., the coordinates) must be numbers
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</section>
