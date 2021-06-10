@@ -8,7 +8,7 @@ class SignUpForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     key = HiddenField()
-    submit = SubmitField('Sign Up')
+    submit = SubmitField('Submit')
 
     def validate_email(self, email):
         found_user = User.query.filter_by(
