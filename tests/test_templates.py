@@ -75,9 +75,38 @@ class TestAboutTemplate:
         assert b'To join, you just need' in res.data
 
 class TestUsageTemplate:
-    def test_usage(app, client):
+    def test_usage_loads(app, client):
         res = client.get('/usage')
         assert res.status_code == 200
+    
+    def test_usage_displays_heading(app, client):
+        res = client.get('/usage')
+        assert b'<h1>Usage</h1>' in res.data
+    
+    def test_usage_displays_content(app, client):
+        res = client.get('/usage')
+        assert b'guide for how to use the API' in res.data
+    
+    def test_usage_displays_toc(app, client):
+        res = client.get('/usage')
+        assert b'<mark>Contents</mark>' in res.data
+    
+    def test_usage_displays_subheadings(app, client):
+        res = client.get('/usage')
+        assert b'<h2 id="joining">How to Sign Up</h2>' in res.data
+        assert b'<h2 id="creating">How to Create a New Collection</h2>' in res.data
+        assert b'<h2 id="getting">How to Get an Existing Collection</h2>' in res.data
+        assert b'<h2 id="updating">How to Update an Existing Collection</h2>' in res.data
+        assert b'<h2 id="deleting">How to Delete an Existing Collection</h2>' in res.data
+        assert b'<h2 id="formatting">How to Format Key Fields</h2>' in res.data
+        assert b'<h2 id="interpreting">How to Use the Returned Object</h2>' in res.data
+        assert b'<h2 id="example">Example</h2>' in res.data
+    
+    def test_usage_displays_snippets(app, client):
+        res = client.get('/usage')
+        assert b'https://regressionz.herokuapp.com/api?key=53CR3T491K3Y&source=abc123' in res.data
+        assert b'<span class="keys">"independent"</span>: <span class="strings">"month"</span>' in res.data
+        assert b'<span class="keys">"sinusoidal_coefficients"</span>' in res.data
 
 class TestMathTemplate:
     def test_math(app, client):
