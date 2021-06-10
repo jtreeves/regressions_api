@@ -10,4 +10,4 @@ def app():
 def client(app):
     return app.test_client()
 
-# ---------- 11 tests PASSED in 0.30s ---------- #
+# ---------- 16 tests PASSED in 0.32s ---------- #

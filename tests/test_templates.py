@@ -38,20 +38,41 @@ class TestBaseTemplate:
         assert b'rel="apple-touch-icon"' in res.data
 
 class TestHomeTemplate:
-    def test_home(app, client):
+    def test_home_loads(app, client):
         res = client.get('/')
         assert res.status_code == 200
 
-    def test_home_contents(app, client):
+    def test_home_displays_content(app, client):
         res = client.get('/')
-        assert b'<header>' in res.data
-        assert b'<footer>' in res.data
         assert b'so much data in our day-to-day lives' in res.data
+        assert b'determine multiple regression models' in res.data
+
+    def test_home_displays_signup_plug(app, client):
+        res = client.get('/')
+        assert b'To join, you just need' in res.data
 
 class TestAboutTemplate:
-    def test_about(app, client):
+    def test_about_loads(app, client):
         res = client.get('/about')
         assert res.status_code == 200
+    
+    def test_about_displays_heading(app, client):
+        res = client.get('/about')
+        assert b'<h1>About</h1>' in res.data
+    
+    def test_about_displays_content(app, client):
+        res = client.get('/about')
+        assert b'provides you with a plethora of data' in res.data
+    
+    def test_about_displays_subheadings(app, client):
+        res = client.get('/about')
+        assert b'<h2>What You Get with Each Collection</h2>' in res.data
+        assert b'<h2>8 Different Types of Functions</h2>' in res.data
+        assert b'<h2>Problems You Can Solve with This API</h2>' in res.data
+
+    def test_about_displays_signup_plug(app, client):
+        res = client.get('/about')
+        assert b'To join, you just need' in res.data
 
 class TestUsageTemplate:
     def test_usage(app, client):
