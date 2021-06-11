@@ -11,8 +11,8 @@ def db():
     yield test_db
 
 @pytest.fixture
-def client(app, db):
+def client(app):
     test_client = app.test_client()
     yield test_client
 
-# ---------- 28 tests PASSED in 0.66s ---------- #
+# ---------- 29 tests PASSED in 0.87s ---------- #
