@@ -7,8 +7,8 @@ class User(db.Model):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(100))
-    email = Column(String(100))
+    name = Column(String(100), nullable=False)
+    email = Column(String(100), nullable=False)
     key = Column(String(100))
     date = Column(DateTime)
 
@@ -19,12 +19,12 @@ class Regression(db.Model):
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
-    source = Column(String(100))
-    title = Column(String)
-    independent = Column(String)
-    dependent = Column(String)
-    data_set = Column(ARRAY(Float))
-    precision = Column(Integer)
+    source = Column(String(100), nullable=False)
+    title = Column(String, nullable=False)
+    independent = Column(String, nullable=False)
+    dependent = Column(String, nullable=False)
+    precision = Column(Integer, nullable=False)
+    data_set = Column(ARRAY(Float), nullable=False)
     linear_coefficients = Column(ARRAY(Float))
     linear_points = Column(JSON)
     linear_correlation = Column(Float)
