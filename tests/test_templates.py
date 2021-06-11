@@ -177,3 +177,18 @@ class TestSignupTemplate:
     def test_signup_loads(app, client):
         res = client.get('/signup')
         assert res.status_code == 200
+
+    def test_signup_displays_heading(app, client):
+        res = client.get('/signup')
+        assert b'<h1>Sign Up</h1>' in res.data
+    
+    def test_signup_displays_content(app, client):
+        res = client.get('/signup')
+        assert b'give us your email address' in res.data
+    
+    def test_signup_displays_form(app, client):
+        res = client.get('/signup')
+        assert b'form' in res.data
+        assert b'<label for="name">Name</label>' in res.data
+        assert b'<label for="email">Email</label>' in res.data
+        assert b'<input id="submit" name="submit" type="submit" value="Submit">' in res.data
