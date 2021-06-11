@@ -174,4 +174,6 @@ class TestMathTemplate:
         assert len(latexes) == 24
 
 class TestSignupTemplate:
-    pass
+    def test_signup_loads(app, client, db):
+        res = client.get('/signup')
+        assert res.status_code == 200
