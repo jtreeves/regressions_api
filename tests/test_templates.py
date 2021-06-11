@@ -1,3 +1,5 @@
+import re
+
 class TestBaseTemplate:
     def test_base_renders_partials(app, client):
         res = client.get('/')
@@ -109,9 +111,67 @@ class TestUsageTemplate:
         assert b'<span class="keys">"sinusoidal_coefficients"</span>' in res.data
 
 class TestMathTemplate:
-    def test_math(app, client):
+    def test_math_loads(app, client):
         res = client.get('/math')
         assert res.status_code == 200
+    
+    def test_math_displays_heading(app, client):
+        res = client.get('/math')
+        assert b'<h1>Math</h1>' in res.data
+    
+    def test_math_displays_content(app, client):
+        res = client.get('/math')
+        assert b'some explanations of mathematical concepts relevant to the output' in res.data
+    
+    def test_math_displays_toc(app, client):
+        res = client.get('/math')
+        assert b'<mark>Contents</mark>' in res.data
+    
+    def test_math_displays_subheadings(app, client):
+        res = client.get('/math')
+        assert b'<h2 id="equations">Equations</h2>' in res.data
+        assert b'<h2 id="correlation">Correlation</h2>' in res.data
+        assert b'<h2 id="points">Points</h2>' in res.data
+    
+    def test_math_displays_subsubheadings(app, client):
+        res = client.get('/math')
+        assert b'<h3>Linear</h3>' in res.data
+        assert b'<h3>Quadratic</h3>' in res.data
+        assert b'<h3>Cubic</h3>' in res.data
+        assert b'<h3>Hyperbolic</h3>' in res.data
+        assert b'<h3>Exponential</h3>' in res.data
+        assert b'<h3>Logarithmic</h3>' in res.data
+        assert b'<h3>Logistic</h3>' in res.data
+        assert b'<h3>Sinusoidal</h3>' in res.data
+        assert b'<h3>Roots</h3>' in res.data
+        assert b'<h3>Maxima</h3>' in res.data
+        assert b'<h3>Minima</h3>' in res.data
+        assert b'<h3>Inflections</h3>' in res.data
+    
+    def test_math_displays_graphs(app, client):
+        res = client.get('/math')
+        assert b'src="/images/linear.png"' in res.data
+        assert b'src="/images/quadratic.png"' in res.data
+        assert b'src="/images/cubic.png"' in res.data
+        assert b'src="/images/hyperbolic.png"' in res.data
+        assert b'src="/images/exponential.png"' in res.data
+        assert b'src="/images/logarithmic.png"' in res.data
+        assert b'src="/images/logistic.png"' in res.data
+        assert b'src="/images/sinusoidal.png"' in res.data
+        assert b'src="/images/root.png"' in res.data
+        assert b'src="/images/maximum.png"' in res.data
+        assert b'src="/images/minimum.png"' in res.data
+        assert b'src="/images/inflection.png"' in res.data
+    
+    def test_math_displays_latex(app, client):
+        res = client.get('/math')
+        latexes = [
+            words.start() for words in re.finditer(
+                b'lang="latex"', 
+                res.data
+            )
+        ]
+        assert len(latexes) == 24
 
 class TestSignupTemplate:
     pass

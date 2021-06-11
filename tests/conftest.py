@@ -1,5 +1,4 @@
 import pytest
-
 from app import app as flask_app
 
 @pytest.fixture
@@ -10,4 +9,4 @@ def app():
 def client(app):
     return app.test_client()
 
-# ---------- 21 tests PASSED in 0.44s ---------- #
+# ---------- 28 tests PASSED in 0.66s ---------- #
