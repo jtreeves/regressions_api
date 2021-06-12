@@ -370,8 +370,10 @@ class TestAPIRoute:
             email = 'temporary@email.com'
         ).first()
 
+        found_user_id = found_user.id
+
         new_regression = Regression(
-            user_id = found_user.id,
+            user_id = found_user_id,
             source = 'TestDeleteSource',
             title = 'Test Delete Title',
             independent = 'Test Delete Independent',
@@ -409,16 +411,17 @@ class TestAPIRoute:
         db.session.add(new_regression)
         db.session.commit()
 
-        found_regression = Regression.query.filter_by(
-            user_id = found_user.id, 
-            source = 'TestDeleteSource'
-        ).first()
-
         res = client.delete(
             '/api?key=ABC123&source=TestDeleteSource'
         )
+        
+        found_regression = Regression.query.filter_by(
+            user_id = found_user_id, 
+            source = 'TestDeleteSource'
+        ).first()
 
         assert res.status_code == 204
+        assert not found_regression
         
         db.session.delete(found_user)
         db.session.commit()
