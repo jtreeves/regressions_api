@@ -90,8 +90,8 @@ class TestSignUpForm:
                 assert submit.data == False
 
     def test_submit_validates_new_signup_form(self, app, client):
-        @app.route("/form", methods=["POST"])
-        def form_route():
+        @app.route("/passing_form", methods=["POST"])
+        def passing_form_route():
             app.config['WTF_CSRF_ENABLED'] = False
             new_form = signup(
                 name = 'unique',
@@ -104,7 +104,7 @@ class TestSignUpForm:
             }
             return new_form_statuses
 
-        res = client.post("/form")
+        res = client.post("/passing_form")
         res_statuses = json.loads(res.data.decode())
         assert res_statuses['submitted']
         assert res_statuses['validated']
@@ -120,8 +120,8 @@ class TestSignUpForm:
         db.session.add(new_user)
         db.session.commit()
 
-        @app.route("/otherform", methods=["POST"])
-        def other_form_route():
+        @app.route("/failing_form", methods=["POST"])
+        def failing_form_route():
             old_form = signup(
                 name = 'test_submit',
                 email = 'an@email.com',
@@ -134,7 +134,7 @@ class TestSignUpForm:
             }
             return old_form_statuses
 
-        res = client.post("/otherform")
+        res = client.post("/failing_form")
         res_statuses = json.loads(res.data.decode())
         assert res_statuses['submitted']
         assert not res_statuses['validated']
