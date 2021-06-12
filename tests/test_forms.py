@@ -1,8 +1,5 @@
 import pytest
-# import asyncio
-
 import json
-
 from datetime import datetime
 from app import db
 from app.models import User
@@ -91,11 +88,8 @@ class TestSignUpForm:
                 assert email.data == None
                 assert key.data == 'ABC123'
                 assert submit.data == False
-    
-    # @pytest.mark.asyncio
-    def test_submit_validates_new_signup_form(self, app, client):
-        # new_form = None
 
+    def test_submit_validates_new_signup_form(self, app, client):
         @app.route("/form", methods=["POST"])
         def form_route():
             app.config['WTF_CSRF_ENABLED'] = False
@@ -104,80 +98,51 @@ class TestSignUpForm:
                 email = 'unique@email.com',
                 key = 'ABC123'
             )
-            print('NEW FORM: ', new_form)
-            print('NEW FORM KEYS: ', dir(new_form))
-            print('NEW FORM VALIDATE ON SUBMIT: ', new_form.validate_on_submit())
-            # assert new_form.is_submitted()
-            # assert new_form.validate_on_submit()
-            # assert 1 == 2
-            return_object = {
+            new_form_statuses = {
                 'submitted': new_form.is_submitted(),
                 'validated': new_form.validate_on_submit()
             }
-            return return_object
+            return new_form_statuses
 
         res = client.post("/form")
-        decoded_res = json.loads(res.data.decode())
-        print('DECODED_RES: ', decoded_res)
-        submitted = decoded_res['submitted']
-        validated = decoded_res['validated']
-        # print('SUBMITTED: ', submitted)
-
-        # print('NEW FORM TOP LEVEL: ', new_form)
-        # print('NEW FORM TOP LEVEL VALIDATE: ', new_form.validate_on_submit())
-
-        # print('RES: ', res)
-        # print('RES KEYS: ', dir(res))
-        # print('RES.DATA: ', res.data)
-        # print('DECODED RES.DATA: ', json.loads(res.data.decode()))
-        # print('RES.__dict__: ', res.__dict__)
-        # print('RES.RESPONSE: ', res.response)
-        # print('RES.RESPONSE KEYS: ', dir(res.response))
-        # print('RES.RESPONSE.__dict__: ', res.response.__dict__)
-        # print('RES.DATA.VALIDATED: ', res.data.validated)
-
-        # assert res.is_submitted()
-        # assert res.validate_on_submit()
-
-        assert 1 == 2
-
-        # found_user = User.query.filter_by(
-        #     email = 'unique@email.com'
-        # ).first()
-
-        # db.session.delete(found_user)
-        # db.session.commit()
+        res_statuses = json.loads(res.data.decode())
+        assert res_statuses['submitted']
+        assert res_statuses['validated']
     
-    # def test_submit_fails_validate_old_signup_form(self, app, client):
-    #     new_user = User(
-    #         name = 'test_submit',
-    #         email = 'an@email.com',
-    #         key = 'ABC123',
-    #         date = datetime.now()
-    #     )
+    def test_submit_fails_validate_old_signup_form(self, app, client):
+        new_user = User(
+            name = 'test_submit',
+            email = 'an@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
 
-    #     db.session.add(new_user)
-    #     db.session.commit()
+        db.session.add(new_user)
+        db.session.commit()
 
-    #     @app.route("/otherform", methods=["POST"])
-    #     def other_form_route():
-    #         old_form = signup(
-    #             name = 'test_submit',
-    #             email = 'an@email.com',
-    #             key = 'ABC123'
-    #         )
-    #         print('OLD FORM: ', old_form)
-    #         print('OLD FORM KEYS: ', dir(old_form))
-    #         assert old_form.is_submitted()
-    #         assert not old_form.validate_on_submit()
-    #         assert "email" in old_form.errors
-    #         assert 1 == 2
+        @app.route("/otherform", methods=["POST"])
+        def other_form_route():
+            old_form = signup(
+                name = 'test_submit',
+                email = 'an@email.com',
+                key = 'ABC123'
+            )
+            old_form_statuses = {
+                'submitted': old_form.is_submitted(),
+                'validated': old_form.validate_on_submit(),
+                'errors': old_form.errors
+            }
+            return old_form_statuses
 
-    #     client.post("/otherform")
+        res = client.post("/otherform")
+        res_statuses = json.loads(res.data.decode())
+        assert res_statuses['submitted']
+        assert not res_statuses['validated']
+        assert "email" in res_statuses['errors']
 
-    #     found_user = User.query.filter_by(
-    #         email = 'an@email.com'
-    #     ).first()
+        found_user = User.query.filter_by(
+            email = 'an@email.com'
+        ).first()
 
-    #     db.session.delete(found_user)
-    #     db.session.commit()
+        db.session.delete(found_user)
+        db.session.commit()
