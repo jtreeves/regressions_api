@@ -1,4 +1,3 @@
-import pytest
 import json
 from datetime import datetime
 from app import db
