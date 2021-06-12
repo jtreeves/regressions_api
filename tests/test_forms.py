@@ -1,7 +1,7 @@
 import pytest
 from datetime import datetime
 from app import db
-from app.models import User, Regression
+from app.models import User
 from app.forms import SignUpForm as signup
 
 class TestValidateEmail:
@@ -75,12 +75,35 @@ class TestSignUpForm:
                 '/signup'
             ):
                 blank_form = signup(key = 'ABC123')
-                name_object = vars(blank_form)['_fields']['name']
-                email_object = vars(blank_form)['_fields']['email']
-                key_object = vars(blank_form)['_fields']['key']
-                assert 'input id="name" name="name" required type="text"' in str(name_object)
-                assert 'input id="email" name="email" required type="text"' in str(email_object)
-                assert 'input id="key" name="key" required type="hidden"' in str(key_object)
-                assert name_object.data == None
-                assert email_object.data == None
-                assert key_object.data == 'ABC123'
+                name = blank_form.name
+                email = blank_form.email
+                key = blank_form.key
+                submit = blank_form.submit
+                assert 'input id="name" name="name" required type="text"' in str(name)
+                assert 'input id="email" name="email" required type="text"' in str(email)
+                assert 'input id="key" name="key" required type="hidden"' in str(key)
+                assert 'input id="submit" name="submit" type="submit" value="Submit"' in str(submit)
+                assert name.data == None
+                assert email.data == None
+                assert key.data == 'ABC123'
+                assert submit.data == False
+    
+    def test_submit_validates_new_signup_form(self, app, client):
+        with app.app_context():
+            with app.test_request_context(
+                '/signup'
+            ):
+                new_form = signup(
+                    name = 'unique',
+                    email = 'unique@email.com',
+                    key = 'ABC123',
+                    submit = True
+                )
+                res = client.post('/signup')
+                print('NEW FORM: ', new_form)
+                print('KEYS IN NEW FORM: ', dir(new_form))
+                print('INVOCATION OF VALIDATE ON SUBMIT: ', new_form.validate_on_submit())
+                print('RES: ', res)
+                print('KEYS IN RES: ', dir(res))
+                print('RES.DATA: ', res.data)
+                assert new_form.validate_on_submit() == True
