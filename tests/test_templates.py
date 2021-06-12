@@ -40,10 +40,6 @@ class TestBaseTemplate:
         assert b'rel="apple-touch-icon"' in res.data
 
 class TestHomeTemplate:
-    def test_home_loads(self, client):
-        res = client.get('/')
-        assert res.status_code == 200
-
     def test_home_displays_content(self, client):
         res = client.get('/')
         assert b'so much data in our day-to-day lives' in res.data
