@@ -170,8 +170,10 @@ class TestAPIRoute:
             email = 'temporary@email.com'
         ).first()
 
+        found_user_id = found_user.id
+
         new_regression = Regression(
-            user_id = found_user.id,
+            user_id = found_user_id,
             source = 'TestGetSource',
             title = 'Test Get Title',
             independent = 'Test Get Independent',
@@ -210,7 +212,7 @@ class TestAPIRoute:
         db.session.commit()
 
         found_regression = Regression.query.filter_by(
-            user_id = found_user.id, 
+            user_id = found_user_id, 
             source = 'TestGetSource'
         ).first()
 
@@ -314,8 +316,10 @@ class TestAPIRoute:
             email = 'temporary@email.com'
         ).first()
 
+        found_user_id = found_user.id
+
         found_regression = Regression.query.filter_by(
-            user_id = found_user.id, 
+            user_id = found_user_id, 
             source = 'TestPostSource'
         ).first()
 
@@ -370,8 +374,10 @@ class TestAPIRoute:
             email = 'temporary@email.com'
         ).first()
 
+        found_user_id = found_user.id
+
         new_regression = Regression(
-            user_id = found_user.id,
+            user_id = found_user_id,
             source = 'TestPostSourceTaken',
             title = 'Test Post Source Taken Title',
             independent = 'Test Post Source Taken Independent',
@@ -410,7 +416,7 @@ class TestAPIRoute:
         db.session.commit()
 
         found_regression = Regression.query.filter_by(
-            user_id = found_user.id, 
+            user_id = found_user_id, 
             source = 'TestPostSourceTaken'
         ).first()
 
@@ -447,8 +453,10 @@ class TestAPIRoute:
             email = 'temporary@email.com'
         ).first()
 
+        found_user_id = found_user.id
+
         new_regression = Regression(
-            user_id = found_user.id,
+            user_id = found_user_id,
             source = 'TestPutSource',
             title = 'Test Put Title',
             independent = 'Test Put Independent',
@@ -487,7 +495,7 @@ class TestAPIRoute:
         db.session.commit()
 
         found_regression = Regression.query.filter_by(
-            user_id = found_user.id, 
+            user_id = found_user_id, 
             source = 'TestPutSource'
         ).first()
 
