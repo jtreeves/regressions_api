@@ -7,7 +7,7 @@ from .models import User
 class SignUpForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    key = HiddenField()
+    key = HiddenField(validators=[DataRequired()])
     submit = SubmitField('Submit')
 
     def validate_email(self, email):
