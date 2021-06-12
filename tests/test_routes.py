@@ -172,10 +172,10 @@ class TestAPIRoute:
 
         new_regression = Regression(
             user_id = found_user.id,
-            source = 'MockSource',
-            title = 'Mock Title',
-            independent = 'Mock Independent',
-            dependent = 'Mock Dependent',
+            source = 'TestGetSource',
+            title = 'Test Get Title',
+            independent = 'Test Get Independent',
+            dependent = 'Test Get Dependent',
             precision = 4,
             data_set = [[1, 2], [3, 4], [5, 6]],
             linear_coefficients = [2, 3],
@@ -211,18 +211,18 @@ class TestAPIRoute:
 
         found_regression = Regression.query.filter_by(
             user_id = found_user.id, 
-            source = 'MockSource'
+            source = 'TestGetSource'
         ).first()
 
         res = client.get(
-            '/api?key=ABC123&source=MockSource'
+            '/api?key=ABC123&source=TestGetSource'
         )
 
         analysis = json.loads(res.data.decode())
 
         assert res.status_code == 200
-        assert analysis['source'] == 'MockSource'
-        assert analysis['title'] == 'Mock Title'
+        assert analysis['source'] == 'TestGetSource'
+        assert analysis['title'] == 'Test Get Title'
         assert analysis['best_fit'] == 'hyperbolic'
         assert analysis['sinusoidal_correlation'] == 0.5
 
@@ -242,11 +242,11 @@ class TestAPIRoute:
         db.session.commit()
 
         res = client.post(
-            '/api?key=ABC123&source=MySource',
+            '/api?key=ABC123&source=TestPostSource',
             json = {
-                'title': 'Test Title',
-                'independent': 'Test Independent',
-                'dependent': 'Test Dependent',
+                'title': 'Test Post Title',
+                'independent': 'Test Post Independent',
+                'dependent': 'Test Post Dependent',
                 'precision': 4,
                 'data_set': [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16], [17, 18], [19, 20]]
             }
@@ -255,8 +255,8 @@ class TestAPIRoute:
         analysis = json.loads(res.data.decode())
 
         assert res.status_code == 201
-        assert analysis['source'] == 'MySource'
-        assert analysis['title'] == 'Test Title'
+        assert analysis['source'] == 'TestPostSource'
+        assert analysis['title'] == 'Test Post Title'
         assert analysis['best_fit'] == 'linear'
         assert analysis['sinusoidal_correlation'] == 0.3046
 
@@ -266,8 +266,90 @@ class TestAPIRoute:
 
         found_regression = Regression.query.filter_by(
             user_id = found_user.id, 
-            source = 'MySource'
+            source = 'TestPostSource'
         ).first()
+
+        db.session.delete(found_regression)
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_api_returns_put(self, client):
+        new_user = User(
+            name = 'temporary user',
+            email = 'temporary@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'temporary@email.com'
+        ).first()
+
+        new_regression = Regression(
+            user_id = found_user.id,
+            source = 'TestPutSource',
+            title = 'Test Put Title',
+            independent = 'Test Put Independent',
+            dependent = 'Test Put Dependent',
+            precision = 4,
+            data_set = [[1, 2], [3, 4], [5, 6]],
+            linear_coefficients = [2, 3],
+            linear_points = {'roots': [[1, 0]], 'inflections': [None]},
+            linear_correlation = 0.5,
+            quadratic_coefficients = [2, 3, 5],
+            quadratic_points = {'roots': [[1, 0], [10, 0]], 'maxima': [[3, 57]]},
+            quadratic_correlation = 0.5,
+            cubic_coefficients = [2, 3, 5, 7],
+            cubic_points = {'roots': [[1, 0], [5, 0], [10, 0]], 'maxima': [[3, 57]]},
+            cubic_correlation = 0.5,
+            hyperbolic_coefficients = [2, 3],
+            hyperbolic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            hyperbolic_correlation = 0.5,
+            exponential_coefficients = [2, 3],
+            exponential_points = {'roots': [None], 'maxima': [None]},
+            exponential_correlation = 0.5,
+            logarithmic_coefficients = [2, 3],
+            logarithmic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            logarithmic_correlation = 0.5,
+            logistic_coefficients = [2, 3, 5],
+            logistic_points = {'roots': [None], 'inflections': [[5, 7]]},
+            logistic_correlation = 0.5,
+            sinusoidal_coefficients = [2, 3, 5, 7],
+            sinusoidal_points = {'roots': [[2, 0], [4, 0]], 'inflections': [[5, 7], [7, 7]]},
+            sinusoidal_correlation = 0.5,
+            best_fit = 'hyperbolic',
+            date = datetime.now()
+        )
+
+        db.session.add(new_regression)
+        db.session.commit()
+
+        found_regression = Regression.query.filter_by(
+            user_id = found_user.id, 
+            source = 'TestPutSource'
+        ).first()
+
+        res = client.put(
+            '/api?key=ABC123&source=TestPutSource',
+            json = {
+                'title': 'Test Change Put Title',
+                'independent': 'Test Change Put Independent',
+                'dependent': 'Test Change Put Dependent',
+                'precision': 4,
+                'data_set': [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16], [17, 18], [19, 20]]
+            }
+        )
+
+        analysis = json.loads(res.data.decode())
+
+        assert res.status_code == 200
+        assert analysis['source'] == 'TestPutSource'
+        assert analysis['title'] == 'Test Change Put Title'
+        assert analysis['best_fit'] != 'hyperbolic'
+        assert analysis['sinusoidal_correlation'] == 0.3046
 
         db.session.delete(found_regression)
         db.session.delete(found_user)
