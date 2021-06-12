@@ -255,6 +255,31 @@ class TestAPIRoute:
         db.session.delete(found_user)
         db.session.commit()
     
+    def test_api_fails_get_unfound(self, client):
+        new_user = User(
+            name = 'temporary user',
+            email = 'temporary@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'temporary@email.com'
+        ).first()
+
+        res = client.get(
+            '/api?key=ABC123&source=NonexistentSource'
+        )
+
+        assert res.status_code == 404
+        assert b'Data set not found' in res.data
+
+        db.session.delete(found_user)
+        db.session.commit()
+    
     def test_api_returns_post(self, client):
         new_user = User(
             name = 'temporary user',
@@ -443,6 +468,38 @@ class TestAPIRoute:
 
         db.session.delete(found_user)
         db.session.commit()
+    
+    def test_api_fails_put_unfound(self, client):
+        new_user = User(
+            name = 'temporary user',
+            email = 'temporary@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'temporary@email.com'
+        ).first()
+
+        res = client.put(
+            '/api?key=ABC123&source=NonexistentSource',
+            json = {
+                'title': 'Test Put Fails without Source Title',
+                'independent': 'Test Put Fails without Source Independent',
+                'dependent': 'Test Put Fails without Source Dependent',
+                'precision': 4,
+                'data_set': [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16], [17, 18], [19, 20]]
+            }
+        )
+
+        assert res.status_code == 404
+        assert b'Data set not found' in res.data
+
+        db.session.delete(found_user)
+        db.session.commit()
 
     def test_api_returns_delete(self, client):
         new_user = User(
@@ -536,6 +593,31 @@ class TestAPIRoute:
 
         assert res.status_code == 403
         assert b'Source must be provided' in res.data
+
+        db.session.delete(found_user)
+        db.session.commit()
+
+    def test_api_fails_delete_unfound(self, client):
+        new_user = User(
+            name = 'temporary user',
+            email = 'temporary@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'temporary@email.com'
+        ).first()
+
+        res = client.delete(
+            '/api?key=ABC123&source=NonexistentSource'
+        )
+
+        assert res.status_code == 404
+        assert b'Data set not found' in res.data
 
         db.session.delete(found_user)
         db.session.commit()
