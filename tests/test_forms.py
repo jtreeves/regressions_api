@@ -1,4 +1,8 @@
 import pytest
+# import asyncio
+
+import json
+
 from datetime import datetime
 from app import db
 from app.models import User
@@ -88,22 +92,92 @@ class TestSignUpForm:
                 assert key.data == 'ABC123'
                 assert submit.data == False
     
+    # @pytest.mark.asyncio
     def test_submit_validates_new_signup_form(self, app, client):
-        with app.app_context():
-            with app.test_request_context(
-                '/signup'
-            ):
-                new_form = signup(
-                    name = 'unique',
-                    email = 'unique@email.com',
-                    key = 'ABC123',
-                    submit = True
-                )
-                res = client.post('/signup')
-                print('NEW FORM: ', new_form)
-                print('KEYS IN NEW FORM: ', dir(new_form))
-                print('INVOCATION OF VALIDATE ON SUBMIT: ', new_form.validate_on_submit())
-                print('RES: ', res)
-                print('KEYS IN RES: ', dir(res))
-                print('RES.DATA: ', res.data)
-                assert new_form.validate_on_submit() == True
+        # new_form = None
+
+        @app.route("/form", methods=["POST"])
+        def form_route():
+            app.config['WTF_CSRF_ENABLED'] = False
+            new_form = signup(
+                name = 'unique',
+                email = 'unique@email.com',
+                key = 'ABC123'
+            )
+            print('NEW FORM: ', new_form)
+            print('NEW FORM KEYS: ', dir(new_form))
+            print('NEW FORM VALIDATE ON SUBMIT: ', new_form.validate_on_submit())
+            # assert new_form.is_submitted()
+            # assert new_form.validate_on_submit()
+            # assert 1 == 2
+            return_object = {
+                'submitted': new_form.is_submitted(),
+                'validated': new_form.validate_on_submit()
+            }
+            return return_object
+
+        res = client.post("/form")
+        decoded_res = json.loads(res.data.decode())
+        print('DECODED_RES: ', decoded_res)
+        submitted = decoded_res['submitted']
+        validated = decoded_res['validated']
+        # print('SUBMITTED: ', submitted)
+
+        # print('NEW FORM TOP LEVEL: ', new_form)
+        # print('NEW FORM TOP LEVEL VALIDATE: ', new_form.validate_on_submit())
+
+        # print('RES: ', res)
+        # print('RES KEYS: ', dir(res))
+        # print('RES.DATA: ', res.data)
+        # print('DECODED RES.DATA: ', json.loads(res.data.decode()))
+        # print('RES.__dict__: ', res.__dict__)
+        # print('RES.RESPONSE: ', res.response)
+        # print('RES.RESPONSE KEYS: ', dir(res.response))
+        # print('RES.RESPONSE.__dict__: ', res.response.__dict__)
+        # print('RES.DATA.VALIDATED: ', res.data.validated)
+
+        # assert res.is_submitted()
+        # assert res.validate_on_submit()
+
+        assert 1 == 2
+
+        # found_user = User.query.filter_by(
+        #     email = 'unique@email.com'
+        # ).first()
+
+        # db.session.delete(found_user)
+        # db.session.commit()
+    
+    # def test_submit_fails_validate_old_signup_form(self, app, client):
+    #     new_user = User(
+    #         name = 'test_submit',
+    #         email = 'an@email.com',
+    #         key = 'ABC123',
+    #         date = datetime.now()
+    #     )
+
+    #     db.session.add(new_user)
+    #     db.session.commit()
+
+    #     @app.route("/otherform", methods=["POST"])
+    #     def other_form_route():
+    #         old_form = signup(
+    #             name = 'test_submit',
+    #             email = 'an@email.com',
+    #             key = 'ABC123'
+    #         )
+    #         print('OLD FORM: ', old_form)
+    #         print('OLD FORM KEYS: ', dir(old_form))
+    #         assert old_form.is_submitted()
+    #         assert not old_form.validate_on_submit()
+    #         assert "email" in old_form.errors
+    #         assert 1 == 2
+
+    #     client.post("/otherform")
+
+    #     found_user = User.query.filter_by(
+    #         email = 'an@email.com'
+    #     ).first()
+
+    #     db.session.delete(found_user)
+    #     db.session.commit()
