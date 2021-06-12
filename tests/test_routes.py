@@ -522,6 +522,166 @@ class TestAPIRoute:
         db.session.delete(found_user)
         db.session.commit()
 
+    def test_api_fails_post_small_set(self, client):
+        new_user = User(
+            name = 'temporary user',
+            email = 'temporary@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'temporary@email.com'
+        ).first()
+
+        res = client.post(
+            '/api?key=ABC123&source=TestPostFailsSmallSetSource',
+            json = {
+                'title': 'Test Post Fails with Small Set Title',
+                'independent': 'Test Post Fails with Small Set Independent',
+                'dependent': 'Test Post Fails with Small Set Dependent',
+                'precision': 4,
+                'data_set': [[1, 2], [3, 4], [5, 6]]
+            }
+        )
+
+        assert res.status_code == 403
+        assert b'Data set must contain at least 10 points' in res.data
+
+        db.session.delete(found_user)
+        db.session.commit()
+
+    def test_api_fails_post_nonlist_set(self, client):
+        new_user = User(
+            name = 'temporary user',
+            email = 'temporary@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'temporary@email.com'
+        ).first()
+
+        res = client.post(
+            '/api?key=ABC123&source=TestPostFailsNonlistSetSource',
+            json = {
+                'title': 'Test Post Fails with Nonlist Set Title',
+                'independent': 'Test Post Fails with Nonlist Set Independent',
+                'dependent': 'Test Post Fails with Nonlist Set Dependent',
+                'precision': 4,
+                'data_set': {'first_point': {'x': 1, 'y': 2}, 'second_point': {'x': 3, 'y': 4}}
+            }
+        )
+
+        assert res.status_code == 403
+        assert b'Data set must be a list' in res.data
+
+        db.session.delete(found_user)
+        db.session.commit()
+
+    def test_api_fails_post_nonlist_points(self, client):
+        new_user = User(
+            name = 'temporary user',
+            email = 'temporary@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'temporary@email.com'
+        ).first()
+
+        res = client.post(
+            '/api?key=ABC123&source=TestPostFailsNonlistPointsSource',
+            json = {
+                'title': 'Test Post Fails with Nonlist Points Title',
+                'independent': 'Test Post Fails with Nonlist Points Independent',
+                'dependent': 'Test Post Fails with Nonlist Points Dependent',
+                'precision': 4,
+                'data_set': [{'x': 1, 'y': 2}, {'x': 3, 'y': 4}]
+            }
+        )
+
+        assert res.status_code == 403
+        assert b'Each coordinate pair within data set must be a list' in res.data
+
+        db.session.delete(found_user)
+        db.session.commit()
+
+    def test_api_fails_post_long_points(self, client):
+        new_user = User(
+            name = 'temporary user',
+            email = 'temporary@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'temporary@email.com'
+        ).first()
+
+        res = client.post(
+            '/api?key=ABC123&source=TestPostFailsLongPointsSource',
+            json = {
+                'title': 'Test Post Fails with Long Points Title',
+                'independent': 'Test Post Fails with Long Points Independent',
+                'dependent': 'Test Post Fails with Long Points Dependent',
+                'precision': 4,
+                'data_set': [[1, 2, 3], [4, 5, 6]]
+            }
+        )
+
+        assert res.status_code == 403
+        assert b'Each coordinate pair within data set must contain exactly 2 numbers' in res.data
+
+        db.session.delete(found_user)
+        db.session.commit()
+
+    def test_api_fails_post_string_points(self, client):
+        new_user = User(
+            name = 'temporary user',
+            email = 'temporary@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'temporary@email.com'
+        ).first()
+
+        res = client.post(
+            '/api?key=ABC123&source=TestPostFailsStringPointsSource',
+            json = {
+                'title': 'Test Post Fails with String Points Title',
+                'independent': 'Test Post Fails with String Points Independent',
+                'dependent': 'Test Post Fails with String Points Dependent',
+                'precision': 4,
+                'data_set': [[1, 2], ['three', 4], [5, 6]]
+            }
+        )
+
+        assert res.status_code == 403
+        assert b'All numbers within coordinate pairs within data set must be integers or floats' in res.data
+
+        db.session.delete(found_user)
+        db.session.commit()
+
     def test_api_returns_put(self, client):
         new_user = User(
             name = 'temporary user',
@@ -833,6 +993,401 @@ class TestAPIRoute:
 
         assert res.status_code == 403
         assert b'Precision must be a positive integer' in res.data
+
+        db.session.delete(found_regression)
+        db.session.delete(found_user)
+        db.session.commit()
+
+    def test_api_fails_put_small_set(self, client):
+        new_user = User(
+            name = 'temporary user',
+            email = 'temporary@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'temporary@email.com'
+        ).first()
+
+        found_user_id = found_user.id
+
+        new_regression = Regression(
+            user_id = found_user_id,
+            source = 'TestPutFailsSmallSetSource',
+            title = 'Test Put Fails with Small Set Title',
+            independent = 'Test Put Fails with Small Set Independent',
+            dependent = 'Test Put Fails with Small Set Dependent',
+            precision = 4,
+            data_set = [[1.5, 2.5], [3.5, 4.5], [5.5, 6.5]],
+            linear_coefficients = [2, 3],
+            linear_points = {'roots': [[1, 0]], 'inflections': [None]},
+            linear_correlation = 0.5,
+            quadratic_coefficients = [2, 3, 5],
+            quadratic_points = {'roots': [[1, 0], [10, 0]], 'maxima': [[3, 57]]},
+            quadratic_correlation = 0.5,
+            cubic_coefficients = [2, 3, 5, 7],
+            cubic_points = {'roots': [[1, 0], [5, 0], [10, 0]], 'maxima': [[3, 57]]},
+            cubic_correlation = 0.5,
+            hyperbolic_coefficients = [2, 3],
+            hyperbolic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            hyperbolic_correlation = 0.5,
+            exponential_coefficients = [2, 3],
+            exponential_points = {'roots': [None], 'maxima': [None]},
+            exponential_correlation = 0.5,
+            logarithmic_coefficients = [2, 3],
+            logarithmic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            logarithmic_correlation = 0.5,
+            logistic_coefficients = [2, 3, 5],
+            logistic_points = {'roots': [None], 'inflections': [[5, 7]]},
+            logistic_correlation = 0.5,
+            sinusoidal_coefficients = [2, 3, 5, 7],
+            sinusoidal_points = {'roots': [[2, 0], [4, 0]], 'inflections': [[5, 7], [7, 7]]},
+            sinusoidal_correlation = 0.5,
+            best_fit = 'hyperbolic',
+            date = datetime.now()
+        )
+
+        db.session.add(new_regression)
+        db.session.commit()
+
+        found_regression = Regression.query.filter_by(
+            user_id = found_user_id, 
+            source = 'TestPutFailsSmallSetSource'
+        ).first()
+
+        res = client.put(
+            '/api?key=ABC123&source=TestPutFailsSmallSetSource',
+            json = {
+                'title': 'Test Put Fails with Small Set Updated Title',
+                'independent': 'Test Put Fails with Small Set Updated Independent',
+                'dependent': 'Test Put Fails with Small Set Updated Dependent',
+                'precision': 4,
+                'data_set': [[1, 2], [3, 4], [5, 6]]
+            }
+        )
+
+        assert res.status_code == 403
+        assert b'Data set must contain at least 10 points' in res.data
+
+        db.session.delete(found_regression)
+        db.session.delete(found_user)
+        db.session.commit()
+
+    def test_api_fails_put_nonlist_set(self, client):
+        new_user = User(
+            name = 'temporary user',
+            email = 'temporary@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'temporary@email.com'
+        ).first()
+
+        found_user_id = found_user.id
+
+        new_regression = Regression(
+            user_id = found_user_id,
+            source = 'TestPutFailsNonlistSetSource',
+            title = 'Test Put Fails with Nonlist Set Title',
+            independent = 'Test Put Fails with Nonlist Set Independent',
+            dependent = 'Test Put Fails with Nonlist Set Dependent',
+            precision = 4,
+            data_set = [[1.5, 2.5], [3.5, 4.5], [5.5, 6.5]],
+            linear_coefficients = [2, 3],
+            linear_points = {'roots': [[1, 0]], 'inflections': [None]},
+            linear_correlation = 0.5,
+            quadratic_coefficients = [2, 3, 5],
+            quadratic_points = {'roots': [[1, 0], [10, 0]], 'maxima': [[3, 57]]},
+            quadratic_correlation = 0.5,
+            cubic_coefficients = [2, 3, 5, 7],
+            cubic_points = {'roots': [[1, 0], [5, 0], [10, 0]], 'maxima': [[3, 57]]},
+            cubic_correlation = 0.5,
+            hyperbolic_coefficients = [2, 3],
+            hyperbolic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            hyperbolic_correlation = 0.5,
+            exponential_coefficients = [2, 3],
+            exponential_points = {'roots': [None], 'maxima': [None]},
+            exponential_correlation = 0.5,
+            logarithmic_coefficients = [2, 3],
+            logarithmic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            logarithmic_correlation = 0.5,
+            logistic_coefficients = [2, 3, 5],
+            logistic_points = {'roots': [None], 'inflections': [[5, 7]]},
+            logistic_correlation = 0.5,
+            sinusoidal_coefficients = [2, 3, 5, 7],
+            sinusoidal_points = {'roots': [[2, 0], [4, 0]], 'inflections': [[5, 7], [7, 7]]},
+            sinusoidal_correlation = 0.5,
+            best_fit = 'hyperbolic',
+            date = datetime.now()
+        )
+
+        db.session.add(new_regression)
+        db.session.commit()
+
+        found_regression = Regression.query.filter_by(
+            user_id = found_user_id, 
+            source = 'TestPutFailsNonlistSetSource'
+        ).first()
+
+        res = client.put(
+            '/api?key=ABC123&source=TestPutFailsNonlistSetSource',
+            json = {
+                'title': 'Test Put Fails with Nonlist Set Updated Title',
+                'independent': 'Test Put Fails with Nonlist Set Updated Independent',
+                'dependent': 'Test Put Fails with Nonlist Set Updated Dependent',
+                'precision': 4,
+                'data_set': {'first_point': {'x': 1, 'y': 2}, 'second_point': {'x': 3, 'y': 4}}
+            }
+        )
+
+        assert res.status_code == 403
+        assert b'Data set must be a list' in res.data
+
+        db.session.delete(found_regression)
+        db.session.delete(found_user)
+        db.session.commit()
+
+    def test_api_fails_put_nonlist_points(self, client):
+        new_user = User(
+            name = 'temporary user',
+            email = 'temporary@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'temporary@email.com'
+        ).first()
+
+        found_user_id = found_user.id
+
+        new_regression = Regression(
+            user_id = found_user_id,
+            source = 'TestPutFailsNonlistPointsSource',
+            title = 'Test Put Fails with Nonlist Points Title',
+            independent = 'Test Put Fails with Nonlist Points Independent',
+            dependent = 'Test Put Fails with Nonlist Points Dependent',
+            precision = 4,
+            data_set = [[1.5, 2.5], [3.5, 4.5], [5.5, 6.5]],
+            linear_coefficients = [2, 3],
+            linear_points = {'roots': [[1, 0]], 'inflections': [None]},
+            linear_correlation = 0.5,
+            quadratic_coefficients = [2, 3, 5],
+            quadratic_points = {'roots': [[1, 0], [10, 0]], 'maxima': [[3, 57]]},
+            quadratic_correlation = 0.5,
+            cubic_coefficients = [2, 3, 5, 7],
+            cubic_points = {'roots': [[1, 0], [5, 0], [10, 0]], 'maxima': [[3, 57]]},
+            cubic_correlation = 0.5,
+            hyperbolic_coefficients = [2, 3],
+            hyperbolic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            hyperbolic_correlation = 0.5,
+            exponential_coefficients = [2, 3],
+            exponential_points = {'roots': [None], 'maxima': [None]},
+            exponential_correlation = 0.5,
+            logarithmic_coefficients = [2, 3],
+            logarithmic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            logarithmic_correlation = 0.5,
+            logistic_coefficients = [2, 3, 5],
+            logistic_points = {'roots': [None], 'inflections': [[5, 7]]},
+            logistic_correlation = 0.5,
+            sinusoidal_coefficients = [2, 3, 5, 7],
+            sinusoidal_points = {'roots': [[2, 0], [4, 0]], 'inflections': [[5, 7], [7, 7]]},
+            sinusoidal_correlation = 0.5,
+            best_fit = 'hyperbolic',
+            date = datetime.now()
+        )
+
+        db.session.add(new_regression)
+        db.session.commit()
+
+        found_regression = Regression.query.filter_by(
+            user_id = found_user_id, 
+            source = 'TestPutFailsNonlistPointsSource'
+        ).first()
+
+        res = client.put(
+            '/api?key=ABC123&source=TestPutFailsNonlistPointsSource',
+            json = {
+                'title': 'Test Put Fails with Nonlist Points Updated Title',
+                'independent': 'Test Put Fails with Nonlist Points Updated Independent',
+                'dependent': 'Test Put Fails with Nonlist Points Updated Dependent',
+                'precision': 4,
+                'data_set': [{'x': 1, 'y': 2}, {'x': 3, 'y': 4}]
+            }
+        )
+
+        assert res.status_code == 403
+        assert b'Each coordinate pair within data set must be a list' in res.data
+
+        db.session.delete(found_regression)
+        db.session.delete(found_user)
+        db.session.commit()
+
+    def test_api_fails_put_long_points(self, client):
+        new_user = User(
+            name = 'temporary user',
+            email = 'temporary@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'temporary@email.com'
+        ).first()
+
+        found_user_id = found_user.id
+
+        new_regression = Regression(
+            user_id = found_user_id,
+            source = 'TestPutFailsLongPointsSource',
+            title = 'Test Put Fails with Long Points Title',
+            independent = 'Test Put Fails with Long Points Independent',
+            dependent = 'Test Put Fails with Long Points Dependent',
+            precision = 4,
+            data_set = [[1.5, 2.5], [3.5, 4.5], [5.5, 6.5]],
+            linear_coefficients = [2, 3],
+            linear_points = {'roots': [[1, 0]], 'inflections': [None]},
+            linear_correlation = 0.5,
+            quadratic_coefficients = [2, 3, 5],
+            quadratic_points = {'roots': [[1, 0], [10, 0]], 'maxima': [[3, 57]]},
+            quadratic_correlation = 0.5,
+            cubic_coefficients = [2, 3, 5, 7],
+            cubic_points = {'roots': [[1, 0], [5, 0], [10, 0]], 'maxima': [[3, 57]]},
+            cubic_correlation = 0.5,
+            hyperbolic_coefficients = [2, 3],
+            hyperbolic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            hyperbolic_correlation = 0.5,
+            exponential_coefficients = [2, 3],
+            exponential_points = {'roots': [None], 'maxima': [None]},
+            exponential_correlation = 0.5,
+            logarithmic_coefficients = [2, 3],
+            logarithmic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            logarithmic_correlation = 0.5,
+            logistic_coefficients = [2, 3, 5],
+            logistic_points = {'roots': [None], 'inflections': [[5, 7]]},
+            logistic_correlation = 0.5,
+            sinusoidal_coefficients = [2, 3, 5, 7],
+            sinusoidal_points = {'roots': [[2, 0], [4, 0]], 'inflections': [[5, 7], [7, 7]]},
+            sinusoidal_correlation = 0.5,
+            best_fit = 'hyperbolic',
+            date = datetime.now()
+        )
+
+        db.session.add(new_regression)
+        db.session.commit()
+
+        found_regression = Regression.query.filter_by(
+            user_id = found_user_id, 
+            source = 'TestPutFailsLongPointsSource'
+        ).first()
+
+        res = client.put(
+            '/api?key=ABC123&source=TestPutFailsLongPointsSource',
+            json = {
+                'title': 'Test Put Fails with Long Points Updated Title',
+                'independent': 'Test Put Fails with Long Points Updated Independent',
+                'dependent': 'Test Put Fails with Long Points Updated Dependent',
+                'precision': 4,
+                'data_set': [[1, 2, 3], [4, 5, 6]]
+            }
+        )
+
+        assert res.status_code == 403
+        assert b'Each coordinate pair within data set must contain exactly 2 numbers' in res.data
+
+        db.session.delete(found_regression)
+        db.session.delete(found_user)
+        db.session.commit()
+
+    def test_api_fails_put_string_points(self, client):
+        new_user = User(
+            name = 'temporary user',
+            email = 'temporary@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'temporary@email.com'
+        ).first()
+
+        found_user_id = found_user.id
+
+        new_regression = Regression(
+            user_id = found_user_id,
+            source = 'TestPutFailsStringPointsSource',
+            title = 'Test Put Fails with String Points Title',
+            independent = 'Test Put Fails with String Points Independent',
+            dependent = 'Test Put Fails with String Points Dependent',
+            precision = 4,
+            data_set = [[1.5, 2.5], [3.5, 4.5], [5.5, 6.5]],
+            linear_coefficients = [2, 3],
+            linear_points = {'roots': [[1, 0]], 'inflections': [None]},
+            linear_correlation = 0.5,
+            quadratic_coefficients = [2, 3, 5],
+            quadratic_points = {'roots': [[1, 0], [10, 0]], 'maxima': [[3, 57]]},
+            quadratic_correlation = 0.5,
+            cubic_coefficients = [2, 3, 5, 7],
+            cubic_points = {'roots': [[1, 0], [5, 0], [10, 0]], 'maxima': [[3, 57]]},
+            cubic_correlation = 0.5,
+            hyperbolic_coefficients = [2, 3],
+            hyperbolic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            hyperbolic_correlation = 0.5,
+            exponential_coefficients = [2, 3],
+            exponential_points = {'roots': [None], 'maxima': [None]},
+            exponential_correlation = 0.5,
+            logarithmic_coefficients = [2, 3],
+            logarithmic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            logarithmic_correlation = 0.5,
+            logistic_coefficients = [2, 3, 5],
+            logistic_points = {'roots': [None], 'inflections': [[5, 7]]},
+            logistic_correlation = 0.5,
+            sinusoidal_coefficients = [2, 3, 5, 7],
+            sinusoidal_points = {'roots': [[2, 0], [4, 0]], 'inflections': [[5, 7], [7, 7]]},
+            sinusoidal_correlation = 0.5,
+            best_fit = 'hyperbolic',
+            date = datetime.now()
+        )
+
+        db.session.add(new_regression)
+        db.session.commit()
+
+        found_regression = Regression.query.filter_by(
+            user_id = found_user_id, 
+            source = 'TestPutFailsStringPointsSource'
+        ).first()
+
+        res = client.put(
+            '/api?key=ABC123&source=TestPutFailsStringPointsSource',
+            json = {
+                'title': 'Test Put Fails with String Points Updated Title',
+                'independent': 'Test Put Fails with String Points Updated Independent',
+                'dependent': 'Test Put Fails with String Points Updated Dependent',
+                'precision': 4,
+                'data_set': [[1, 2], ['three', 4], [5, 6]]
+            }
+        )
+
+        assert res.status_code == 403
+        assert b'All numbers within coordinate pairs within data set must be integers or floats' in res.data
 
         db.session.delete(found_regression)
         db.session.delete(found_user)
