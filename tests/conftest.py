@@ -10,4 +10,4 @@ def client(app):
     test_client = app.test_client()
     yield test_client
 
-# ---------- 74 tests PASSED in 1.49s ---------- #
+# ---------- 94 tests PASSED in 2.01s ---------- #
