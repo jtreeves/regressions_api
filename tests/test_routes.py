@@ -232,6 +232,16 @@ class TestAPIRoute:
         db.session.delete(found_user)
         db.session.commit()
     
+    def test_api_fails_get_without_key(self, client):
+        res = client.get('/api')
+        assert res.status_code == 403
+        assert b'Key must be provided' in res.data
+    
+    def test_api_fails_get_unfound_key(self, client):
+        res = client.get('/api?key=ABC123')
+        assert res.status_code == 401
+        assert b'User not authenticated' in res.data
+    
     def test_api_fails_get_without_source(self, client):
         new_user = User(
             name = 'temporary user',
@@ -257,7 +267,7 @@ class TestAPIRoute:
         db.session.delete(found_user)
         db.session.commit()
     
-    def test_api_fails_get_unfound(self, client):
+    def test_api_fails_get_unfound_source(self, client):
         new_user = User(
             name = 'temporary user',
             email = 'temporary@email.com',
@@ -327,6 +337,16 @@ class TestAPIRoute:
         db.session.delete(found_user)
         db.session.commit()
 
+    def test_api_fails_post_without_key(self, client):
+        res = client.post('/api')
+        assert res.status_code == 403
+        assert b'Key must be provided' in res.data
+    
+    def test_api_fails_post_unfound_key(self, client):
+        res = client.post('/api?key=ABC123')
+        assert res.status_code == 401
+        assert b'User not authenticated' in res.data
+
     def test_api_fails_post_without_source(self, client):
         new_user = User(
             name = 'temporary user',
@@ -359,7 +379,7 @@ class TestAPIRoute:
         db.session.delete(found_user)
         db.session.commit()
 
-    def test_api_fails_post_source_unavailable(self, client):
+    def test_api_fails_post_unavailable_source(self, client):
         new_user = User(
             name = 'temporary user',
             email = 'temporary@email.com',
@@ -522,6 +542,16 @@ class TestAPIRoute:
         db.session.delete(found_user)
         db.session.commit()
     
+    def test_api_fails_put_without_key(self, client):
+        res = client.put('/api')
+        assert res.status_code == 403
+        assert b'Key must be provided' in res.data
+    
+    def test_api_fails_put_unfound_key(self, client):
+        res = client.put('/api?key=ABC123')
+        assert res.status_code == 401
+        assert b'User not authenticated' in res.data
+
     def test_api_fails_put_without_source(self, client):
         new_user = User(
             name = 'temporary user',
@@ -554,7 +584,7 @@ class TestAPIRoute:
         db.session.delete(found_user)
         db.session.commit()
     
-    def test_api_fails_put_unfound(self, client):
+    def test_api_fails_put_unfound_source(self, client):
         new_user = User(
             name = 'temporary user',
             email = 'temporary@email.com',
@@ -657,6 +687,16 @@ class TestAPIRoute:
         db.session.delete(found_user)
         db.session.commit()
 
+    def test_api_fails_delete_without_key(self, client):
+        res = client.delete('/api')
+        assert res.status_code == 403
+        assert b'Key must be provided' in res.data
+    
+    def test_api_fails_delete_unfound_key(self, client):
+        res = client.delete('/api?key=ABC123')
+        assert res.status_code == 401
+        assert b'User not authenticated' in res.data
+
     def test_api_fails_delete_without_source(self, client):
         new_user = User(
             name = 'temporary user',
@@ -682,7 +722,7 @@ class TestAPIRoute:
         db.session.delete(found_user)
         db.session.commit()
 
-    def test_api_fails_delete_unfound(self, client):
+    def test_api_fails_delete_unfound_source(self, client):
         new_user = User(
             name = 'temporary user',
             email = 'temporary@email.com',
