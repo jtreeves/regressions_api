@@ -22,15 +22,13 @@ class TestValidateEmail:
         other_user_email = Email()
         other_user_email.data = 'another@email.com'
 
-        try:
-            signup.validate_email(
-                self, 
-                other_user_email
-            )
-        
-        except Exception as exception_info:
-            assert False, exception_info
+        validation = signup.validate_email(
+            self, 
+            other_user_email
+        )
 
+        assert validation == None
+    
         found_user = User.query.filter_by(
             email = 'an@email.com'
         ).first()
