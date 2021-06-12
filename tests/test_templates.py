@@ -50,10 +50,6 @@ class TestHomeTemplate:
         assert b'To join, you just need' in res.data
 
 class TestAboutTemplate:
-    def test_about_loads(self, client):
-        res = client.get('/about')
-        assert res.status_code == 200
-    
     def test_about_displays_heading(self, client):
         res = client.get('/about')
         assert b'<h1>About</h1>' in res.data
@@ -73,10 +69,6 @@ class TestAboutTemplate:
         assert b'To join, you just need' in res.data
 
 class TestUsageTemplate:
-    def test_usage_loads(self, client):
-        res = client.get('/usage')
-        assert res.status_code == 200
-    
     def test_usage_displays_heading(self, client):
         res = client.get('/usage')
         assert b'<h1>Usage</h1>' in res.data
@@ -107,10 +99,6 @@ class TestUsageTemplate:
         assert b'<span class="keys">"sinusoidal_coefficients"</span>' in res.data
 
 class TestMathTemplate:
-    def test_math_loads(self, client):
-        res = client.get('/math')
-        assert res.status_code == 200
-    
     def test_math_displays_heading(self, client):
         res = client.get('/math')
         assert b'<h1>Math</h1>' in res.data
@@ -170,10 +158,6 @@ class TestMathTemplate:
         assert len(latexes) == 24
 
 class TestSignupTemplate:
-    def test_signup_loads(self, client):
-        res = client.get('/signup')
-        assert res.status_code == 200
-
     def test_signup_displays_heading(self, client):
         res = client.get('/signup')
         assert b'<h1>Sign Up</h1>' in res.data
