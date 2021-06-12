@@ -71,4 +71,18 @@ class TestValidateEmail:
         db.session.commit()
 
 class TestSignUpForm:
-    pass
+    def test_creates_blank_signup_form(self, app):
+        with app.app_context():
+            with app.test_request_context(
+                '/signup'
+            ):
+                blank_form = signup(key = 'ABC123')
+                name_object = vars(blank_form)['_fields']['name']
+                email_object = vars(blank_form)['_fields']['email']
+                key_object = vars(blank_form)['_fields']['key']
+                assert 'input id="name" name="name" required type="text"' in str(name_object)
+                assert 'input id="email" name="email" required type="text"' in str(email_object)
+                assert 'input id="key" name="key" required type="hidden"' in str(key_object)
+                assert name_object.data == None
+                assert email_object.data == None
+                assert key_object.data == 'ABC123'
