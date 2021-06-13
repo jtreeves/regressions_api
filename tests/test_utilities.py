@@ -1,4 +1,5 @@
 import re
+import json
 from datetime import datetime
 from app import db
 from app.models import User
@@ -7,6 +8,7 @@ from app.utilities.generate_regression import generate_regression
 from app.utilities.vet_precision import vet_precision
 from app.utilities.vet_data_set import vet_data_set
 from app.utilities.unique_key import unique_key
+from app.utilities.request_query import request_query
 
 class TestGenerateKeyUtility:
     def test_generate_key_set_length(self):
@@ -91,7 +93,44 @@ class TestGenerateRegressionUtility:
         assert new_collection[1] == 403
 
 class TestRequestQueryUtility:
-    pass
+    def test_request_query_accesses_params(self, app, client):
+        @app.route("/query", methods=["POST"])
+        def query_route():
+            query = request_query()
+            return query
+
+        new_user = User(
+            name = 'temporary user',
+            email = 'temporary@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'temporary@email.com'
+        ).first()
+
+        found_user_id = found_user.id
+
+        res = client.post("/query?key=ABC123&source=TestQuerySource")
+        query_values = json.loads(res.data.decode())
+        assert query_values['source'] == 'TestQuerySource'
+        assert query_values['user_id'] == found_user_id
+        
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_request_query_fails_without_params(self, app, client):
+        @app.route("/query_fails", methods=["POST"])
+        def query_fails_route():
+            query = request_query()
+            return query
+
+        res = client.post("/query_fails")
+        assert res.status_code == 500
 
 class TestRequestSubmissionUtility:
     pass
