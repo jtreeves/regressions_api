@@ -9,6 +9,7 @@ from app.utilities.vet_precision import vet_precision
 from app.utilities.vet_data_set import vet_data_set
 from app.utilities.unique_key import unique_key
 from app.utilities.request_query import request_query
+from app.utilities.request_submission import request_submission
 
 class TestGenerateKeyUtility:
     def test_generate_key_set_length(self):
@@ -133,7 +134,92 @@ class TestRequestQueryUtility:
         assert res.status_code == 500
 
 class TestRequestSubmissionUtility:
-    pass
+    def test_request_submission_accesses_json(self, app, client):
+        @app.route("/submission", methods=["POST"])
+        def submission_route():
+            submission = request_submission()
+            return submission
+        
+        title = 'Test Submission Title'
+        independent = 'Test Submission Independent'
+        dependent = 'Test Submission Dependent'
+        precision = 4
+        data_set = [
+            [1, 2],
+            [3, 4],
+            [5, 6],
+            [7, 8],
+            [9, 10],
+            [11, 12],
+            [13, 14],
+            [15, 16],
+            [17, 18],
+            [19, 20]
+        ]
+
+        res = client.post(
+            "/submission",
+            json = {
+                'title': title,
+                'independent': independent,
+                'dependent': dependent,
+                'precision': precision,
+                'data_set': data_set
+            }
+        )
+
+        submission_values = json.loads(res.data.decode())
+        assert submission_values['title'] == title
+        assert submission_values['independent'] == independent
+        assert submission_values['dependent'] == dependent
+        assert submission_values['precision'] == precision
+        assert submission_values['data_set'] == data_set
+    
+    def test_request_submission_fails_empty_fields(self, app, client):
+        @app.route("/submission_empty_fails", methods=["POST"])
+        def submission_empty_fails_route():
+            submission = request_submission()
+            return submission
+
+        res = client.post(
+            "/submission_empty_fails",
+            json = {
+                'title': '',
+                'independent': '',
+                'dependent': '',
+                'precision': '',
+                'data_set': ''
+            }
+        )
+
+        assert res.status_code == 403
+        assert b'Title, independent, dependent, data set, and precision fields must all be provided' in res.data
+    
+    def test_request_submission_fails_partial_fields(self, app, client):
+        @app.route("/submission_partial_fails", methods=["POST"])
+        def submission_partial_fails_route():
+            submission = request_submission()
+            return submission
+
+        res = client.post(
+            "/submission_partial_fails",
+            json = {
+                'precision': 4,
+                'data_set': [[1, 2], [3, 4]]
+            }
+        )
+
+        assert res.status_code == 403
+        assert b'Title, independent, dependent, data set, and precision fields must all be provided' in res.data
+    
+    def test_request_submission_fails_without_json(self, app, client):
+        @app.route("/submission_without_json_fails", methods=["POST"])
+        def submission_without_json_fails_route():
+            submission = request_submission()
+            return submission
+
+        res = client.post("/submission_without_json_fails")
+        assert res.status_code == 500
 
 class TestRequireKeyUtility:
     pass
