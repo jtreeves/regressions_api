@@ -2,8 +2,8 @@ from functools import wraps
 from flask import request, abort, make_response
 from app.services.users.read_user import read_user
 
-def require_key(view_function):
-    @wraps(view_function)
+def require_key(protected_function):
+    @wraps(protected_function)
 
     def decorated_function(*args, **kwargs):
         sent_key = request.args.get('key')
@@ -12,7 +12,7 @@ def require_key(view_function):
             found_user = read_user(sent_key)
             
             if found_user:
-                return view_function(*args, **kwargs)
+                return protected_function(*args, **kwargs)
             
             else:
                 abort(make_response('User not authenticated', 401))
