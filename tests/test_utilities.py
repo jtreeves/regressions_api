@@ -1,8 +1,12 @@
 import re
+from datetime import datetime
+from app import db
+from app.models import User
 from app.utilities.generate_key import generate_key
 from app.utilities.generate_regression import generate_regression
 from app.utilities.vet_precision import vet_precision
 from app.utilities.vet_data_set import vet_data_set
+from app.utilities.unique_key import unique_key
 
 class TestGenerateKeyUtility:
     def test_generate_key_set_length(self):
@@ -96,7 +100,35 @@ class TestRequireKeyUtility:
     pass
 
 class TestUniqueKeyUtility:
-    pass
+    def test_unique_key_creates_standard_key(self):
+        new_key = unique_key()
+        pattern = r'[^\.a-zA-Z0-9]'
+        problems = re.search(pattern, new_key)
+        assert len(new_key) == 32
+        assert not problems
+    
+    def test_unique_key_creates_unused_key(self):
+        first_key = generate_key()
+
+        new_user = User(
+            name = 'temporary user',
+            email = 'temporary@email.com',
+            key = first_key,
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'temporary@email.com'
+        ).first()
+
+        second_key = unique_key()
+        assert second_key != first_key
+
+        db.session.delete(found_user)
+        db.session.commit()
 
 class TestVetDataSetUtility:
     def test_vet_data_set_accepts_full_list(self):
