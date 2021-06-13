@@ -10,6 +10,7 @@ from app.utilities.vet_data_set import vet_data_set
 from app.utilities.unique_key import unique_key
 from app.utilities.request_query import request_query
 from app.utilities.request_submission import request_submission
+from app.utilities.require_key import require_key
 
 class TestGenerateKeyUtility:
     def test_generate_key_set_length(self):
@@ -222,7 +223,51 @@ class TestRequestSubmissionUtility:
         assert res.status_code == 500
 
 class TestRequireKeyUtility:
-    pass
+    def test_require_key_returns_function(self, app, client):
+        @app.route("/requirements", methods=["POST"])
+        @require_key
+        def requirements_route():
+            return 'Valid key provided; all requirements met'
+
+        new_user = User(
+            name = 'temporary user',
+            email = 'temporary@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'temporary@email.com'
+        ).first()
+
+        res = client.post("/requirements?key=ABC123")
+        assert b'Valid key provided; all requirements met' in res.data
+
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_require_key_fails_without_key(self, app, client):
+        @app.route("/requirements_without_key", methods=["POST"])
+        @require_key
+        def requirements_without_key_route():
+            return 'Valid key provided; all requirements met'
+
+        res = client.post("/requirements_without_key")
+        assert res.status_code == 403
+        assert b'Key must be provided' in res.data
+    
+    def test_require_key_fails_with_bad_key(self, app, client):
+        @app.route("/requirements_bad_key", methods=["POST"])
+        @require_key
+        def requirements_bad_key_route():
+            return 'Valid key provided; all requirements met'
+
+        res = client.post("/requirements_bad_key?key=ABC123")
+        assert res.status_code == 401
+        assert b'User not authenticated' in res.data
 
 class TestUniqueKeyUtility:
     def test_unique_key_creates_standard_key(self):
