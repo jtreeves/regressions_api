@@ -26,22 +26,80 @@ from app.controllers.regressions.delete_regression import delete_regression
 from app.controllers.regressions_controller import regressions_controller
 
 class TestHomeController:
-    def test_home_controller_success(self, app):
+    def test_home_controller_renders_html(self, app):
         with app.app_context():
             with app.test_request_context('/'):
-                practice = get_home()
-                assert 'gives you an easy way to determine multiple regression models from a single data set' in practice[0]
-                assert '<!DOCTYPE html>' in practice[0]
-                assert practice[1] == 200
+                home = get_home()
+                assert '<!DOCTYPE html>' in home[0]
+    
+    def test_home_controller_displays_template(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                home = get_home()
+                assert 'gives you an easy way to determine multiple regression models from a single data set' in home[0]
+    
+    def test_home_controller_returns_status(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                home = get_home()
+                assert home[1] == 200
 
 class TestAboutController:
-    pass
+    def test_about_controller_renders_html(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                about = get_about()
+                assert '<!DOCTYPE html>' in about[0]
+    
+    def test_about_controller_displays_template(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                about = get_about()
+                assert 'Using our API, you can finally answer various important questions' in about[0]
+    
+    def test_about_controller_returns_status(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                about = get_about()
+                assert about[1] == 200
 
 class TestUsageController:
-    pass
+    def test_usage_controller_renders_html(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                usage = get_usage()
+                assert '<!DOCTYPE html>' in usage[0]
+    
+    def test_usage_controller_displays_template(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                usage = get_usage()
+                assert 'guide for how to use the API' in usage[0]
+    
+    def test_usage_controller_returns_status(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                usage = get_usage()
+                assert usage[1] == 200
 
 class TestMathController:
-    pass
+    def test_math_controller_renders_html(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                math = get_math()
+                assert '<!DOCTYPE html>' in math[0]
+    
+    def test_math_controller_displays_template(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                math = get_math()
+                assert 'some explanations of mathematical concepts relevant to the output from the API' in math[0]
+    
+    def test_math_controller_returns_status(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                math = get_math()
+                assert math[1] == 200
 
 class TestMainController:
     pass
