@@ -501,7 +501,120 @@ class TestCreateRegressionService:
         db.session.commit()
 
 class TestFindRegressionService:
-    pass
+    def test_find_regression_success(self):
+        new_user = User(
+            name = 'Test Find Regression Success',
+            email = 'test_find_regression_success@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_find_regression_success@email.com'
+        ).first()
+
+        found_user_id = found_user.id
+
+        new_regression = Regression(
+            user_id = found_user_id,
+            source = 'TestFindRegressionSuccessSource',
+            title = 'Test Find Regression Success Title',
+            independent = 'Test Find Regression Success Independent',
+            dependent = 'Test Find Regression Success Dependent',
+            precision = 4,
+            data_set = [[1, 2], [3, 4], [5, 6]],
+            linear_coefficients = [2, 3],
+            linear_points = {'roots': [[1, 0]], 'inflections': [None]},
+            linear_correlation = 0.5,
+            quadratic_coefficients = [2, 3, 5],
+            quadratic_points = {'roots': [[1, 0], [10, 0]], 'maxima': [[3, 57]]},
+            quadratic_correlation = 0.5,
+            cubic_coefficients = [2, 3, 5, 7],
+            cubic_points = {'roots': [[1, 0], [5, 0], [10, 0]], 'maxima': [[3, 57]]},
+            cubic_correlation = 0.5,
+            hyperbolic_coefficients = [2, 3],
+            hyperbolic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            hyperbolic_correlation = 0.5,
+            exponential_coefficients = [2, 3],
+            exponential_points = {'roots': [None], 'maxima': [None]},
+            exponential_correlation = 0.5,
+            logarithmic_coefficients = [2, 3],
+            logarithmic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            logarithmic_correlation = 0.5,
+            logistic_coefficients = [2, 3, 5],
+            logistic_points = {'roots': [None], 'inflections': [[5, 7]]},
+            logistic_correlation = 0.5,
+            sinusoidal_coefficients = [2, 3, 5, 7],
+            sinusoidal_points = {'roots': [[2, 0], [4, 0]], 'inflections': [[5, 7], [7, 7]]},
+            sinusoidal_correlation = 0.5,
+            best_fit = 'hyperbolic',
+            date = datetime.now()
+        )
+
+        db.session.add(new_regression)
+        db.session.commit()
+
+        found_regression = Regression.query.filter_by(
+            user_id = found_user_id, 
+            source = 'TestFindRegressionSuccessSource'
+        ).first()
+
+        found_regression_from_service = find_regression(found_user_id, 'TestFindRegressionSuccessSource')
+        assert found_regression_from_service == found_regression
+
+        db.session.delete(found_regression)
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_fails_find_regression_nonexistent(self):
+        new_user = User(
+            name = 'Test Find Regression Fails Nonexistent',
+            email = 'test_find_regression_fails_nonexistent@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_find_regression_fails_nonexistent@email.com'
+        ).first()
+
+        found_user_id = found_user.id
+
+        found_regression = find_regression(found_user_id, 'TestFindRegressionFailsNonexistentSource')
+        assert not found_regression
+
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_fails_find_regression_without_source(self):
+        new_user = User(
+            name = 'Test Find Regression Fails without Source',
+            email = 'test_find_regression_fails_without_source@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_find_regression_fails_without_source@email.com'
+        ).first()
+
+        found_user_id = found_user.id
+
+        found_regression = find_regression(found_user_id, '')
+        assert found_regression[0] == 'Source must be provided'
+        assert found_regression[1] == 403
+
+        db.session.delete(found_user)
+        db.session.commit()
 
 class TestReadRegressionService:
     pass
