@@ -163,34 +163,144 @@ class TestQuadraticGraphController:
         assert graph.get_figwidth() == 5.0
 
 class TestCubicGraphController:
-    pass
+    def test_creates_cubic_graph_visible(self):
+        graph = create_cubic_graph()
+        assert graph._visible
+    
+    def test_creates_cubic_graph_tight(self):
+        graph = create_cubic_graph()
+        assert graph._tight
+    
+    def test_creates_cubic_graph_dimensions(self):
+        graph = create_cubic_graph()
+        assert graph.get_figheight() == 5.0
+        assert graph.get_figwidth() == 5.0
 
 class TestHyperbolicGraphController:
-    pass
+    def test_creates_hyperbolic_graph_visible(self):
+        graph = create_hyperbolic_graph()
+        assert graph._visible
+    
+    def test_creates_hyperbolic_graph_tight(self):
+        graph = create_hyperbolic_graph()
+        assert graph._tight
+    
+    def test_creates_hyperbolic_graph_dimensions(self):
+        graph = create_hyperbolic_graph()
+        assert graph.get_figheight() == 5.0
+        assert graph.get_figwidth() == 5.0
 
 class TestExponentialGraphController:
-    pass
+    def test_creates_exponential_graph_visible(self):
+        graph = create_exponential_graph()
+        assert graph._visible
+    
+    def test_creates_exponential_graph_tight(self):
+        graph = create_exponential_graph()
+        assert graph._tight
+    
+    def test_creates_exponential_graph_dimensions(self):
+        graph = create_exponential_graph()
+        assert graph.get_figheight() == 5.0
+        assert graph.get_figwidth() == 5.0
 
 class TestLogarithmicGraphController:
-    pass
+    def test_creates_logarithmic_graph_visible(self):
+        graph = create_logarithmic_graph()
+        assert graph._visible
+    
+    def test_creates_logarithmic_graph_tight(self):
+        graph = create_logarithmic_graph()
+        assert graph._tight
+    
+    def test_creates_logarithmic_graph_dimensions(self):
+        graph = create_logarithmic_graph()
+        assert graph.get_figheight() == 5.0
+        assert graph.get_figwidth() == 5.0
 
 class TestLogisticGraphController:
-    pass
+    def test_creates_logistic_graph_visible(self):
+        graph = create_logistic_graph()
+        assert graph._visible
+    
+    def test_creates_logistic_graph_tight(self):
+        graph = create_logistic_graph()
+        assert graph._tight
+    
+    def test_creates_logistic_graph_dimensions(self):
+        graph = create_logistic_graph()
+        assert graph.get_figheight() == 5.0
+        assert graph.get_figwidth() == 5.0
 
 class TestSinusoidalGraphController:
-    pass
+    def test_creates_sinusoidal_graph_visible(self):
+        graph = create_sinusoidal_graph()
+        assert graph._visible
+    
+    def test_creates_sinusoidal_graph_tight(self):
+        graph = create_sinusoidal_graph()
+        assert graph._tight
+    
+    def test_creates_sinusoidal_graph_dimensions(self):
+        graph = create_sinusoidal_graph()
+        assert graph.get_figheight() == 5.0
+        assert graph.get_figwidth() == 5.0
 
 class TestRootGraphController:
-    pass
+    def test_creates_root_graph_visible(self):
+        graph = create_root_graph()
+        assert graph._visible
+    
+    def test_creates_root_graph_tight(self):
+        graph = create_root_graph()
+        assert graph._tight
+    
+    def test_creates_root_graph_dimensions(self):
+        graph = create_root_graph()
+        assert graph.get_figheight() == 5.0
+        assert graph.get_figwidth() == 5.0
 
 class TestMaximumGraphController:
-    pass
+    def test_creates_maximum_graph_visible(self):
+        graph = create_maximum_graph()
+        assert graph._visible
+    
+    def test_creates_maximum_graph_tight(self):
+        graph = create_maximum_graph()
+        assert graph._tight
+    
+    def test_creates_maximum_graph_dimensions(self):
+        graph = create_maximum_graph()
+        assert graph.get_figheight() == 5.0
+        assert graph.get_figwidth() == 5.0
 
 class TestMinimumGraphController:
-    pass
+    def test_creates_minimum_graph_visible(self):
+        graph = create_minimum_graph()
+        assert graph._visible
+    
+    def test_creates_minimum_graph_tight(self):
+        graph = create_minimum_graph()
+        assert graph._tight
+    
+    def test_creates_minimum_graph_dimensions(self):
+        graph = create_minimum_graph()
+        assert graph.get_figheight() == 5.0
+        assert graph.get_figwidth() == 5.0
 
 class TestInflectionGraphController:
-    pass
+    def test_creates_inflection_graph_visible(self):
+        graph = create_inflection_graph()
+        assert graph._visible
+    
+    def test_creates_inflection_graph_tight(self):
+        graph = create_inflection_graph()
+        assert graph._tight
+    
+    def test_creates_inflection_graph_dimensions(self):
+        graph = create_inflection_graph()
+        assert graph.get_figheight() == 5.0
+        assert graph.get_figwidth() == 5.0
 
 class TestImagesController:
     pass
