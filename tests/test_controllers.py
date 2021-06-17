@@ -102,7 +102,37 @@ class TestMathController:
                 assert math[1] == 200
 
 class TestMainController:
-    pass
+    def test_main_controller_loads_home(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                home = main_controller['get_home']()
+                assert '<!DOCTYPE html>' in home[0]
+                assert 'gives you an easy way to determine multiple regression models from a single data set' in home[0]
+                assert home[1] == 200
+    
+    def test_main_controller_loads_about(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                about = main_controller['get_about']()
+                assert '<!DOCTYPE html>' in about[0]
+                assert 'Using our API, you can finally answer various important questions' in about[0]
+                assert about[1] == 200
+    
+    def test_main_controller_loads_usage(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                usage = main_controller['get_usage']()
+                assert '<!DOCTYPE html>' in usage[0]
+                assert 'guide for how to use the API' in usage[0]
+                assert usage[1] == 200
+    
+    def test_main_controller_loads_math(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                math = main_controller['get_math']()
+                assert '<!DOCTYPE html>' in math[0]
+                assert 'some explanations of mathematical concepts relevant to the output from the API' in math[0]
+                assert math[1] == 200
 
 class TestLinearGraphController:
     pass
