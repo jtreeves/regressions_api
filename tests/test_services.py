@@ -812,6 +812,620 @@ class TestUpdateRegressionService:
         db.session.delete(found_regression)
         db.session.delete(found_user)
         db.session.commit()
+    
+    def test_fails_update_regression_decimal_precision(self):
+        submission = {
+            'title': 'Test Update Regression Fails Decimal Precision New Title',
+            'independent': 'Test Update Regression Fails Decimal Precision New Independent',
+            'dependent': 'Test Update Regression Fails Decimal Precision New Dependent',
+            'precision': 4.5,
+            'data_set': [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16], [17, 18], [19, 20]]
+        }
+
+        new_user = User(
+            name = 'Test Update Regression Fails Decimal Precision',
+            email = 'test_update_regression_fails_decimal_precision@email.com',
+            key = 'VWU987',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_update_regression_fails_decimal_precision@email.com'
+        ).first()
+
+        found_user_id = found_user.id
+
+        new_regression = Regression(
+            user_id = found_user_id,
+            source = 'TestUpdateRegressionFailsDecimalPrecisionSource',
+            title = 'Test Update Regression Fails Decimal Precision Title',
+            independent = 'Test Update Regression Fails Decimal Precision Independent',
+            dependent = 'Test Update Regression Fails Decimal Precision Dependent',
+            precision = 4,
+            data_set = [[1, 2], [3, 4], [5, 6]],
+            linear_coefficients = [2, 3],
+            linear_points = {'roots': [[1, 0]], 'inflections': [None]},
+            linear_correlation = 0.5,
+            quadratic_coefficients = [2, 3, 5],
+            quadratic_points = {'roots': [[1, 0], [10, 0]], 'maxima': [[3, 57]]},
+            quadratic_correlation = 0.5,
+            cubic_coefficients = [2, 3, 5, 7],
+            cubic_points = {'roots': [[1, 0], [5, 0], [10, 0]], 'maxima': [[3, 57]]},
+            cubic_correlation = 0.5,
+            hyperbolic_coefficients = [2, 3],
+            hyperbolic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            hyperbolic_correlation = 0.5,
+            exponential_coefficients = [2, 3],
+            exponential_points = {'roots': [None], 'maxima': [None]},
+            exponential_correlation = 0.5,
+            logarithmic_coefficients = [2, 3],
+            logarithmic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            logarithmic_correlation = 0.5,
+            logistic_coefficients = [2, 3, 5],
+            logistic_points = {'roots': [None], 'inflections': [[5, 7]]},
+            logistic_correlation = 0.5,
+            sinusoidal_coefficients = [2, 3, 5, 7],
+            sinusoidal_points = {'roots': [[2, 0], [4, 0]], 'inflections': [[5, 7], [7, 7]]},
+            sinusoidal_correlation = 0.5,
+            best_fit = 'hyperbolic',
+            date = datetime.now()
+        )
+
+        db.session.add(new_regression)
+        db.session.commit()
+
+        found_regression = Regression.query.filter_by(
+            user_id = found_user_id, 
+            source = 'TestUpdateRegressionFailsDecimalPrecisionSource'
+        ).first()
+
+        regression_analysis = update_regression(found_user_id, 'TestUpdateRegressionFailsDecimalPrecisionSource', submission)
+        assert regression_analysis[0] == 'Precision must be a positive integer'
+        assert regression_analysis[1] == 403
+        
+        db.session.delete(found_regression)
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_fails_update_regression_negative_precision(self):
+        submission = {
+            'title': 'Test Update Regression Fails Negative Precision New Title',
+            'independent': 'Test Update Regression Fails Negative Precision New Independent',
+            'dependent': 'Test Update Regression Fails Negative Precision New Dependent',
+            'precision': -4,
+            'data_set': [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16], [17, 18], [19, 20]]
+        }
+
+        new_user = User(
+            name = 'Test Update Regression Fails Negative Precision',
+            email = 'test_update_regression_fails_negative_precision@email.com',
+            key = 'VWU987',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_update_regression_fails_negative_precision@email.com'
+        ).first()
+
+        found_user_id = found_user.id
+
+        new_regression = Regression(
+            user_id = found_user_id,
+            source = 'TestUpdateRegressionFailsNegativePrecisionSource',
+            title = 'Test Update Regression Fails Negative Precision Title',
+            independent = 'Test Update Regression Fails Negative Precision Independent',
+            dependent = 'Test Update Regression Fails Negative Precision Dependent',
+            precision = 4,
+            data_set = [[1, 2], [3, 4], [5, 6]],
+            linear_coefficients = [2, 3],
+            linear_points = {'roots': [[1, 0]], 'inflections': [None]},
+            linear_correlation = 0.5,
+            quadratic_coefficients = [2, 3, 5],
+            quadratic_points = {'roots': [[1, 0], [10, 0]], 'maxima': [[3, 57]]},
+            quadratic_correlation = 0.5,
+            cubic_coefficients = [2, 3, 5, 7],
+            cubic_points = {'roots': [[1, 0], [5, 0], [10, 0]], 'maxima': [[3, 57]]},
+            cubic_correlation = 0.5,
+            hyperbolic_coefficients = [2, 3],
+            hyperbolic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            hyperbolic_correlation = 0.5,
+            exponential_coefficients = [2, 3],
+            exponential_points = {'roots': [None], 'maxima': [None]},
+            exponential_correlation = 0.5,
+            logarithmic_coefficients = [2, 3],
+            logarithmic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            logarithmic_correlation = 0.5,
+            logistic_coefficients = [2, 3, 5],
+            logistic_points = {'roots': [None], 'inflections': [[5, 7]]},
+            logistic_correlation = 0.5,
+            sinusoidal_coefficients = [2, 3, 5, 7],
+            sinusoidal_points = {'roots': [[2, 0], [4, 0]], 'inflections': [[5, 7], [7, 7]]},
+            sinusoidal_correlation = 0.5,
+            best_fit = 'hyperbolic',
+            date = datetime.now()
+        )
+
+        db.session.add(new_regression)
+        db.session.commit()
+
+        found_regression = Regression.query.filter_by(
+            user_id = found_user_id, 
+            source = 'TestUpdateRegressionFailsNegativePrecisionSource'
+        ).first()
+
+        regression_analysis = update_regression(found_user_id, 'TestUpdateRegressionFailsNegativePrecisionSource', submission)
+        assert regression_analysis[0] == 'Precision must be a positive integer'
+        assert regression_analysis[1] == 403
+        
+        db.session.delete(found_regression)
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_fails_update_regression_short_data_set(self):
+        submission = {
+            'title': 'Test Update Regression Fails Short Data Set New Title',
+            'independent': 'Test Update Regression Fails Short Data Set New Independent',
+            'dependent': 'Test Update Regression Fails Short Data Set New Dependent',
+            'precision': 4,
+            'data_set': [[1, 2], [3, 4], [5, 6]]
+        }
+
+        new_user = User(
+            name = 'Test Update Regression Fails Short Data Set',
+            email = 'test_update_regression_fails_short_data_set@email.com',
+            key = 'VWU987',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_update_regression_fails_short_data_set@email.com'
+        ).first()
+
+        found_user_id = found_user.id
+
+        new_regression = Regression(
+            user_id = found_user_id,
+            source = 'TestUpdateRegressionFailsShortDataSetSource',
+            title = 'Test Update Regression Fails Short Data Set Title',
+            independent = 'Test Update Regression Fails Short Data Set Independent',
+            dependent = 'Test Update Regression Fails Short Data Set Dependent',
+            precision = 4,
+            data_set = [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]],
+            linear_coefficients = [2, 3],
+            linear_points = {'roots': [[1, 0]], 'inflections': [None]},
+            linear_correlation = 0.5,
+            quadratic_coefficients = [2, 3, 5],
+            quadratic_points = {'roots': [[1, 0], [10, 0]], 'maxima': [[3, 57]]},
+            quadratic_correlation = 0.5,
+            cubic_coefficients = [2, 3, 5, 7],
+            cubic_points = {'roots': [[1, 0], [5, 0], [10, 0]], 'maxima': [[3, 57]]},
+            cubic_correlation = 0.5,
+            hyperbolic_coefficients = [2, 3],
+            hyperbolic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            hyperbolic_correlation = 0.5,
+            exponential_coefficients = [2, 3],
+            exponential_points = {'roots': [None], 'maxima': [None]},
+            exponential_correlation = 0.5,
+            logarithmic_coefficients = [2, 3],
+            logarithmic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            logarithmic_correlation = 0.5,
+            logistic_coefficients = [2, 3, 5],
+            logistic_points = {'roots': [None], 'inflections': [[5, 7]]},
+            logistic_correlation = 0.5,
+            sinusoidal_coefficients = [2, 3, 5, 7],
+            sinusoidal_points = {'roots': [[2, 0], [4, 0]], 'inflections': [[5, 7], [7, 7]]},
+            sinusoidal_correlation = 0.5,
+            best_fit = 'hyperbolic',
+            date = datetime.now()
+        )
+
+        db.session.add(new_regression)
+        db.session.commit()
+
+        found_regression = Regression.query.filter_by(
+            user_id = found_user_id, 
+            source = 'TestUpdateRegressionFailsShortDataSetSource'
+        ).first()
+
+        regression_analysis = update_regression(found_user_id, 'TestUpdateRegressionFailsShortDataSetSource', submission)
+        assert regression_analysis[0] == 'Data set must contain at least 10 points'
+        assert regression_analysis[1] == 403
+        
+        db.session.delete(found_regression)
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_fails_update_regression_nonlist_data_set(self):
+        submission = {
+            'title': 'Test Update Regression Fails Nonlist Data Set New Title',
+            'independent': 'Test Update Regression Fails Nonlist Data Set New Independent',
+            'dependent': 'Test Update Regression Fails Nonlist Data Set New Dependent',
+            'precision': 4,
+            'data_set': {
+                'first_point': [1, 2],
+                'second_point': [3, 4],
+                'third_point': [5, 6]
+            }
+        }
+
+        new_user = User(
+            name = 'Test Update Regression Fails Nonlist Data Set',
+            email = 'test_update_regression_fails_nonlist_data_set@email.com',
+            key = 'VWU987',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_update_regression_fails_nonlist_data_set@email.com'
+        ).first()
+
+        found_user_id = found_user.id
+
+        new_regression = Regression(
+            user_id = found_user_id,
+            source = 'TestUpdateRegressionFailsNonlistDataSetSource',
+            title = 'Test Update Regression Fails Nonlist Data Set Title',
+            independent = 'Test Update Regression Fails Nonlist Data Set Independent',
+            dependent = 'Test Update Regression Fails Nonlist Data Set Dependent',
+            precision = 4,
+            data_set = [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]],
+            linear_coefficients = [2, 3],
+            linear_points = {'roots': [[1, 0]], 'inflections': [None]},
+            linear_correlation = 0.5,
+            quadratic_coefficients = [2, 3, 5],
+            quadratic_points = {'roots': [[1, 0], [10, 0]], 'maxima': [[3, 57]]},
+            quadratic_correlation = 0.5,
+            cubic_coefficients = [2, 3, 5, 7],
+            cubic_points = {'roots': [[1, 0], [5, 0], [10, 0]], 'maxima': [[3, 57]]},
+            cubic_correlation = 0.5,
+            hyperbolic_coefficients = [2, 3],
+            hyperbolic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            hyperbolic_correlation = 0.5,
+            exponential_coefficients = [2, 3],
+            exponential_points = {'roots': [None], 'maxima': [None]},
+            exponential_correlation = 0.5,
+            logarithmic_coefficients = [2, 3],
+            logarithmic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            logarithmic_correlation = 0.5,
+            logistic_coefficients = [2, 3, 5],
+            logistic_points = {'roots': [None], 'inflections': [[5, 7]]},
+            logistic_correlation = 0.5,
+            sinusoidal_coefficients = [2, 3, 5, 7],
+            sinusoidal_points = {'roots': [[2, 0], [4, 0]], 'inflections': [[5, 7], [7, 7]]},
+            sinusoidal_correlation = 0.5,
+            best_fit = 'hyperbolic',
+            date = datetime.now()
+        )
+
+        db.session.add(new_regression)
+        db.session.commit()
+
+        found_regression = Regression.query.filter_by(
+            user_id = found_user_id, 
+            source = 'TestUpdateRegressionFailsNonlistDataSetSource'
+        ).first()
+
+        regression_analysis = update_regression(found_user_id, 'TestUpdateRegressionFailsNonlistDataSetSource', submission)
+        assert regression_analysis[0] == 'Data set must be a list'
+        assert regression_analysis[1] == 403
+        
+        db.session.delete(found_regression)
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_fails_update_regression_nonlist_points(self):
+        submission = {
+            'title': 'Test Update Regression Fails Nonlist Points New Title',
+            'independent': 'Test Update Regression Fails Nonlist Points New Independent',
+            'dependent': 'Test Update Regression Fails Nonlist Points New Dependent',
+            'precision': 4,
+            'data_set': [
+                {'x': 1, 'y': 2},
+                {'x': 3, 'y': 4},
+                {'x': 5, 'y': 6}
+            ]
+        }
+
+        new_user = User(
+            name = 'Test Update Regression Fails Nonlist Points',
+            email = 'test_update_regression_fails_nonlist_points@email.com',
+            key = 'VWU987',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_update_regression_fails_nonlist_points@email.com'
+        ).first()
+
+        found_user_id = found_user.id
+
+        new_regression = Regression(
+            user_id = found_user_id,
+            source = 'TestUpdateRegressionFailsNonlistPointsSource',
+            title = 'Test Update Regression Fails Nonlist Points Title',
+            independent = 'Test Update Regression Fails Nonlist Points Independent',
+            dependent = 'Test Update Regression Fails Nonlist Points Dependent',
+            precision = 4,
+            data_set = [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]],
+            linear_coefficients = [2, 3],
+            linear_points = {'roots': [[1, 0]], 'inflections': [None]},
+            linear_correlation = 0.5,
+            quadratic_coefficients = [2, 3, 5],
+            quadratic_points = {'roots': [[1, 0], [10, 0]], 'maxima': [[3, 57]]},
+            quadratic_correlation = 0.5,
+            cubic_coefficients = [2, 3, 5, 7],
+            cubic_points = {'roots': [[1, 0], [5, 0], [10, 0]], 'maxima': [[3, 57]]},
+            cubic_correlation = 0.5,
+            hyperbolic_coefficients = [2, 3],
+            hyperbolic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            hyperbolic_correlation = 0.5,
+            exponential_coefficients = [2, 3],
+            exponential_points = {'roots': [None], 'maxima': [None]},
+            exponential_correlation = 0.5,
+            logarithmic_coefficients = [2, 3],
+            logarithmic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            logarithmic_correlation = 0.5,
+            logistic_coefficients = [2, 3, 5],
+            logistic_points = {'roots': [None], 'inflections': [[5, 7]]},
+            logistic_correlation = 0.5,
+            sinusoidal_coefficients = [2, 3, 5, 7],
+            sinusoidal_points = {'roots': [[2, 0], [4, 0]], 'inflections': [[5, 7], [7, 7]]},
+            sinusoidal_correlation = 0.5,
+            best_fit = 'hyperbolic',
+            date = datetime.now()
+        )
+
+        db.session.add(new_regression)
+        db.session.commit()
+
+        found_regression = Regression.query.filter_by(
+            user_id = found_user_id, 
+            source = 'TestUpdateRegressionFailsNonlistPointsSource'
+        ).first()
+
+        regression_analysis = update_regression(found_user_id, 'TestUpdateRegressionFailsNonlistPointsSource', submission)
+        assert regression_analysis[0] == 'Each coordinate pair within data set must be a list'
+        assert regression_analysis[1] == 403
+        
+        db.session.delete(found_regression)
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_fails_update_regression_long_points(self):
+        submission = {
+            'title': 'Test Update Regression Fails Long Points New Title',
+            'independent': 'Test Update Regression Fails Long Points New Independent',
+            'dependent': 'Test Update Regression Fails Long Points New Dependent',
+            'precision': 4,
+            'data_set': [
+                [1, 2, 3],
+                [4, 5, 6]
+            ]
+        }
+
+        new_user = User(
+            name = 'Test Update Regression Fails Long Points',
+            email = 'test_update_regression_fails_long_points@email.com',
+            key = 'VWU987',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_update_regression_fails_long_points@email.com'
+        ).first()
+
+        found_user_id = found_user.id
+
+        new_regression = Regression(
+            user_id = found_user_id,
+            source = 'TestUpdateRegressionFailsLongPointsSource',
+            title = 'Test Update Regression Fails Long Points Title',
+            independent = 'Test Update Regression Fails Long Points Independent',
+            dependent = 'Test Update Regression Fails Long Points Dependent',
+            precision = 4,
+            data_set = [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]],
+            linear_coefficients = [2, 3],
+            linear_points = {'roots': [[1, 0]], 'inflections': [None]},
+            linear_correlation = 0.5,
+            quadratic_coefficients = [2, 3, 5],
+            quadratic_points = {'roots': [[1, 0], [10, 0]], 'maxima': [[3, 57]]},
+            quadratic_correlation = 0.5,
+            cubic_coefficients = [2, 3, 5, 7],
+            cubic_points = {'roots': [[1, 0], [5, 0], [10, 0]], 'maxima': [[3, 57]]},
+            cubic_correlation = 0.5,
+            hyperbolic_coefficients = [2, 3],
+            hyperbolic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            hyperbolic_correlation = 0.5,
+            exponential_coefficients = [2, 3],
+            exponential_points = {'roots': [None], 'maxima': [None]},
+            exponential_correlation = 0.5,
+            logarithmic_coefficients = [2, 3],
+            logarithmic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            logarithmic_correlation = 0.5,
+            logistic_coefficients = [2, 3, 5],
+            logistic_points = {'roots': [None], 'inflections': [[5, 7]]},
+            logistic_correlation = 0.5,
+            sinusoidal_coefficients = [2, 3, 5, 7],
+            sinusoidal_points = {'roots': [[2, 0], [4, 0]], 'inflections': [[5, 7], [7, 7]]},
+            sinusoidal_correlation = 0.5,
+            best_fit = 'hyperbolic',
+            date = datetime.now()
+        )
+
+        db.session.add(new_regression)
+        db.session.commit()
+
+        found_regression = Regression.query.filter_by(
+            user_id = found_user_id, 
+            source = 'TestUpdateRegressionFailsLongPointsSource'
+        ).first()
+
+        regression_analysis = update_regression(found_user_id, 'TestUpdateRegressionFailsLongPointsSource', submission)
+        assert regression_analysis[0] == 'Each coordinate pair within data set must contain exactly 2 numbers'
+        assert regression_analysis[1] == 403
+        
+        db.session.delete(found_regression)
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_fails_update_regression_string_numbers(self):
+        submission = {
+            'title': 'Test Update Regression Fails String Numbers New Title',
+            'independent': 'Test Update Regression Fails String Numbers New Independent',
+            'dependent': 'Test Update Regression Fails String Numbers New Dependent',
+            'precision': 4,
+            'data_set': [
+                [1, 2],
+                ['3', 4],
+                [5, 6]
+            ]
+        }
+
+        new_user = User(
+            name = 'Test Update Regression Fails String Numbers',
+            email = 'test_update_regression_fails_string_numbers@email.com',
+            key = 'VWU987',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_update_regression_fails_string_numbers@email.com'
+        ).first()
+
+        found_user_id = found_user.id
+
+        new_regression = Regression(
+            user_id = found_user_id,
+            source = 'TestUpdateRegressionFailsStringNumbersSource',
+            title = 'Test Update Regression Fails String Numbers Title',
+            independent = 'Test Update Regression Fails String Numbers Independent',
+            dependent = 'Test Update Regression Fails String Numbers Dependent',
+            precision = 4,
+            data_set = [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]],
+            linear_coefficients = [2, 3],
+            linear_points = {'roots': [[1, 0]], 'inflections': [None]},
+            linear_correlation = 0.5,
+            quadratic_coefficients = [2, 3, 5],
+            quadratic_points = {'roots': [[1, 0], [10, 0]], 'maxima': [[3, 57]]},
+            quadratic_correlation = 0.5,
+            cubic_coefficients = [2, 3, 5, 7],
+            cubic_points = {'roots': [[1, 0], [5, 0], [10, 0]], 'maxima': [[3, 57]]},
+            cubic_correlation = 0.5,
+            hyperbolic_coefficients = [2, 3],
+            hyperbolic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            hyperbolic_correlation = 0.5,
+            exponential_coefficients = [2, 3],
+            exponential_points = {'roots': [None], 'maxima': [None]},
+            exponential_correlation = 0.5,
+            logarithmic_coefficients = [2, 3],
+            logarithmic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            logarithmic_correlation = 0.5,
+            logistic_coefficients = [2, 3, 5],
+            logistic_points = {'roots': [None], 'inflections': [[5, 7]]},
+            logistic_correlation = 0.5,
+            sinusoidal_coefficients = [2, 3, 5, 7],
+            sinusoidal_points = {'roots': [[2, 0], [4, 0]], 'inflections': [[5, 7], [7, 7]]},
+            sinusoidal_correlation = 0.5,
+            best_fit = 'hyperbolic',
+            date = datetime.now()
+        )
+
+        db.session.add(new_regression)
+        db.session.commit()
+
+        found_regression = Regression.query.filter_by(
+            user_id = found_user_id, 
+            source = 'TestUpdateRegressionFailsStringNumbersSource'
+        ).first()
+
+        regression_analysis = update_regression(found_user_id, 'TestUpdateRegressionFailsStringNumbersSource', submission)
+        assert regression_analysis[0] == 'All numbers within coordinate pairs within data set must be integers or floats'
+        assert regression_analysis[1] == 403
+        
+        db.session.delete(found_regression)
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_fails_update_regression_without_source(self):
+        submission = {
+            'title': 'Test Update Regression Fails without Source New Title',
+            'independent': 'Test Update Regression Fails without Source New Independent',
+            'dependent': 'Test Update Regression Fails without Source New Dependent',
+            'precision': 4,
+            'data_set': [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16], [17, 18], [19, 20]]
+        }
+
+        new_user = User(
+            name = 'Test Update Regression Fails without Source',
+            email = 'test_update_regression_fails_without_source@email.com',
+            key = 'VWU987',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_update_regression_fails_without_source@email.com'
+        ).first()
+
+        regression_analysis = update_regression(found_user.id, '', submission)
+        assert regression_analysis[0] == 'Source must be provided'
+        assert regression_analysis[1] == 403
+        
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_fails_update_regression_nonexistent_source(self):
+        submission = {
+            'title': 'Test Update Regression Fails Nonexistent Source New Title',
+            'independent': 'Test Update Regression Fails Nonexistent Source New Independent',
+            'dependent': 'Test Update Regression Fails Nonexistent Source New Dependent',
+            'precision': 4,
+            'data_set': [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16], [17, 18], [19, 20]]
+        }
+
+        new_user = User(
+            name = 'Test Update Regression Fails Nonexistent Source',
+            email = 'test_update_regression_fails_nonexistent_source@email.com',
+            key = 'VWU987',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_update_regression_fails_nonexistent_source@email.com'
+        ).first()
+
+        regression_analysis = update_regression(found_user.id, 'LMNOPQRST', submission)
+        assert regression_analysis[0] == 'Data set not found'
+        assert regression_analysis[1] == 404
+        
+        db.session.delete(found_user)
+        db.session.commit()
 
 class TestDestroyRegressionService:
     pass
