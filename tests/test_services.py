@@ -1,4 +1,5 @@
 import pytest
+from datetime import datetime
 from app import db
 from app.models import User
 from app.services.users.create_user import create_user
@@ -78,7 +79,40 @@ class TestCreateUserService:
         db.session.close()
 
 class TestReadUserService:
-    pass
+    def test_read_user_exists(self):
+        user_input = {
+            'name': 'Test Read User Exists',
+            'email': 'test_read_user_exists@email.com',
+            'key': 'XYZ321'
+        }
+
+        new_user = User(
+            name = user_input['name'],
+            email = user_input['email'],
+            key = user_input['key'],
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user_data = read_user(user_input['key'])
+        assert found_user_data['name'] == user_input['name']
+        assert found_user_data['email'] == user_input['email']
+        assert found_user_data['key'] == user_input['key']
+        assert 'id' in found_user_data.keys()
+        assert 'date' in found_user_data.keys()
+
+        found_user = User.query.filter_by(
+            email = user_input['email']
+        ).first()
+        
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_read_user_nonexistent(self):
+        found_user_data = read_user('PQR456')
+        assert found_user_data == False
 
 class TestCreateRegressionService:
     pass
