@@ -26,7 +26,13 @@ from app.controllers.regressions.delete_regression import delete_regression
 from app.controllers.regressions_controller import regressions_controller
 
 class TestHomeController:
-    pass
+    def test_home_controller_success(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                practice = get_home()
+                assert 'gives you an easy way to determine multiple regression models from a single data set' in practice[0]
+                assert '<!DOCTYPE html>' in practice[0]
+                assert practice[1] == 200
 
 class TestAboutController:
     pass
