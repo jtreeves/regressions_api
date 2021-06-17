@@ -135,10 +135,32 @@ class TestMainController:
                 assert math[1] == 200
 
 class TestLinearGraphController:
-    pass
+    def test_creates_linear_graph_visible(self):
+        graph = create_linear_graph()
+        assert graph._visible
+    
+    def test_creates_linear_graph_tight(self):
+        graph = create_linear_graph()
+        assert graph._tight
+    
+    def test_creates_linear_graph_dimensions(self):
+        graph = create_linear_graph()
+        assert graph.get_figheight() == 5.0
+        assert graph.get_figwidth() == 5.0
 
 class TestQuadraticGraphController:
-    pass
+    def test_creates_quadratic_graph_visible(self):
+        graph = create_quadratic_graph()
+        assert graph._visible
+    
+    def test_creates_quadratic_graph_tight(self):
+        graph = create_quadratic_graph()
+        assert graph._tight
+    
+    def test_creates_quadratic_graph_dimensions(self):
+        graph = create_quadratic_graph()
+        assert graph.get_figheight() == 5.0
+        assert graph.get_figwidth() == 5.0
 
 class TestCubicGraphController:
     pass
