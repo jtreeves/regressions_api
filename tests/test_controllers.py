@@ -303,7 +303,77 @@ class TestInflectionGraphController:
         assert graph.get_figwidth() == 5.0
 
 class TestImagesController:
-    pass
+    def test_images_controller_linear(self):
+        graph = images_controller('linear.png')
+        assert b'Matplotlib' in graph.data
+        assert graph.content_type == 'image/png'
+        assert graph.status_code == 200
+    
+    def test_images_controller_quadratic(self):
+        graph = images_controller('quadratic.png')
+        assert b'Matplotlib' in graph.data
+        assert graph.content_type == 'image/png'
+        assert graph.status_code == 200
+    
+    def test_images_controller_cubic(self):
+        graph = images_controller('cubic.png')
+        assert b'Matplotlib' in graph.data
+        assert graph.content_type == 'image/png'
+        assert graph.status_code == 200
+    
+    def test_images_controller_hyperbolic(self):
+        graph = images_controller('hyperbolic.png')
+        assert b'Matplotlib' in graph.data
+        assert graph.content_type == 'image/png'
+        assert graph.status_code == 200
+    
+    def test_images_controller_exponential(self):
+        graph = images_controller('exponential.png')
+        assert b'Matplotlib' in graph.data
+        assert graph.content_type == 'image/png'
+        assert graph.status_code == 200
+    
+    def test_images_controller_logarithmic(self):
+        graph = images_controller('logarithmic.png')
+        assert b'Matplotlib' in graph.data
+        assert graph.content_type == 'image/png'
+        assert graph.status_code == 200
+    
+    def test_images_controller_logistic(self):
+        graph = images_controller('logistic.png')
+        assert b'Matplotlib' in graph.data
+        assert graph.content_type == 'image/png'
+        assert graph.status_code == 200
+    
+    def test_images_controller_sinusoidal(self):
+        graph = images_controller('sinusoidal.png')
+        assert b'Matplotlib' in graph.data
+        assert graph.content_type == 'image/png'
+        assert graph.status_code == 200
+    
+    def test_images_controller_root(self):
+        graph = images_controller('root.png')
+        assert b'Matplotlib' in graph.data
+        assert graph.content_type == 'image/png'
+        assert graph.status_code == 200
+    
+    def test_images_controller_maximum(self):
+        graph = images_controller('maximum.png')
+        assert b'Matplotlib' in graph.data
+        assert graph.content_type == 'image/png'
+        assert graph.status_code == 200
+    
+    def test_images_controller_minimum(self):
+        graph = images_controller('minimum.png')
+        assert b'Matplotlib' in graph.data
+        assert graph.content_type == 'image/png'
+        assert graph.status_code == 200
+    
+    def test_images_controller_inflection(self):
+        graph = images_controller('inflection.png')
+        assert b'Matplotlib' in graph.data
+        assert graph.content_type == 'image/png'
+        assert graph.status_code == 200
 
 class TestGetSignupController:
     pass
