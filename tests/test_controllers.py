@@ -1,3 +1,4 @@
+from app.forms import SignUpForm
 from app.controllers.main.get_home import get_home
 from app.controllers.main.get_about import get_about
 from app.controllers.main.get_usage import get_usage
@@ -376,7 +377,55 @@ class TestImagesController:
         assert graph.status_code == 200
 
 class TestGetSignupController:
-    pass
+    def test_get_signup_renders_form(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                new_form = SignUpForm(
+                    key = 'ABC123'
+                )
+                signup = get_signup(new_form)
+                signup_html = signup[0]
+                assert '<form action=\'\' method=\'post\'>' in signup_html
+    
+    def test_get_signup_renders_empty_fields(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                new_form = SignUpForm(
+                    key = 'ABC123'
+                )
+                signup = get_signup(new_form)
+                signup_html = signup[0]
+                assert '<input id="name" name="name" required type="text" value="">' in signup_html
+                assert '<input id="email" name="email" required type="text" value="">' in signup_html
+    
+    def test_get_signup_contains_hidden_key(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                new_form = SignUpForm(
+                    key = 'ABC123'
+                )
+                signup = get_signup(new_form)
+                signup_html = signup[0]
+                assert '<input id="key" name="key" required type="hidden" value="ABC123">' in signup_html
+    
+    def test_get_signup_contains_submit(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                new_form = SignUpForm(
+                    key = 'ABC123'
+                )
+                signup = get_signup(new_form)
+                signup_html = signup[0]
+                assert '<input id="submit" name="submit" type="submit" value="Submit">' in signup_html
+    
+    def test_get_signup_status_success(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                new_form = SignUpForm(
+                    key = 'ABC123'
+                )
+                signup = get_signup(new_form)
+                assert signup[1] == 200
 
 class TestPostSignupController:
     pass
