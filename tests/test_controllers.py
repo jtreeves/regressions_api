@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 from app import db
 from app.models import User, Regression
@@ -550,7 +551,69 @@ class TestUsersController:
                 db.session.commit()
 
 class TestPostRegressionsController:
-    pass
+    def test_post_regression_new_adds(self, app, client):
+        @app.route("/post_regression_new", methods=["POST"])
+        def post_regression_new_route():
+            post_regression_new = post_regression()
+            return post_regression_new
+        
+        new_user = User(
+            name = 'Test Post Regression New',
+            email = 'test_post_regression_new@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_post_regression_new@email.com'
+        ).first()
+
+        found_user_id = found_user.id
+
+        title = 'Test Post Regression New Title'
+        independent = 'Test Post Regression New Independent'
+        dependent = 'Test Post Regression New Dependent'
+        precision = 4
+        data_set = [
+            [1, 2],
+            [3, 4],
+            [5, 6],
+            [7, 8],
+            [9, 10],
+            [11, 12],
+            [13, 14],
+            [15, 16],
+            [17, 18],
+            [19, 20]
+        ]
+
+        res = client.post(
+            "/post_regression_new?key=ABC123&source=TestPostRegressionNewSource",
+            json = {
+                'title': title,
+                'independent': independent,
+                'dependent': dependent,
+                'precision': precision,
+                'data_set': data_set
+            }
+        )
+
+        created_regression = json.loads(res.data.decode())
+        found_regression = Regression.query.filter_by(
+            user_id = found_user_id, 
+            source = 'TestPostRegressionNewSource'
+        ).first()
+
+        assert created_regression['title'] == found_regression.title
+        assert created_regression['best_fit'] == found_regression.best_fit
+        assert res.status_code == 201
+
+        db.session.delete(found_regression)
+        db.session.delete(found_user)
+        db.session.commit()
 
 class TestGetRegressionsController:
     pass
