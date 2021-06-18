@@ -1,3 +1,8 @@
+# from flask import request
+# from werkzeug import ImmutableMultiDict
+from datetime import datetime
+from app import db
+from app.models import User, Regression
 from app.forms import SignUpForm
 from app.controllers.main.get_home import get_home
 from app.controllers.main.get_about import get_about
@@ -428,7 +433,70 @@ class TestGetSignupController:
                 assert signup[1] == 200
 
 class TestPostSignupController:
-    pass
+    def test_post_signup_renders_page(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                app.config['WTF_CSRF_ENABLED'] = False
+                filled_form = SignUpForm(
+                    name = 'Test Post Signup Renders Page',
+                    email = 'test_post_signup_renders_page@email.com',
+                    key = 'ABC123'
+                )
+
+                def overwrite_validate():
+                    return True
+
+                filled_form.validate_on_submit = overwrite_validate
+                signup = post_signup(filled_form)
+                assert 'ABC123' in signup[0]
+                assert '<form action=\'\' method=\'post\'>' not in signup[0]
+                assert signup[1] == 201
+
+                found_user = User.query.filter_by(
+                    email = 'test_post_signup_renders_page@email.com'
+                ).first()
+
+                db.session.delete(found_user)
+                db.session.commit()
+    
+    # def test_signup_loads_error_post_old(self, client):
+    #     new_user = User(
+    #         name = 'test fail signup route',
+    #         email = 'test_fail_signup_route@email.com',
+    #         key = 'ABC123',
+    #         date = datetime.now()
+    #     )
+
+    #     db.session.add(new_user)
+    #     db.session.commit()
+
+    #     res = client.post(
+    #         '/signup',
+    #         data = {
+    #             'name': 'test fail signup route',
+    #             'email': 'test_fail_signup_route@email.com',
+    #             'key': 'ABC123'
+    #         }
+    #     )
+
+    #     assert res.status_code == 409
+    #     assert b'<h1>Error</h1>' in res.data
+    #     assert b'Email already in use' in res.data
+
+    #     found_user = User.query.filter_by(
+    #         email = 'test_fail_signup_route@email.com'
+    #     ).first()
+
+    #     db.session.delete(found_user)
+    #     db.session.commit()
+    
+    # def test_signup_fails_put(self, client):
+    #     res = client.put('/signup')
+    #     assert res.status_code == 405
+    
+    # def test_signup_fails_delete(self, client):
+    #     res = client.delete('/signup')
+    #     assert res.status_code == 405
 
 class TestUsersController:
     pass
