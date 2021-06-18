@@ -506,7 +506,48 @@ class TestPostSignupController:
                 db.session.commit()
     
 class TestUsersController:
-    pass
+    def test_users_controller_get(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                new_form = SignUpForm(
+                    key = 'ABC123'
+                )
+                signup = users_controller['get_signup'](new_form)
+                assert '<form action=\'\' method=\'post\'>' in signup[0]
+                assert '<input id="key" name="key" required type="hidden" value="ABC123">' in signup[0]
+                assert signup[1] == 200
+    
+    def test_users_controller_post(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                app.config['WTF_CSRF_ENABLED'] = False
+                new_form = SignUpForm(
+                    name = 'Test Users Controller Post',
+                    email = 'test_users_controller_post@email.com',
+                    key = 'ABC123'
+                )
+
+                def overwrite_validate():
+                    found_user = User.query.filter_by(
+                        email = new_form.email.data
+                    ).first()
+                    if not found_user:
+                        return True
+                    else:
+                        return False
+
+                new_form.validate_on_submit = overwrite_validate
+                signup = users_controller['post_signup'](new_form)
+                assert 'ABC123' in signup[0]
+                assert '<form action=\'\' method=\'post\'>' not in signup[0]
+                assert signup[1] == 201
+
+                found_user = User.query.filter_by(
+                    email = 'test_users_controller_post@email.com'
+                ).first()
+
+                db.session.delete(found_user)
+                db.session.commit()
 
 class TestPostRegressionsController:
     pass
