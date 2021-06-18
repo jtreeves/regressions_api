@@ -1,5 +1,3 @@
-# from flask import request
-# from werkzeug import ImmutableMultiDict
 from datetime import datetime
 from app import db
 from app.models import User, Regression
@@ -433,71 +431,80 @@ class TestGetSignupController:
                 assert signup[1] == 200
 
 class TestPostSignupController:
-    def test_post_signup_renders_page(self, app):
+    def test_post_signup_new_renders_key(self, app):
         with app.app_context():
             with app.test_request_context('/'):
                 app.config['WTF_CSRF_ENABLED'] = False
-                filled_form = SignUpForm(
-                    name = 'Test Post Signup Renders Page',
-                    email = 'test_post_signup_renders_page@email.com',
+                new_form = SignUpForm(
+                    name = 'Test Post Signup New Renders Key',
+                    email = 'test_post_signup_new_renders_key@email.com',
                     key = 'ABC123'
                 )
 
                 def overwrite_validate():
-                    return True
+                    found_user = User.query.filter_by(
+                        email = new_form.email.data
+                    ).first()
+                    if not found_user:
+                        return True
+                    else:
+                        return False
 
-                filled_form.validate_on_submit = overwrite_validate
-                signup = post_signup(filled_form)
+                new_form.validate_on_submit = overwrite_validate
+                signup = post_signup(new_form)
                 assert 'ABC123' in signup[0]
                 assert '<form action=\'\' method=\'post\'>' not in signup[0]
                 assert signup[1] == 201
 
                 found_user = User.query.filter_by(
-                    email = 'test_post_signup_renders_page@email.com'
+                    email = 'test_post_signup_new_renders_key@email.com'
                 ).first()
 
                 db.session.delete(found_user)
                 db.session.commit()
     
-    # def test_signup_loads_error_post_old(self, client):
-    #     new_user = User(
-    #         name = 'test fail signup route',
-    #         email = 'test_fail_signup_route@email.com',
-    #         key = 'ABC123',
-    #         date = datetime.now()
-    #     )
+    def test_post_signup_old_renders_error(self, app):
+        with app.app_context():
+            with app.test_request_context('/'):
+                app.config['WTF_CSRF_ENABLED'] = False
+                old_user = User(
+                    name = 'Test Post Signup Old Renders Error',
+                    email = 'test_post_signup_old_renders_error@email.com',
+                    key = 'ABC123',
+                    date = datetime.now()
+                )
 
-    #     db.session.add(new_user)
-    #     db.session.commit()
+                db.session.add(old_user)
+                db.session.commit()
 
-    #     res = client.post(
-    #         '/signup',
-    #         data = {
-    #             'name': 'test fail signup route',
-    #             'email': 'test_fail_signup_route@email.com',
-    #             'key': 'ABC123'
-    #         }
-    #     )
+                old_form = SignUpForm(
+                    name = 'Test Post Signup Old Renders Error',
+                    email = 'test_post_signup_old_renders_error@email.com',
+                    key = 'ABC123'
+                )
 
-    #     assert res.status_code == 409
-    #     assert b'<h1>Error</h1>' in res.data
-    #     assert b'Email already in use' in res.data
+                def overwrite_validate():
+                    found_user = User.query.filter_by(
+                        email = old_form.email.data
+                    ).first()
+                    if not found_user:
+                        return True
+                    else:
+                        return False
 
-    #     found_user = User.query.filter_by(
-    #         email = 'test_fail_signup_route@email.com'
-    #     ).first()
+                old_form.validate_on_submit = overwrite_validate
+                signup = post_signup(old_form)
+                assert 'Email already in use' in signup[0]
+                assert '<form action=\'\' method=\'post\'>' not in signup[0]
+                assert signup[1] == 409
 
-    #     db.session.delete(found_user)
-    #     db.session.commit()
+                found_user = User.query.filter_by(
+                    email = 'test_post_signup_old_renders_error@email.com'
+                ).first()
+
+                db.session.delete(found_user)
+                db.session.commit()
     
-    # def test_signup_fails_put(self, client):
-    #     res = client.put('/signup')
-    #     assert res.status_code == 405
-    
-    # def test_signup_fails_delete(self, client):
-    #     res = client.delete('/signup')
-    #     assert res.status_code == 405
-
 class TestUsersController:
     pass
 
