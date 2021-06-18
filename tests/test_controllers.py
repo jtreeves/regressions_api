@@ -1111,6 +1111,49 @@ class TestPostRegressionsController:
 
         db.session.delete(found_user)
         db.session.commit()
+    
+    def test_fails_post_regression_incomplete_submission(self, app, client):
+        @app.route("/post_regression_incomplete_submission", methods=["POST"])
+        def post_regression_incomplete_submission_route():
+            post_regression_incomplete_submission = post_regression()
+            return post_regression_incomplete_submission
+        
+        new_user = User(
+            name = 'Test Post Regression Fails Incomplete Submission',
+            email = 'test_post_regression_fails_incomplete_submission@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_post_regression_fails_incomplete_submission@email.com'
+        ).first()
+
+        title = 'Test Post Regression Fails Incomplete Submission Title'
+        independent = 'Test Post Regression Fails Incomplete Submission Independent'
+        dependent = 'Test Post Regression Fails Incomplete Submission Dependent'
+        precision = ''
+        data_set = ''
+
+        res = client.post(
+            "/post_regression_incomplete_submission?key=ABC123&source=TestPostRegressionFailsIncompleteSubmissionSource",
+            json = {
+                'title': title,
+                'independent': independent,
+                'dependent': dependent,
+                'precision': precision,
+                'data_set': data_set
+            }
+        )
+
+        assert res.data == b'Title, independent, dependent, data set, and precision fields must all be provided'
+        assert res.status_code == 403
+
+        db.session.delete(found_user)
+        db.session.commit()
 
 class TestGetRegressionsController:
     pass
