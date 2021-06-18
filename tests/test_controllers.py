@@ -715,6 +715,402 @@ class TestPostRegressionsController:
         db.session.delete(found_regression)
         db.session.delete(found_user)
         db.session.commit()
+    
+    def test_fails_post_regression_without_source(self, app, client):
+        @app.route("/post_regression_without_source", methods=["POST"])
+        def post_regression_without_source_route():
+            post_regression_without_source = post_regression()
+            return post_regression_without_source
+
+        new_user = User(
+            name = 'Test Post Regression without Source Fails',
+            email = 'test_post_regression_without_source_fails@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_post_regression_without_source_fails@email.com'
+        ).first()
+
+        title = 'Test Post Regression Fails without Source Title'
+        independent = 'Test Post Regression Fails without Source Independent'
+        dependent = 'Test Post Regression Fails without Source Dependent'
+        precision = 4
+        data_set = [
+            [1, 2],
+            [3, 4],
+            [5, 6],
+            [7, 8],
+            [9, 10],
+            [11, 12],
+            [13, 14],
+            [15, 16],
+            [17, 18],
+            [19, 20]
+        ]
+
+        res = client.post(
+            "/post_regression_without_source?key=ABC123",
+            json = {
+                'title': title,
+                'independent': independent,
+                'dependent': dependent,
+                'precision': precision,
+                'data_set': data_set
+            }
+        )
+
+        assert res.data == b'Source must be provided'
+        assert res.status_code == 403
+
+        db.session.delete(found_user)
+        db.session.commit()
+
+    def test_fails_post_regression_decimal_precision(self, app, client):
+        @app.route("/post_regression_decimal_precision", methods=["POST"])
+        def post_regression_decimal_precision_route():
+            post_regression_decimal_precision = post_regression()
+            return post_regression_decimal_precision
+        
+        new_user = User(
+            name = 'Test Post Regression Fails Decimal Precision',
+            email = 'test_post_regression_fails_decimal_precision@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_post_regression_fails_decimal_precision@email.com'
+        ).first()
+
+        title = 'Test Post Regression Fails Decimal Precision Title'
+        independent = 'Test Post Regression Fails Decimal Precision Independent'
+        dependent = 'Test Post Regression Fails Decimal Precision Dependent'
+        precision = 4.5
+        data_set = [
+            [1, 2],
+            [3, 4],
+            [5, 6],
+            [7, 8],
+            [9, 10],
+            [11, 12],
+            [13, 14],
+            [15, 16],
+            [17, 18],
+            [19, 20]
+        ]
+
+        res = client.post(
+            "/post_regression_decimal_precision?key=ABC123&source=TestPostRegressionFailsDecimalPrecisionSource",
+            json = {
+                'title': title,
+                'independent': independent,
+                'dependent': dependent,
+                'precision': precision,
+                'data_set': data_set
+            }
+        )
+
+        assert res.data == b'Precision must be a positive integer'
+        assert res.status_code == 403
+
+        db.session.delete(found_user)
+        db.session.commit()
+
+    def test_fails_post_regression_negative_precision(self, app, client):
+        @app.route("/post_regression_negative_precision", methods=["POST"])
+        def post_regression_negative_precision_route():
+            post_regression_negative_precision = post_regression()
+            return post_regression_negative_precision
+        
+        new_user = User(
+            name = 'Test Post Regression Fails Negative Precision',
+            email = 'test_post_regression_fails_negative_precision@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_post_regression_fails_negative_precision@email.com'
+        ).first()
+
+        title = 'Test Post Regression Fails Negative Precision Title'
+        independent = 'Test Post Regression Fails Negative Precision Independent'
+        dependent = 'Test Post Regression Fails Negative Precision Dependent'
+        precision = -4
+        data_set = [
+            [1, 2],
+            [3, 4],
+            [5, 6],
+            [7, 8],
+            [9, 10],
+            [11, 12],
+            [13, 14],
+            [15, 16],
+            [17, 18],
+            [19, 20]
+        ]
+
+        res = client.post(
+            "/post_regression_negative_precision?key=ABC123&source=TestPostRegressionFailsNegativePrecisionSource",
+            json = {
+                'title': title,
+                'independent': independent,
+                'dependent': dependent,
+                'precision': precision,
+                'data_set': data_set
+            }
+        )
+
+        assert res.data == b'Precision must be a positive integer'
+        assert res.status_code == 403
+
+        db.session.delete(found_user)
+        db.session.commit()
+
+    def test_fails_post_regression_short_data_set(self, app, client):
+        @app.route("/post_regression_short_data_set", methods=["POST"])
+        def post_regression_short_data_set_route():
+            post_regression_short_data_set = post_regression()
+            return post_regression_short_data_set
+        
+        new_user = User(
+            name = 'Test Post Regression Fails Short Data Set',
+            email = 'test_post_regression_fails_short_data_set@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_post_regression_fails_short_data_set@email.com'
+        ).first()
+
+        title = 'Test Post Regression Fails Short Data Set Title'
+        independent = 'Test Post Regression Fails Short Data Set Independent'
+        dependent = 'Test Post Regression Fails Short Data Set Dependent'
+        precision = 4
+        data_set = [
+            [1, 2],
+            [3, 4],
+            [5, 6]
+        ]
+
+        res = client.post(
+            "/post_regression_short_data_set?key=ABC123&source=TestPostRegressionFailsShortDataSetSource",
+            json = {
+                'title': title,
+                'independent': independent,
+                'dependent': dependent,
+                'precision': precision,
+                'data_set': data_set
+            }
+        )
+
+        assert res.data == b'Data set must contain at least 10 points'
+        assert res.status_code == 403
+
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_fails_post_regression_nonlist_data_set(self, app, client):
+        @app.route("/post_regression_nonlist_data_set", methods=["POST"])
+        def post_regression_nonlist_data_set_route():
+            post_regression_nonlist_data_set = post_regression()
+            return post_regression_nonlist_data_set
+        
+        new_user = User(
+            name = 'Test Post Regression Fails Nonlist Data Set',
+            email = 'test_post_regression_fails_nonlist_data_set@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_post_regression_fails_nonlist_data_set@email.com'
+        ).first()
+
+        title = 'Test Post Regression Fails Nonlist Data Set Title'
+        independent = 'Test Post Regression Fails Nonlist Data Set Independent'
+        dependent = 'Test Post Regression Fails Nonlist Data Set Dependent'
+        precision = 4
+        data_set = {
+            'first_point': [1, 2],
+            'second_point': [3, 4],
+            'third_point': [5, 6]
+        }
+
+        res = client.post(
+            "/post_regression_nonlist_data_set?key=ABC123&source=TestPostRegressionFailsNonlistDataSetSource",
+            json = {
+                'title': title,
+                'independent': independent,
+                'dependent': dependent,
+                'precision': precision,
+                'data_set': data_set
+            }
+        )
+
+        assert res.data == b'Data set must be a list'
+        assert res.status_code == 403
+
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_fails_post_regression_nonlist_points(self, app, client):
+        @app.route("/post_regression_nonlist_points", methods=["POST"])
+        def post_regression_nonlist_points_route():
+            post_regression_nonlist_points = post_regression()
+            return post_regression_nonlist_points
+        
+        new_user = User(
+            name = 'Test Post Regression Fails Nonlist Points',
+            email = 'test_post_regression_fails_nonlist_points@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_post_regression_fails_nonlist_points@email.com'
+        ).first()
+
+        title = 'Test Post Regression Fails Nonlist Points Title'
+        independent = 'Test Post Regression Fails Nonlist Points Independent'
+        dependent = 'Test Post Regression Fails Nonlist Points Dependent'
+        precision = 4
+        data_set = [
+            {'x': 1, 'y': 2},
+            {'x': 3, 'y': 4},
+            {'x': 5, 'y': 6}
+        ]
+
+        res = client.post(
+            "/post_regression_nonlist_points?key=ABC123&source=TestPostRegressionFailsNonlistPointsSource",
+            json = {
+                'title': title,
+                'independent': independent,
+                'dependent': dependent,
+                'precision': precision,
+                'data_set': data_set
+            }
+        )
+
+        assert res.data == b'Each coordinate pair within data set must be a list'
+        assert res.status_code == 403
+
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_fails_post_regression_long_points(self, app, client):
+        @app.route("/post_regression_long_points", methods=["POST"])
+        def post_regression_long_points_route():
+            post_regression_long_points = post_regression()
+            return post_regression_long_points
+        
+        new_user = User(
+            name = 'Test Post Regression Fails Long Points',
+            email = 'test_post_regression_fails_long_points@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_post_regression_fails_long_points@email.com'
+        ).first()
+
+        title = 'Test Post Regression Fails Long Points Title'
+        independent = 'Test Post Regression Fails Long Points Independent'
+        dependent = 'Test Post Regression Fails Long Points Dependent'
+        precision = 4
+        data_set = [
+            [1, 2, 3],
+            [4, 5, 6]
+        ]
+
+        res = client.post(
+            "/post_regression_long_points?key=ABC123&source=TestPostRegressionFailsLongPointsSource",
+            json = {
+                'title': title,
+                'independent': independent,
+                'dependent': dependent,
+                'precision': precision,
+                'data_set': data_set
+            }
+        )
+
+        assert res.data == b'Each coordinate pair within data set must contain exactly 2 numbers'
+        assert res.status_code == 403
+
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_fails_post_regression_string_numbers(self, app, client):
+        @app.route("/post_regression_string_numbers", methods=["POST"])
+        def post_regression_string_numbers_route():
+            post_regression_string_numbers = post_regression()
+            return post_regression_string_numbers
+        
+        new_user = User(
+            name = 'Test Post Regression Fails String Numbers',
+            email = 'test_post_regression_fails_string_numbers@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_post_regression_fails_string_numbers@email.com'
+        ).first()
+
+        title = 'Test Post Regression Fails String Numbers Title'
+        independent = 'Test Post Regression Fails String Numbers Independent'
+        dependent = 'Test Post Regression Fails String Numbers Dependent'
+        precision = 4
+        data_set = [
+            [1, 2],
+            ['3', 4],
+            [5, 6]
+        ]
+
+        res = client.post(
+            "/post_regression_string_numbers?key=ABC123&source=TestPostRegressionFailsStringNumbersSource",
+            json = {
+                'title': title,
+                'independent': independent,
+                'dependent': dependent,
+                'precision': precision,
+                'data_set': data_set
+            }
+        )
+
+        assert res.data == b'All numbers within coordinate pairs within data set must be integers or floats'
+        assert res.status_code == 403
+
+        db.session.delete(found_user)
+        db.session.commit()
 
 class TestGetRegressionsController:
     pass
