@@ -1296,7 +1296,110 @@ class TestGetRegressionsController:
         db.session.commit()
 
 class TestPutRegressionsController:
-    pass
+    def test_put_regression_updates(self, app, client):
+        @app.route("/put_regression_updates", methods=["PUT"])
+        def put_regression_updates_route():
+            put_regression_updates = put_regression()
+            return put_regression_updates
+        
+        new_user = User(
+            name = 'Test Put Regression Updates',
+            email = 'test_put_regression_updates@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_put_regression_updates@email.com'
+        ).first()
+
+        found_user_id = found_user.id
+
+        new_regression = Regression(
+            user_id = found_user_id,
+            source = 'TestPutRegressionUpdates',
+            title = 'Test Put Regression Updates Title',
+            independent = 'Test Put Regression Updates Independent',
+            dependent = 'Test Put Regression Updates Dependent',
+            precision = 4,
+            data_set = [[1, 2], [3, 4], [5, 6]],
+            linear_coefficients = [2, 3],
+            linear_points = {'roots': [[1, 0]], 'inflections': [None]},
+            linear_correlation = 0.5,
+            quadratic_coefficients = [2, 3, 5],
+            quadratic_points = {'roots': [[1, 0], [10, 0]], 'maxima': [[3, 57]]},
+            quadratic_correlation = 0.5,
+            cubic_coefficients = [2, 3, 5, 7],
+            cubic_points = {'roots': [[1, 0], [5, 0], [10, 0]], 'maxima': [[3, 57]]},
+            cubic_correlation = 0.5,
+            hyperbolic_coefficients = [2, 3],
+            hyperbolic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            hyperbolic_correlation = 0.5,
+            exponential_coefficients = [2, 3],
+            exponential_points = {'roots': [None], 'maxima': [None]},
+            exponential_correlation = 0.5,
+            logarithmic_coefficients = [2, 3],
+            logarithmic_points = {'roots': [[1, 0]], 'maxima': [None]},
+            logarithmic_correlation = 0.5,
+            logistic_coefficients = [2, 3, 5],
+            logistic_points = {'roots': [None], 'inflections': [[5, 7]]},
+            logistic_correlation = 0.5,
+            sinusoidal_coefficients = [2, 3, 5, 7],
+            sinusoidal_points = {'roots': [[2, 0], [4, 0]], 'inflections': [[5, 7], [7, 7]]},
+            sinusoidal_correlation = 0.5,
+            best_fit = 'hyperbolic',
+            date = datetime.now()
+        )
+
+        db.session.add(new_regression)
+        db.session.commit()
+
+        title = 'Test Put Regression Updates New Title'
+        independent = 'Test Put Regression Updates New Independent'
+        dependent = 'Test Put Regression Updates New Dependent'
+        precision = 4
+        data_set = [
+            [1, 2],
+            [3, 4],
+            [5, 6],
+            [7, 8],
+            [9, 10],
+            [11, 12],
+            [13, 14],
+            [15, 16],
+            [17, 18],
+            [19, 20]
+        ]
+
+        res = client.put(
+            "/put_regression_updates?key=ABC123&source=TestPutRegressionUpdates",
+            json = {
+                'title': title,
+                'independent': independent,
+                'dependent': dependent,
+                'precision': precision,
+                'data_set': data_set
+            }
+        )
+
+        updated_regression = json.loads(res.data.decode())
+        found_regression = Regression.query.filter_by(
+            user_id = found_user_id, 
+            source = 'TestPutRegressionUpdates'
+        ).first()
+
+        assert updated_regression['title'] == found_regression.title
+        assert updated_regression['best_fit'] == found_regression.best_fit
+        assert updated_regression['title'] != 'Test Put Regression Updates Title'
+        assert updated_regression['best_fit'] != 'hyperbolic'
+        assert res.status_code == 200
+
+        db.session.delete(found_regression)
+        db.session.delete(found_user)
+        db.session.commit()
 
 class TestDeleteRegressionsController:
     def test_delete_regression_destroys(self, app, client):
