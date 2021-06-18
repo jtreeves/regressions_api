@@ -1234,6 +1234,66 @@ class TestGetRegressionsController:
         db.session.delete(found_regression)
         db.session.delete(found_user)
         db.session.commit()
+    
+    def test_fails_get_regression_without_source(self, app, client):
+        @app.route("/get_regression_without_source", methods=["GET"])
+        def get_regression_without_source_route():
+            get_regression_without_source = get_regression()
+            return get_regression_without_source
+        
+        new_user = User(
+            name = 'Test Get Regression Fails without Source',
+            email = 'test_get_regression_without_source@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_get_regression_without_source@email.com'
+        ).first()
+
+        res = client.get(
+            "/get_regression_accesses?key=ABC123"
+        )
+
+        assert res.data == b'Source must be provided'
+        assert res.status_code == 403
+
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_fails_get_regression_nonexistent_source(self, app, client):
+        @app.route("/get_regression_nonexistent_source", methods=["GET"])
+        def get_regression_nonexistent_source_route():
+            get_regression_nonexistent_source = get_regression()
+            return get_regression_nonexistent_source
+        
+        new_user = User(
+            name = 'Test Get Regression Fails Nonexistent Source',
+            email = 'test_get_regression_nonexistent_source@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_get_regression_nonexistent_source@email.com'
+        ).first()
+
+        res = client.get(
+            "/get_regression_accesses?key=ABC123&source=TestGetRegressionFailsNonexistentSource"
+        )
+
+        assert res.data == b'Data set not found'
+        assert res.status_code == 404
+
+        db.session.delete(found_user)
+        db.session.commit()
 
 class TestPutRegressionsController:
     pass
