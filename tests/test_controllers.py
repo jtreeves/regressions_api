@@ -1374,6 +1374,66 @@ class TestDeleteRegressionsController:
 
         db.session.delete(found_user)
         db.session.commit()
+    
+    def test_fails_delete_regression_without_source(self, app, client):
+        @app.route("/delete_regression_without_source", methods=["DELETE"])
+        def delete_regression_without_source_route():
+            delete_regression_without_source = delete_regression()
+            return delete_regression_without_source
+        
+        new_user = User(
+            name = 'Test Delete Regression without Source',
+            email = 'test_delete_regression_without_source@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_delete_regression_without_source@email.com'
+        ).first()
+
+        res = client.delete(
+            "/delete_regression_without_source?key=ABC123"
+        )
+
+        assert res.data == b'Source must be provided'
+        assert res.status_code == 403
+
+        db.session.delete(found_user)
+        db.session.commit()
+    
+    def test_fails_delete_regression_nonexistent_source(self, app, client):
+        @app.route("/delete_regression_nonexistent_source", methods=["DELETE"])
+        def delete_regression_nonexistent_source_route():
+            delete_regression_nonexistent_source = delete_regression()
+            return delete_regression_nonexistent_source
+        
+        new_user = User(
+            name = 'Test Delete Regression Nonexistent Source',
+            email = 'test_delete_regression_nonexistent_source@email.com',
+            key = 'ABC123',
+            date = datetime.now()
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        found_user = User.query.filter_by(
+            email = 'test_delete_regression_nonexistent_source@email.com'
+        ).first()
+
+        res = client.delete(
+            "/delete_regression_nonexistent_source?key=ABC123&source=TestDeleteRegressionFailsNonexistentSource"
+        )
+
+        assert res.data == b'Data set not found'
+        assert res.status_code == 404
+
+        db.session.delete(found_user)
+        db.session.commit()
 
 class TestRegressionsController:
     pass
