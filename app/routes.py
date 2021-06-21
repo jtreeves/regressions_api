@@ -1,4 +1,5 @@
 from flask import request
+from flask import render_template
 from app import app
 from .forms import SignUpForm
 from .utilities.unique_key import unique_key
@@ -11,6 +12,10 @@ from .controllers.regressions_controller import regressions_controller
 @app.route('/')
 def home_route():
     return main_controller['get_home']()
+
+@app.route('/background')
+def background_route():
+    return render_template('pages/background.html'), 200
 
 @app.route('/about')
 def about_route():
