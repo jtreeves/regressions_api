@@ -5,11 +5,15 @@ body, h1, h2, h3, h4, p, ul, ol {
 }
 
 body {
-    background-image: linear-gradient(
-        to bottom right, 
-        darkred, 
-        red
-    );
+    background: 
+        radial-gradient(
+            at 50% 500px, 
+            rgba(255, 0, 0, 0.75) 25%, 
+            rgba(139, 0, 0, 0.75) 75%
+        ), 
+        url('/images/sinusoidal.png') 
+        center/cover
+    ;
 }
 
 header {
@@ -136,4 +140,9 @@ h1, h2, h3, h4, .bar li  {
 
 p {
     font-family: 'Tinos', serif;
+}
+
+.latex {
+    font-size: 50px;
+    text-shadow: 5px 5px 10px #000;
 }
