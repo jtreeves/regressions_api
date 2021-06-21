@@ -13,7 +13,7 @@ class TestBaseTemplate:
     
     def test_base_contains_script(self, client):
         res = client.get('/')
-        assert b'Render inline LaTeX code' in res.data
+        assert b'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js' in res.data
     
     def test_base_contains_main_title(self, client):
         res = client.get('/')
@@ -149,13 +149,8 @@ class TestMathTemplate:
     
     def test_math_displays_latex(self, client):
         res = client.get('/math')
-        latexes = [
-            words.start() for words in re.finditer(
-                b'lang="latex"', 
-                res.data
-            )
-        ]
-        assert len(latexes) == 24
+        latexes = res.data.count(b'$')
+        assert latexes == 48
 
 class TestSignupTemplate:
     def test_signup_displays_heading(self, client):
