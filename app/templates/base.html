@@ -38,10 +38,19 @@
         {% include 'partials/footer.html' %}
 
         <script 
-            type="text/javascript" 
-            src="http://latex.codecogs.com/latexit.js" 
+            src="{{url_for(
+                'static', 
+                filename='scripts/latex.js'
+            )}}" 
+            defer
         >
-            Render inline LaTeX code
+        </script>
+
+        <script 
+            id="MathJax-script" 
+            defer
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
+        >
         </script>
     </body>
 </html>
