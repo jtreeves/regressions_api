@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link 
+            rel="stylesheet" 
+            type="text/css" 
+            href="{{ url_for(
+                'static', 
+                filename='style/main.css'
+            ) }}"
+        >
+
+        <title>
+            Regressionz
+        </title>
+    </head>
+
+    <body>
+        <div id="background">
+            <p class="latex">$ y = a\cdot{x} + b $</p>
+            <p class="latex">$ y = a\cdot{x^2} + b\cdot{x} + c $</p>
+            <p class="latex">$ y = a\cdot{x^3} + b\cdot{x^2} + c\cdot{x} + d $</p>
+        </div>
+
+        <script 
+            src="{{url_for(
+                'static', 
+                filename='scripts/latex.js'
+            )}}" 
+            defer
+        >
+        </script>
+
+        <script 
+            id="MathJax-script" 
+            defer
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
+        >
+        </script>
+    </body>
+</html>
