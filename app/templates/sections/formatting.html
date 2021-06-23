@@ -4,7 +4,11 @@
     <ul>
         <li>
             URL submitted for requests
-            {% include 'snippets/get_url.html' %}
+
+            <div class="snippet single">
+                {% include 'snippets/get_url.html' %}
+            </div>
+            
             <ul>
                 <li>
                     API key must be the key you received when you signed up
@@ -22,7 +26,11 @@
 
         <li>
             Body submitted with POST and PUT requests
-            {% include 'snippets/post_body.html' %}
+
+            <div class="snippet single">
+                {% include 'snippets/post_body.html' %}
+            </div>
+            
             <ul>
                 <li>
                     Title must be a string (it should describe the nature of the data set)

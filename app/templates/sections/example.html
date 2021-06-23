@@ -19,20 +19,29 @@
             <ul>
                 <li>
                     I include my API key and my source code as parameters in the URL of my request
-                    {% include 'snippets/get_url.html' %}
                 </li>
+                
+                <div class="snippet double">
+                    {% include 'snippets/get_url.html' %}
+                </div>
 
                 <li>
                     I include a title, indepenent variable, dependent variable, precision, and data set as keys of an object in the body of my request
-                    {% include 'snippets/post_body.html' %}
                 </li>
+
+                <div class="snippet double">
+                    {% include 'snippets/post_body.html' %}
+                </div>
             </ul>
         </li>
 
         <li>
             I get a response object
-            {% include 'snippets/response_object.html' %}
         </li>
+
+        <div class="snippet single">
+            {% include 'snippets/response_object.html' %}
+        </div>
 
         <li>
             I draw conclusions based on what I received
