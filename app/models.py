@@ -4,19 +4,24 @@ from sqlalchemy import Table, Column, String, Integer, Float, ForeignKey, DateTi
 from sqlalchemy.orm import relationship
 
 class User(db.Model):
+    """ Create User model """
     __tablename__ = 'users'
 
+    # Define columns
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
     email = Column(String(100), nullable=False)
     key = Column(String(100))
     date = Column(DateTime)
 
+    # Establish one-to-many relationship with Regression model
     regressions = relationship('Regression')
 
 class Regression(db.Model):
+    """ Create Regression model """
     __tablename__ = 'regressions'
 
+    # Define columns
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
     source = Column(String(100), nullable=False)
