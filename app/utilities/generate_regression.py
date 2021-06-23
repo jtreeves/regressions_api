@@ -3,13 +3,21 @@ from .vet_data_set import vet_data_set
 from .vet_precision import vet_precision
 
 def generate_regression(data_set, precision):
+    """ Use Regressions library to generate all regression models for a data set """
+
+    # Validate both data set and precision before proceeding
     vetted_data_set = vet_data_set(data_set)
     vetted_precision = vet_precision(precision)
 
+    # Proceed if data set meets criteria
     if not isinstance(vetted_data_set, tuple):
+
+        # Proceed if precision meets criteria
         if not isinstance(vetted_precision, tuple):
+            # Use imported library to generate models
             results = run_all(vetted_data_set, vetted_precision)
 
+            # Assign results to new variables
             linear_coefficients = results['models']['linear']['constants']
             linear_points = results['models']['linear']['points']
             linear_correlation = results['models']['linear']['correlation']
@@ -36,6 +44,7 @@ def generate_regression(data_set, precision):
             sinusoidal_correlation = results['models']['sinusoidal']['correlation']
             best_fit = results['optimal']['option']
             
+            # Store variables in dictionary
             new_regression = {
                 'linear_coefficients': linear_coefficients,
                 'linear_points': linear_points,
@@ -64,10 +73,13 @@ def generate_regression(data_set, precision):
                 'best_fit': best_fit
             }
             
+            # Return dictionary
             return new_regression
         
+        # Return error code if precision fails criteria
         else:
             return vetted_precision
 
+    # Return error code if data set fails criteria
     else:
         return vetted_data_set
