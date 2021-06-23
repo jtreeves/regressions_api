@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Staatliches&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 body, h1, h2, h3, h4, p, ul, ol, aside {
     margin: 0;
@@ -23,21 +23,22 @@ aside {
 }
 
 header {
-    height: 80px;
+    height: 100px;
     background: darkred;
     border-bottom: 1px solid lightgray;
-    display: grid;
 }
 
 header a {
     font-family: 'Tinos', serif;
-    font-size: 30px;
-    line-height: 30px;
-    height: 30px;
-    margin: 10px;
-    padding: 0;
-    align-self: center;
-    justify-self: center;
+    font-size: 35px;
+    height: 100px;
+    width: 300px;
+    color: white;
+    display: block;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    font-weight: bold;
 }
 
 footer {
@@ -67,30 +68,36 @@ main {
 }
 
 nav {
-    background: darkgray;
+    background: gray;
+    height: calc(100vh - 100px);
+    font-family: 'Roboto', sans-serif;
+}
+
+nav p {
+    font-family: 'Roboto', sans-serif;
     color: darkred;
+    padding-top: 20px;
+    padding-left: 20px;
     font-size: 30px;
     font-weight: bold;
-    padding: 20px;
-    height: calc(100vh - 80px);
 }
 
 nav ul {
     display: grid;
-    margin-top: 10px;
-    padding: 0;
+    padding: 10px 0 0 0;
     list-style-type: none;
 }
 
 nav li {
     font-size: 20px;
-    line-height: 20px;
-    min-height: 20px;
+    line-height: 30px;
+    min-height: 30px;
 }
 
 nav ul li ul {
-    margin-left: 20px;
-    margin-bottom: 10px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+    background: darkgray;
 }
 
 a, a:hover {
@@ -103,8 +110,29 @@ a:hover {
     font-style: italic;
 }
 
-header a, nav a, header a:hover, nav a:hover {
+nav a, header a:hover, nav a:hover {
     color: white;
+    font-style: normal;
+}
+
+nav a {
+    font-weight: normal;
+    padding-left: 20px;
+}
+
+nav a:hover {
+    background: slategray;
+    width: 280px;
+    display: block;
+    color: white;
+    font-style: normal;
+    font-weight: normal;
+}
+
+nav ul ul a:hover {
+    width: 260px;
+    margin-left: -20px;
+    padding-left: 40px;
 }
 
 mark {
@@ -130,7 +158,7 @@ h4 {
 }
 
 h1, h2, h3, h4  {
-    font-family: 'Staatliches', cursive;
+    font-family: 'Roboto', sans-serif;
     color: darkred;
 }
 
