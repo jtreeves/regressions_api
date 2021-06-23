@@ -9,7 +9,7 @@ def vet_data_set(data_set):
             if isinstance(point, list):
                 
                 # Proceed if all elements of data sets contain only 2 elements
-                if len(point) is 2:
+                if len(point) == 2:
                     for number in point:
                         
                         # Exit check if all elements of elements of data sets are numbers
