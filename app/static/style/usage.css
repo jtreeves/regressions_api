@@ -1,12 +1,25 @@
-.snippet {
-    background: lightgray;
+div.snippet {
+    display: grid;
+    justify-items: center;
+}
+
+div.single {
+    margin-left: -40px;
+}
+
+div.double {
+    margin-left: -80px;
+}
+
+article.snippet {
+    background: whitesmoke;
     border-radius: 5px;
     padding: 10px;
-    max-width: 400px;
-    max-height: 400px;
+    width: 400px;
+    max-height: 600px;
     overflow-x: scroll;
     overflow-y: scroll;
-    border: 1px solid gray;
+    border: 1px solid lightgray;
     margin: 10px 0;
 }
 

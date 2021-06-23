@@ -1,5 +1,12 @@
+div.graph {
+    display: grid;
+    justify-items: center;
+}
+
 img.graph {
-    border: 1px solid gray;
+    border: 1px solid lightgray;
     border-radius: 5px;
     margin: 10px 0;
+    width: 400px;
+    height: 400px;
 }
