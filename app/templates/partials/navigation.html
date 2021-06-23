@@ -10,12 +10,20 @@
             <a href="{{ url_for('usage_route') }}">
                 Usage
             </a>
+
+            {% if usage %}
+                {% include 'partials/usage_contents.html' %}
+            {% endif %}
         </li>
 
         <li>
             <a href="{{ url_for('math_route') }}">
                 Math
             </a>
+
+            {% if math %}
+                {% include 'partials/math_contents.html' %}
+            {% endif %}
         </li>
 
         <li>
