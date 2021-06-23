@@ -20,6 +20,7 @@ article.snippet {
     overflow-x: scroll;
     overflow-y: scroll;
     border: 1px solid lightgray;
+    box-shadow: 3px 3px 3px lightgray;
     margin: 10px 0;
 }
 

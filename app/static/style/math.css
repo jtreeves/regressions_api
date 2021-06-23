@@ -9,4 +9,5 @@ img.graph {
     margin: 10px 0;
     width: 400px;
     height: 400px;
+    box-shadow: 3px 3px 3px lightgray;
 }
