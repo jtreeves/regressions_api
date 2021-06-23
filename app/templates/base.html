@@ -26,17 +26,20 @@
     </head>
 
     <body>
-        {% include 'partials/header.html' %}
-    
-        {% include 'partials/navigation.html' %}
+        <aside>
+            {% include 'partials/header.html' %}
+            
+            {% include 'partials/navigation.html' %}
+        </aside>
             
         <main>
             {% block content %}
             {% endblock %}
+            
         </main>
-        
-        {% include 'partials/footer.html' %}
 
+        {% include 'partials/footer.html' %}
+        
         <script 
             src="{{url_for(
                 'static', 
