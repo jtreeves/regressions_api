@@ -1,9 +1,13 @@
 from .find_regression import find_regression
 
 def read_regression(user_id, source):
+    """ Get all properties of an existing collection of regression models by its user_id and source """
+
     try:
+        # Use helper function to search database for collection
         found_regression = find_regression(user_id, source)
 
+        # Return collection data if found
         if not isinstance(found_regression, tuple):
             regression_analysis = {
                 'source': found_regression.source,
@@ -42,8 +46,10 @@ def read_regression(user_id, source):
             
             return regression_analysis
         
+        # Return error code if source not provided
         else:
             return found_regression
     
     except Exception:
+        # Return 404 if not found
         return 'Data set not found', 404

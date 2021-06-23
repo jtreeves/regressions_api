@@ -6,18 +6,26 @@ from .find_regression import find_regression
 from .read_regression import read_regression
 
 def create_regression(user_id, source, submission):
+    """ Create new collection of regression models from a user_id, source, and submission """
+
+    # Use helper function to search database for any competing existing collection
     found_regression = find_regression(user_id, source)
     
+    # Proceed if no collection already exists
     if not found_regression:
+        # Grab keys from submission dictionary
         title = submission['title']
         independent = submission['independent']
         dependent = submission['dependent']
         data_set = submission['data_set']
         precision = submission['precision']
 
+        # Use helper function to create collection
         results = generate_regression(data_set, precision)
 
+        # Proceed if collection created
         if not isinstance(results, tuple):
+            # Grab keys from results dictionary
             linear_coefficients = results['linear_coefficients']
             linear_points = results['linear_points']
             linear_correlation = results['linear_correlation']
@@ -44,6 +52,7 @@ def create_regression(user_id, source, submission):
             sinusoidal_correlation = results['sinusoidal_correlation']
             best_fit = results['best_fit']
             
+            # Pass data into Regression model
             new_regression = Regression(
                 user_id = user_id,
                 source = source,
@@ -80,17 +89,23 @@ def create_regression(user_id, source, submission):
                 date = datetime.now()
             )
             
+            # Add new collection to database
             db.session.add(new_regression)
             db.session.commit()
             
+            # Return new collection
             return read_regression(user_id, source)
         
+        # Return error code if problem with submission
         else:
             return results
         
+    # Return error code if problem arises from helper function
     else:
+        # Return error code if source not provided
         if isinstance(found_regression, tuple):
             return found_regression
         
+        # Return error code if element already exists in database
         else:
             return 'Source already in use by other collection', 409
