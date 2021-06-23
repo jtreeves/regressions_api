@@ -1,34 +1,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Staatliches&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
-body, h1, h2, h3, h4, p, ul, ol {
+body, h1, h2, h3, h4, p, ul, ol, aside {
     margin: 0;
 }
 
 body {
-    background-image: url('/static/images/desk.jpg');
-    background-color: red;
-    background-blend-mode: multiply;
-    background-attachment: fixed;
-    background-position: center;
-    background-size: cover;
-    color: white;
+    background: repeating-linear-gradient(
+        45deg,
+        red,
+        red 10px,
+        darkred 10px,
+        darkred 20px
+    );
+}
+
+aside {
+    top: 0;
+    position: fixed;
+    width: 300px;
+    height: 100vh;
+    border-right: 1px solid lightgray;
 }
 
 header {
     height: 80px;
-    margin-top: 50px;
-    width: 50%;
-    margin-left: 25%;
-    margin-right: 25%;
-    border: 5px solid white;
+    background: darkred;
+    border-bottom: 1px solid lightgray;
     display: grid;
 }
 
 header a {
     font-family: 'Tinos', serif;
-    font-size: 60px;
-    line-height: 60px;
-    height: 60px;
+    font-size: 30px;
+    line-height: 30px;
+    height: 30px;
     margin: 10px;
     padding: 0;
     align-self: center;
@@ -41,49 +46,51 @@ footer {
     font-size: 15px;
     line-height: 15px;
     height: 15px;
-    margin-bottom: 50px;
+    margin: 50px 0;
+    margin-left: 300px;
+    color: white;
 }
 
 main {
-    margin: 50px 100px;
+    margin: 50px 100px 50px 400px;
     padding: 25px 75px;
     font-family: 'Tinos', serif;
     font-size: 20px;
     display: grid;
     grid-auto-rows: min-content;
     row-gap: 20px;
-    /* background: whitesmoke; */
-    /* border-radius: 10px; */
-    min-height: calc(100vh - 385px);
+    background: white;
+    min-height: calc(100vh - 215px);
+    border: 1px solid darkred;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px darkred;
+}
+
+nav {
+    background: darkgray;
+    color: darkred;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 20px;
+    height: calc(100vh - 80px);
 }
 
 nav ul {
-    margin: 0;
+    display: grid;
+    margin-top: 10px;
     padding: 0;
     list-style-type: none;
 }
 
-.bar {
-    height: 60px;
-    margin-top: 20px;
-    /* background: black;
-    color: white; */
-}
-
-.bar ul {
-    display: grid;
-    grid-template-columns: repeat(4, auto);
-}
-
-.bar li {
+nav li {
     font-size: 20px;
     line-height: 20px;
-    height: 20px;
-    margin: 10px;
-    padding: 10px;
-    text-transform: uppercase;
-    place-self: center;
-    border: 1px solid white;
+    min-height: 20px;
+}
+
+nav ul li ul {
+    margin-left: 20px;
+    margin-bottom: 10px;
 }
 
 a, a:hover {
@@ -96,18 +103,8 @@ a:hover {
     font-style: italic;
 }
 
-header a, .bar a, header a:hover, .bar a:hover {
+header a, nav a, header a:hover, nav a:hover {
     color: white;
-}
-
-.contents a, .contents a:hover {
-    color: slategray;
-    font-weight: normal;
-    text-decoration: underline dashed;
-}
-
-.contents a:hover {
-    text-decoration: underline solid;
 }
 
 mark {
@@ -132,15 +129,11 @@ h4 {
     font-size: 15px;
 }
 
-h1, h2, h3, h4, .bar li  {
+h1, h2, h3, h4  {
     font-family: 'Staatliches', cursive;
+    color: darkred;
 }
 
 p {
     font-family: 'Tinos', serif;
-}
-
-.latex {
-    font-size: 50px;
-    text-shadow: 5px 5px 10px #000;
 }
