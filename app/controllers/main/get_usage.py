@@ -2,4 +2,7 @@ from flask import render_template
 
 def get_usage():
     """ Render Usage page, and provide status code """
-    return render_template('pages/usage.html'), 200
+    return render_template(
+        'pages/usage.html', 
+        usage = True
+    ), 200
