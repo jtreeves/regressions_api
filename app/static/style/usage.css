@@ -24,6 +24,10 @@ article.snippet {
     margin: 10px 0;
 }
 
+ol li ul li p {
+    padding: 10px 0;
+}
+
 pre {
     margin: 0;
 }

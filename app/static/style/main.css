@@ -67,6 +67,11 @@ main {
     box-shadow: 3px 3px 3px darkred;
 }
 
+section {
+    display: grid;
+    row-gap: 15px;
+}
+
 nav {
     background: gray;
     height: calc(100vh - 100px);
