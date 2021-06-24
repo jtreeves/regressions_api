@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms.fields import StringField, SubmitField, HiddenField
 from wtforms.fields.html5 import EmailField
-from wtforms.validators import ValidationError, DataRequired
+from wtforms.validators import ValidationError, DataRequired, Email
 from .models import User
 
 class SignUpForm(FlaskForm):
@@ -9,7 +9,7 @@ class SignUpForm(FlaskForm):
 
     # Create form fields for user inputs, hidden inputs, and a submission option
     name = StringField('Name', validators=[DataRequired()])
-    email = EmailField('Email', validators=[DataRequired()])
+    email = EmailField('Email', validators=[DataRequired(), Email()])
     key = HiddenField(validators=[DataRequired()])
     submit = SubmitField('Submit')
 
