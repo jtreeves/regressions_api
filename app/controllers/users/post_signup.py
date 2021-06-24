@@ -17,5 +17,5 @@ def post_signup(form):
     else:
         return render_template(
             'pages/signup.html', 
-            error = 'Email already in use'
+            error = 'Sorry, the email you provided is already in use!'
         ), 409
