@@ -47,8 +47,7 @@ footer {
     font-size: 15px;
     line-height: 15px;
     height: 15px;
-    margin: 50px 0;
-    margin-left: 300px;
+    margin: 50px 0 50px 300px;
     color: white;
 }
 
@@ -173,4 +172,138 @@ h1, h2, h3, h4  {
 
 p {
     font-family: 'Tinos', serif;
+}
+
+@media screen and (max-width: 1100px) {
+    main {
+        margin: 25px 25px 25px 325px;
+        padding: 15px 25px;
+        min-height: calc(100vh - 115px);
+    }
+
+    footer {
+        margin: 25px 0 25px 300px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    aside, header a {
+        width: 200px;
+    }
+
+    nav a:hover {
+        width: 180px;
+    }
+
+    nav ul ul li {
+        font-size: 15px;
+    }
+
+    nav ul ul a:hover {
+        width: 160px;
+    }
+
+    header a {
+        font-size: 25px;
+    }
+
+    nav p {
+        font-size: 20px;
+    }
+
+    main {
+        margin-left: 225px;
+    }
+
+    footer {
+        margin-left: 200px;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    aside {
+        width: 100vw;
+        height: 131px;
+        border-bottom: 1px solid lightgray;
+        border-right: none;
+        z-index: 1;
+    }
+
+    nav {
+        height: 30px;
+    }
+
+    main {
+        margin: 157px 25px 25px 25px;
+        min-height: calc(100vh - 247px);
+    }
+
+    footer {
+        margin-left: 0;
+    }
+
+    header a {
+        width: 100%;
+        font-size: 50px;
+    }
+
+    nav p, nav ul ul {
+        display: none;
+    }
+
+    nav ul {
+        grid-template-columns: repeat(4, 25%);
+    }
+
+    nav li {
+        display: grid;
+        justify-items: center;
+    }
+
+    nav ul, nav a {
+        padding: 0;
+    }
+
+    nav a:hover {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    header a {
+        font-size: 40px;
+    }
+
+    nav li {
+        font-size: 15px;
+    }
+
+    section {
+        width: calc(100vw - 100px);
+    }
+}
+
+
+@media screen and (max-width: 400px) {
+    article, p, li {
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .latex {
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-height: 600px) and (max-width: 650px) {
+    aside {
+        position: relative;
+    }
+
+    main {
+        margin: 25px 25px 25px 25px;
+        min-height: calc(100vh - 247px);
+    }
 }

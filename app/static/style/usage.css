@@ -47,3 +47,47 @@ pre {
 .null {
     color: purple;
 }
+
+@media screen and (max-width: 750px) {
+    article.snippet {
+        width: 300px;
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    article.snippet {
+        width: 200px;
+        font-size: 10px;
+    }
+
+    section h2, section ol {
+        width: calc(100vw - 100px);
+    }
+
+    section ul li, section ol li {
+        width: calc(100vw - 140px);
+    }
+
+    section ol ul li, section ul ul li {
+        width: calc(100vw - 180px);
+    }
+    
+    section ul ul ul li {
+        width: calc(100vw - 220px);
+    }
+
+    div.snippet {
+        width: calc(100vw - 100px);
+    }
+}
+
+@media screen and (max-width: 350px) {
+    article.snippet {
+        width: 150px;
+    }
+
+    code {
+        font-size: 10px;
+    }
+}

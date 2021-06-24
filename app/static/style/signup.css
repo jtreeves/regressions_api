@@ -46,3 +46,22 @@ input#submit:hover {
     background: red;
     border: 1px solid red;
 }
+
+@media screen and (max-width: 450px) {
+    input#submit {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    form {
+        grid-template-rows: 50px 50px 100px;
+    }
+
+    form p {
+        grid-template-columns: 1fr;
+        row-gap: 5px;
+        justify-items: center;
+        align-items: center;
+    }
+}

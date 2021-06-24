@@ -19,3 +19,40 @@ ol li p {
 ol li:last-child p {
     padding-bottom: 0;
 }
+
+@media screen and (max-width: 750px) {
+    img.graph {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    img.graph {
+        width: 200px;
+        height: 200px;
+    }
+
+    .latex {
+        font-size: 15px;
+    }
+
+    ol li p {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    img.graph {
+        width: 150px;
+        height: 150px;
+    }
+
+    .latex {
+        font-size: 10px;
+    }
+
+    article ul li p {
+        width: calc(100vw - 140px);
+    }
+}
