@@ -93,57 +93,62 @@ class TestSignupRoute:
         res = client.get('/signup')
         assert res.status_code == 200
     
-    def test_signup_loads_post(self, client):
-        res = client.post(
-            '/signup',
-            data = {
-                'name': 'test signup route',
-                'email': 'testing_route@email.com',
-                'key': 'ABC123'
-            }
-        )
+    def test_signup_loads_post(self, app, client):
+        with app.app_context():
+            with app.test_request_context('/'):
+                app.config['WTF_CSRF_ENABLED'] = False
+                res = client.post(
+                    '/signup',
+                    data = {
+                        'name': 'test signup loads post route',
+                        'email': 'test_signup_loads_post@email.com',
+                        'key': 'ABC123'
+                    }
+                )
 
-        assert res.status_code == 201
-        assert b'<h1>Key</h1>' in res.data
-        assert b'ABC123' in res.data
+                assert res.status_code == 201
+                assert b'<h1>Key</h1>' in res.data
+                assert b'ABC123' in res.data
 
-        found_user = User.query.filter_by(
-            email = 'testing_route@email.com'
-        ).first()
+                found_user = User.query.filter_by(
+                    email = 'test_signup_loads_post@email.com'
+                ).first()
 
-        db.session.delete(found_user)
-        db.session.commit()
+                db.session.delete(found_user)
+                db.session.commit()
     
-    def test_signup_loads_error_post_old(self, client):
-        new_user = User(
-            name = 'test fail signup route',
-            email = 'test_fail_signup_route@email.com',
-            key = 'ABC123',
-            date = datetime.now()
-        )
+    def test_signup_loads_error_post_old(self, app, client):
+        with app.app_context():
+            with app.test_request_context('/'):
+                new_user = User(
+                    name = 'test fail signup route',
+                    email = 'test_fail_signup_route@email.com',
+                    key = 'ABC123',
+                    date = datetime.now()
+                )
 
-        db.session.add(new_user)
-        db.session.commit()
+                db.session.add(new_user)
+                db.session.commit()
 
-        res = client.post(
-            '/signup',
-            data = {
-                'name': 'test fail signup route',
-                'email': 'test_fail_signup_route@email.com',
-                'key': 'ABC123'
-            }
-        )
+                res = client.post(
+                    '/signup',
+                    data = {
+                        'name': 'test fail signup route',
+                        'email': 'test_fail_signup_route@email.com',
+                        'key': 'ABC123'
+                    }
+                )
 
-        assert res.status_code == 409
-        assert b'<h1>Error</h1>' in res.data
-        assert b'Email already in use' in res.data
+                assert res.status_code == 409
+                assert b'<h1>Error</h1>' in res.data
+                assert b'Sorry, the email you provided is already in use!' in res.data
 
-        found_user = User.query.filter_by(
-            email = 'test_fail_signup_route@email.com'
-        ).first()
+                found_user = User.query.filter_by(
+                    email = 'test_fail_signup_route@email.com'
+                ).first()
 
-        db.session.delete(found_user)
-        db.session.commit()
+                db.session.delete(found_user)
+                db.session.commit()
     
     def test_signup_fails_put(self, client):
         res = client.put('/signup')

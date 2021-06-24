@@ -4,7 +4,7 @@ class TestBaseTemplate:
     def test_base_renders_partials(self, client):
         res = client.get('/')
         assert b'<header>' in res.data
-        assert b'<nav class="bar">' in res.data
+        assert b'<nav>' in res.data
         assert b'<footer>' in res.data
     
     def test_base_renders_main(self, client):
@@ -79,7 +79,14 @@ class TestUsageTemplate:
     
     def test_usage_displays_toc(self, client):
         res = client.get('/usage')
-        assert b'<mark>Contents</mark>' in res.data
+        assert b'<a href="#joining">Sign Up</a>' in res.data
+        assert b'<a href="#creating">Create Collection</a>' in res.data
+        assert b'<a href="#getting">Get Collection</a>' in res.data
+        assert b'<a href="#updating">Update Collection</a>' in res.data
+        assert b'<a href="#deleting">Delete Collection</a>' in res.data
+        assert b'<a href="#formatting">Format Submissions</a>' in res.data
+        assert b'<a href="#interpreting">Interpret Results</a>' in res.data
+        assert b'<a href="#example">Example</a>' in res.data
     
     def test_usage_displays_subheadings(self, client):
         res = client.get('/usage')
@@ -109,7 +116,9 @@ class TestMathTemplate:
     
     def test_math_displays_toc(self, client):
         res = client.get('/math')
-        assert b'<mark>Contents</mark>' in res.data
+        assert b'<a href="#equations">Equations</a>' in res.data
+        assert b'<a href="#correlation">Correlation</a>' in res.data
+        assert b'<a href="#points">Points</a>' in res.data
     
     def test_math_displays_subheadings(self, client):
         res = client.get('/math')

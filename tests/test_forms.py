@@ -81,7 +81,7 @@ class TestSignUpForm:
                 key = blank_form.key
                 submit = blank_form.submit
                 assert 'input id="name" name="name" required type="text"' in str(name)
-                assert 'input id="email" name="email" required type="text"' in str(email)
+                assert 'input id="email" name="email" required type="email"' in str(email)
                 assert 'input id="key" name="key" required type="hidden"' in str(key)
                 assert 'input id="submit" name="submit" type="submit" value="Submit"' in str(submit)
                 assert name.data == None

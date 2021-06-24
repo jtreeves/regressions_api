@@ -400,7 +400,7 @@ class TestGetSignupController:
                 signup = get_signup(new_form)
                 signup_html = signup[0]
                 assert '<input id="name" name="name" required type="text" value="">' in signup_html
-                assert '<input id="email" name="email" required type="text" value="">' in signup_html
+                assert '<input id="email" name="email" required type="email" value="">' in signup_html
     
     def test_get_signup_contains_hidden_key(self, app):
         with app.app_context():
@@ -495,7 +495,7 @@ class TestPostSignupController:
 
                 old_form.validate_on_submit = overwrite_validate
                 signup = post_signup(old_form)
-                assert 'Email already in use' in signup[0]
+                assert 'Sorry, the email you provided is already in use!' in signup[0]
                 assert '<form action=\'\' method=\'post\'>' not in signup[0]
                 assert signup[1] == 409
 
