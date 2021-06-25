@@ -80,10 +80,10 @@ Alternatively, you may use the live version of the [RΣGRΣSSIONZ](https://regre
 
 | Method | Model | Path | File | Description | 
 | ------ | ----- | ---- | ---- | ----------- |
-| POST | regressions | /api?key=<str:key>&source=<str:source> | routes.py | Create new collection |
-| GET | regressions | /api?key=<str:key>&source=<str:source> | routes.py | Read existing collection |
-| PUT | regressions | /api?key=<str:key>&source=<str:source> | routes.py | Update existing collection |
-| DELETE | regressions | /api?key=<str:key>&source=<str:source> | routes.py | Delete existing collection |
+| POST | regressions | /api?key=\<str:key\>&source=\<str:source\> | routes.py | Create new collection |
+| GET | regressions | /api?key=\<str:key\>&source=\<str:source\> | routes.py | Read existing collection |
+| PUT | regressions | /api?key=\<str:key\>&source=\<str:source\> | routes.py | Update existing collection |
+| DELETE | regressions | /api?key=\<str:key\>&source=\<str:source\> | routes.py | Delete existing collection |
 
 ## File Structure
 
