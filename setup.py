@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='regressionz',
-    version='1.0.0',
+    version='1.0.1',
     url='https://github.com/jtreeves/regressions_api',
     license='MIT',
     author='Jackson Reeves',
